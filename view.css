@@ -402,8 +402,8 @@ i:hover{
 }
 
 .tab-button.active {
-    color: #E50914;
-    border-bottom-color: #E50914;
+    color: #2563EB;
+    border-bottom-color: #2563EB;
 }
 
 .similar-content-container {
@@ -421,7 +421,7 @@ i:hover{
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
-    scrollbar-color: #E50914 #333;
+    scrollbar-color: #2563EB #333;
 }
 
 /* Custom scrollbar for desktop */
@@ -435,13 +435,13 @@ i:hover{
 }
 
 .similar-movies-grid::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     border-radius: 10px;
 }
 
 .similar-movies-grid::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #FF1E2D 0%, #C8081F 100%);
-    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
 }
 
 .similar-movie-card {
@@ -460,8 +460,8 @@ i:hover{
 
 .similar-movie-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(229, 9, 20, 0.2);
-    border-color: #E50914;
+    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+    border-color: #2563EB;
 }
 
 .similar-movie-card img {
@@ -503,7 +503,7 @@ i:hover{
 }
 
 .similar-movie-rating {
-    color: #E50914;
+    color: #2563EB;
     font-size: 0.9rem;
     font-weight: 500;
     display: flex;

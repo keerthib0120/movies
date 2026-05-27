@@ -9,7 +9,7 @@
 /* Global Uniform Red Scrollbar for All Pages and Elements */
 * {
     scrollbar-width: thin;
-    scrollbar-color: #E50914 rgba(20, 20, 20, 0.5);
+    scrollbar-color: #2563EB rgba(20, 20, 20, 0.5);
 }
 
 *::-webkit-scrollbar {
@@ -23,24 +23,24 @@
 }
 
 *::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     border-radius: 10px;
     border: 2px solid rgba(20, 20, 20, 0.5);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #FF1E2D 0%, #C8081F 100%);
-    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
 }
 
 *::-webkit-scrollbar-thumb:active {
-    background: linear-gradient(135deg, #C8071F 0%, #9A0610 100%);
+    background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%);
 }
 
 /* Body scrollbar - Main page scroll */
 body {
     scrollbar-width: thin;
-    scrollbar-color: #E50914 rgba(20, 20, 20, 0.8);
+    scrollbar-color: #2563EB rgba(20, 20, 20, 0.8);
 }
 
 body::-webkit-scrollbar {
@@ -52,13 +52,13 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     border-radius: 6px;
 }
 
 body::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #FF1E2D 0%, #C8081F 100%);
-    box-shadow: 0 0 15px rgba(229, 9, 20, 0.6);
+    background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.6);
 }
 
 /* Glassmorphism Header Styles */
@@ -109,8 +109,8 @@ body::-webkit-scrollbar-thumb:hover {
 
 .search-input:focus {
     background: rgba(255, 255, 255, 0.15) !important;
-    border: 1px solid rgba(229, 9, 20, 0.5) !important;
-    box-shadow: 0 4px 20px rgba(229, 9, 20, 0.3) !important;
+    border: 1px solid rgba(37, 99, 235, 0.5) !important;
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3) !important;
 }
 
 /* Custom scrollbar for better UX */
@@ -197,7 +197,7 @@ body::-webkit-scrollbar-thumb:hover {
 button:focus,
 input:focus,
 a:focus {
-    outline: 2px solid #E50914;
+    outline: 2px solid #2563EB;
     outline-offset: 2px;
 }
 
@@ -260,14 +260,14 @@ a:focus {
 
 .search-input:focus {
     background: rgba(51, 51, 51, 0.95);
-    border-color: #E50914;
-    box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 /* Professional Modal Scrollbar */
 .modal-scrollable-content {
     scrollbar-width: thin;
-    scrollbar-color: #E50914 rgba(20, 20, 20, 0.5);
+    scrollbar-color: #2563EB rgba(20, 20, 20, 0.5);
 }
 
 .modal-scrollable-content::-webkit-scrollbar {
@@ -280,18 +280,18 @@ a:focus {
 }
 
 .modal-scrollable-content::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     border-radius: 10px;
     transition: background 0.3s ease;
 }
 
 .modal-scrollable-content::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #FF1E2D 0%, #C8081F 100%);
-    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
 }
 
 .modal-scrollable-content::-webkit-scrollbar-thumb:active {
-    background: linear-gradient(135deg, #C8071F 0%, #9A0610 100%);
+    background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%);
 }
 
 /* Modal animations */

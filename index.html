@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+      if (localStorage.getItem("movieiguess_auth") !== "true") {
+        window.location.replace("password.html");
+      }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Force light mode meta tags for aggressive browsers -->
@@ -73,7 +78,7 @@
                         -webkit-filter: invert(1) hue-rotate(180deg) !important;
                     }
                     
-                    /* Ensure Netflix red stays red */
+                    /* Ensure Netflix blue stays blue */
                     .text-netflix-red, .bg-netflix-red {
                         filter: invert(1) hue-rotate(180deg) !important;
                         -webkit-filter: invert(1) hue-rotate(180deg) !important;
@@ -127,7 +132,7 @@
         })();
     </script>
     
-    <title>MovieIGuess - Discover Amazing Movies & TV Shows</title>
+    <title>movies! - Discover Amazing Movies & TV Shows</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <link rel="stylesheet" href="netflix-style.css">
@@ -138,13 +143,12 @@
     <!-- Font Awesome CDN fallback (added) -->
     <link id="fa-cdn-fallback" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>(function(){function loadCDN(){if(document.getElementById('fa-cdn-fallback'))return;var l=document.createElement('link');l.id='fa-cdn-fallback';l.rel='stylesheet';l.href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';l.crossOrigin='anonymous';l.referrerPolicy='no-referrer';document.head.appendChild(l);}function isLoaded(){if(window.FontAwesome)return true;if(document.querySelector('svg.svg-inline--fa'))return true;try{var i=document.createElement('i');i.className='fa-solid fa-circle';i.style.position='absolute';i.style.visibility='hidden';document.body.appendChild(i);var ff=window.getComputedStyle(i).getPropertyValue('font-family')||'';var loaded=ff.toLowerCase().indexOf('fontawesome')!==-1||i.offsetWidth>0;document.body.removeChild(i);return loaded}catch(e){return false}}if(!isLoaded()){setTimeout(function(){if(!isLoaded())loadCDN();},1000);window.addEventListener('load',function(){if(!isLoaded())loadCDN();});}})();</script>
-    <link rel="icon" href="src/assets/logo.png">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'netflix-red': '#E50914',
+                        'netflix-red': '#2563EB',
                         'netflix-black': '#000000',
                         'netflix-dark': '#141414',
                         'netflix-gray': '#333333',
@@ -246,7 +250,7 @@
         /* Prevent text color modifications */
         .text-white,
         .text-netflix-red,
-        .text-red-600,
+        .text-blue-600,
         .text-gray-400,
         .text-gray-300,
         .text-gray-200,
@@ -282,13 +286,13 @@
             background-color: #111827 !important;
         }
         
-        /* Lock Netflix brand colors */
+        /* Lock brand colors */
         .text-netflix-red {
-            color: #E50914 !important;
+            color: #2563EB !important;
         }
         
         .bg-netflix-red {
-            background-color: #E50914 !important;
+            background-color: #2563EB !important;
         }
         
         .bg-netflix-black {
@@ -341,218 +345,218 @@
         @keyframes textGlowBuildUp {
             0% {
                 text-shadow: 
-                    0 0 5px rgba(229, 9, 20, 0.3),
-                    0 0 10px rgba(229, 9, 20, 0.2),
+                    0 0 5px rgba(37, 99, 235, 0.3),
+                    0 0 10px rgba(37, 99, 235, 0.2),
                     2px 2px 4px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.1);
                 transform: scale(1);
             }
             5% {
                 text-shadow: 
-                    0 0 6px rgba(229, 9, 20, 0.35),
-                    0 0 12px rgba(229, 9, 20, 0.25),
-                    0 0 18px rgba(229, 9, 20, 0.15),
+                    0 0 6px rgba(37, 99, 235, 0.35),
+                    0 0 12px rgba(37, 99, 235, 0.25),
+                    0 0 18px rgba(37, 99, 235, 0.15),
                     2px 2px 4px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.12);
                 transform: scale(1.001);
             }
             10% {
                 text-shadow: 
-                    0 0 7px rgba(229, 9, 20, 0.4),
-                    0 0 14px rgba(229, 9, 20, 0.3),
-                    0 0 21px rgba(229, 9, 20, 0.2),
+                    0 0 7px rgba(37, 99, 235, 0.4),
+                    0 0 14px rgba(37, 99, 235, 0.3),
+                    0 0 21px rgba(37, 99, 235, 0.2),
                     2px 2px 4px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.14);
                 transform: scale(1.002);
             }
             15% {
                 text-shadow: 
-                    0 0 8px rgba(229, 9, 20, 0.45),
-                    0 0 16px rgba(229, 9, 20, 0.35),
-                    0 0 24px rgba(229, 9, 20, 0.25),
+                    0 0 8px rgba(37, 99, 235, 0.45),
+                    0 0 16px rgba(37, 99, 235, 0.35),
+                    0 0 24px rgba(37, 99, 235, 0.25),
                     2px 2px 4px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.16);
                 transform: scale(1.004);
             }
             20% {
                 text-shadow: 
-                    0 0 9px rgba(229, 9, 20, 0.5),
-                    0 0 18px rgba(229, 9, 20, 0.4),
-                    0 0 27px rgba(229, 9, 20, 0.3),
+                    0 0 9px rgba(37, 99, 235, 0.5),
+                    0 0 18px rgba(37, 99, 235, 0.4),
+                    0 0 27px rgba(37, 99, 235, 0.3),
                     2px 2px 4px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.18);
                 transform: scale(1.006);
             }
             25% {
                 text-shadow: 
-                    0 0 12px rgba(229, 9, 20, 0.6),
-                    0 0 24px rgba(229, 9, 20, 0.4),
-                    0 0 36px rgba(229, 9, 20, 0.3),
+                    0 0 12px rgba(37, 99, 235, 0.6),
+                    0 0 24px rgba(37, 99, 235, 0.4),
+                    0 0 36px rgba(37, 99, 235, 0.3),
                     2px 2px 4px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.2) contrast(1.05);
                 transform: scale(1.008);
             }
             30% {
                 text-shadow: 
-                    0 0 13px rgba(229, 9, 20, 0.65),
-                    0 0 26px rgba(229, 9, 20, 0.45),
-                    0 0 39px rgba(229, 9, 20, 0.35),
-                    0 0 52px rgba(229, 9, 20, 0.25),
+                    0 0 13px rgba(37, 99, 235, 0.65),
+                    0 0 26px rgba(37, 99, 235, 0.45),
+                    0 0 39px rgba(37, 99, 235, 0.35),
+                    0 0 52px rgba(37, 99, 235, 0.25),
                     2px 2px 5px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.22) contrast(1.06);
                 transform: scale(1.012);
             }
             35% {
                 text-shadow: 
-                    0 0 14px rgba(229, 9, 20, 0.7),
-                    0 0 28px rgba(229, 9, 20, 0.5),
-                    0 0 42px rgba(229, 9, 20, 0.4),
-                    0 0 56px rgba(229, 9, 20, 0.3),
+                    0 0 14px rgba(37, 99, 235, 0.7),
+                    0 0 28px rgba(37, 99, 235, 0.5),
+                    0 0 42px rgba(37, 99, 235, 0.4),
+                    0 0 56px rgba(37, 99, 235, 0.3),
                     2px 2px 5px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.24) contrast(1.07);
                 transform: scale(1.016);
             }
             40% {
                 text-shadow: 
-                    0 0 15px rgba(229, 9, 20, 0.75),
-                    0 0 30px rgba(229, 9, 20, 0.55),
-                    0 0 45px rgba(229, 9, 20, 0.45),
-                    0 0 60px rgba(229, 9, 20, 0.35),
+                    0 0 15px rgba(37, 99, 235, 0.75),
+                    0 0 30px rgba(37, 99, 235, 0.55),
+                    0 0 45px rgba(37, 99, 235, 0.45),
+                    0 0 60px rgba(37, 99, 235, 0.35),
                     2px 2px 5px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.26) contrast(1.08);
                 transform: scale(1.02);
             }
             45% {
                 text-shadow: 
-                    0 0 16px rgba(229, 9, 20, 0.8),
-                    0 0 32px rgba(229, 9, 20, 0.6),
-                    0 0 48px rgba(229, 9, 20, 0.5),
-                    0 0 64px rgba(229, 9, 20, 0.4),
+                    0 0 16px rgba(37, 99, 235, 0.8),
+                    0 0 32px rgba(37, 99, 235, 0.6),
+                    0 0 48px rgba(37, 99, 235, 0.5),
+                    0 0 64px rgba(37, 99, 235, 0.4),
                     2px 2px 5px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.28) contrast(1.09);
                 transform: scale(1.024);
             }
             50% {
                 text-shadow: 
-                    0 0 18px rgba(229, 9, 20, 0.8),
-                    0 0 36px rgba(229, 9, 20, 0.6),
-                    0 0 54px rgba(229, 9, 20, 0.4),
-                    0 0 72px rgba(229, 9, 20, 0.3),
+                    0 0 18px rgba(37, 99, 235, 0.8),
+                    0 0 36px rgba(37, 99, 235, 0.6),
+                    0 0 54px rgba(37, 99, 235, 0.4),
+                    0 0 72px rgba(37, 99, 235, 0.3),
                     2px 2px 6px rgba(0, 0, 0, 0.8);
                 filter: brightness(1.3) contrast(1.1);
                 transform: scale(1.028);
             }
             55% {
                 text-shadow: 
-                    0 0 19px rgba(229, 9, 20, 0.85),
-                    0 0 38px rgba(229, 9, 20, 0.65),
-                    0 0 57px rgba(229, 9, 20, 0.45),
-                    0 0 76px rgba(229, 9, 20, 0.35),
-                    0 0 95px rgba(229, 9, 20, 0.25),
+                    0 0 19px rgba(37, 99, 235, 0.85),
+                    0 0 38px rgba(37, 99, 235, 0.65),
+                    0 0 57px rgba(37, 99, 235, 0.45),
+                    0 0 76px rgba(37, 99, 235, 0.35),
+                    0 0 95px rgba(37, 99, 235, 0.25),
                     2px 2px 6px rgba(0, 0, 0, 0.85);
                 filter: brightness(1.32) contrast(1.11);
                 transform: scale(1.032);
             }
             60% {
                 text-shadow: 
-                    0 0 20px rgba(229, 9, 20, 0.9),
-                    0 0 40px rgba(229, 9, 20, 0.7),
-                    0 0 60px rgba(229, 9, 20, 0.5),
-                    0 0 80px rgba(229, 9, 20, 0.4),
-                    0 0 100px rgba(229, 9, 20, 0.3),
+                    0 0 20px rgba(37, 99, 235, 0.9),
+                    0 0 40px rgba(37, 99, 235, 0.7),
+                    0 0 60px rgba(37, 99, 235, 0.5),
+                    0 0 80px rgba(37, 99, 235, 0.4),
+                    0 0 100px rgba(37, 99, 235, 0.3),
                     2px 2px 6px rgba(0, 0, 0, 0.85);
                 filter: brightness(1.34) contrast(1.12);
                 transform: scale(1.036);
             }
             65% {
                 text-shadow: 
-                    0 0 21px rgba(229, 9, 20, 0.95),
-                    0 0 42px rgba(229, 9, 20, 0.75),
-                    0 0 63px rgba(229, 9, 20, 0.55),
-                    0 0 84px rgba(229, 9, 20, 0.45),
-                    0 0 105px rgba(229, 9, 20, 0.35),
+                    0 0 21px rgba(37, 99, 235, 0.95),
+                    0 0 42px rgba(37, 99, 235, 0.75),
+                    0 0 63px rgba(37, 99, 235, 0.55),
+                    0 0 84px rgba(37, 99, 235, 0.45),
+                    0 0 105px rgba(37, 99, 235, 0.35),
                     2px 2px 6px rgba(0, 0, 0, 0.9);
                 filter: brightness(1.36) contrast(1.13);
                 transform: scale(1.038);
             }
             70% {
                 text-shadow: 
-                    0 0 22px rgba(229, 9, 20, 1),
-                    0 0 44px rgba(229, 9, 20, 0.8),
-                    0 0 66px rgba(229, 9, 20, 0.6),
-                    0 0 88px rgba(229, 9, 20, 0.5),
-                    0 0 110px rgba(229, 9, 20, 0.4),
+                    0 0 22px rgba(37, 99, 235, 1),
+                    0 0 44px rgba(37, 99, 235, 0.8),
+                    0 0 66px rgba(37, 99, 235, 0.6),
+                    0 0 88px rgba(37, 99, 235, 0.5),
+                    0 0 110px rgba(37, 99, 235, 0.4),
                     2px 2px 6px rgba(0, 0, 0, 0.9);
                 filter: brightness(1.38) contrast(1.14);
                 transform: scale(1.04);
             }
             75% {
                 text-shadow: 
-                    0 0 22px rgba(229, 9, 20, 0.9),
-                    0 0 44px rgba(229, 9, 20, 0.7),
-                    0 0 66px rgba(229, 9, 20, 0.5),
-                    0 0 88px rgba(229, 9, 20, 0.4),
-                    0 0 110px rgba(229, 9, 20, 0.3),
+                    0 0 22px rgba(37, 99, 235, 0.9),
+                    0 0 44px rgba(37, 99, 235, 0.7),
+                    0 0 66px rgba(37, 99, 235, 0.5),
+                    0 0 88px rgba(37, 99, 235, 0.4),
+                    0 0 110px rgba(37, 99, 235, 0.3),
                     2px 2px 6px rgba(0, 0, 0, 0.9);
                 filter: brightness(1.35) contrast(1.13);
                 transform: scale(1.041);
             }
             80% {
                 text-shadow: 
-                    0 0 23px rgba(229, 9, 20, 1),
-                    0 0 46px rgba(229, 9, 20, 0.8),
-                    0 0 69px rgba(229, 9, 20, 0.6),
-                    0 0 92px rgba(229, 9, 20, 0.5),
-                    0 0 115px rgba(229, 9, 20, 0.4),
-                    0 0 138px rgba(229, 9, 20, 0.3),
+                    0 0 23px rgba(37, 99, 235, 1),
+                    0 0 46px rgba(37, 99, 235, 0.8),
+                    0 0 69px rgba(37, 99, 235, 0.6),
+                    0 0 92px rgba(37, 99, 235, 0.5),
+                    0 0 115px rgba(37, 99, 235, 0.4),
+                    0 0 138px rgba(37, 99, 235, 0.3),
                     2px 2px 6px rgba(0, 0, 0, 0.9);
                 filter: brightness(1.37) contrast(1.14);
                 transform: scale(1.042);
             }
             85% {
                 text-shadow: 
-                    0 0 24px rgba(229, 9, 20, 1),
-                    0 0 48px rgba(229, 9, 20, 0.8),
-                    0 0 72px rgba(229, 9, 20, 0.6),
-                    0 0 96px rgba(229, 9, 20, 0.5),
-                    0 0 120px rgba(229, 9, 20, 0.4),
-                    0 0 144px rgba(229, 9, 20, 0.3),
+                    0 0 24px rgba(37, 99, 235, 1),
+                    0 0 48px rgba(37, 99, 235, 0.8),
+                    0 0 72px rgba(37, 99, 235, 0.6),
+                    0 0 96px rgba(37, 99, 235, 0.5),
+                    0 0 120px rgba(37, 99, 235, 0.4),
+                    0 0 144px rgba(37, 99, 235, 0.3),
                     2px 2px 6px rgba(0, 0, 0, 0.9);
                 filter: brightness(1.39) contrast(1.145);
                 transform: scale(1.043);
             }
             90% {
                 text-shadow: 
-                    0 0 24px rgba(229, 9, 20, 1),
-                    0 0 48px rgba(229, 9, 20, 0.8),
-                    0 0 72px rgba(229, 9, 20, 0.6),
-                    0 0 96px rgba(229, 9, 20, 0.5),
-                    0 0 120px rgba(229, 9, 20, 0.4),
-                    0 0 144px rgba(229, 9, 20, 0.3),
+                    0 0 24px rgba(37, 99, 235, 1),
+                    0 0 48px rgba(37, 99, 235, 0.8),
+                    0 0 72px rgba(37, 99, 235, 0.6),
+                    0 0 96px rgba(37, 99, 235, 0.5),
+                    0 0 120px rgba(37, 99, 235, 0.4),
+                    0 0 144px rgba(37, 99, 235, 0.3),
                     2px 2px 6px rgba(0, 0, 0, 0.9);
                 filter: brightness(1.395) contrast(1.148);
                 transform: scale(1.044);
             }
             95% {
                 text-shadow: 
-                    0 0 24px rgba(229, 9, 20, 1),
-                    0 0 49px rgba(229, 9, 20, 0.8),
-                    0 0 74px rgba(229, 9, 20, 0.6),
-                    0 0 99px rgba(229, 9, 20, 0.5),
-                    0 0 124px rgba(229, 9, 20, 0.4),
-                    0 0 149px rgba(229, 9, 20, 0.3),
+                    0 0 24px rgba(37, 99, 235, 1),
+                    0 0 49px rgba(37, 99, 235, 0.8),
+                    0 0 74px rgba(37, 99, 235, 0.6),
+                    0 0 99px rgba(37, 99, 235, 0.5),
+                    0 0 124px rgba(37, 99, 235, 0.4),
+                    0 0 149px rgba(37, 99, 235, 0.3),
                     2px 2px 6px rgba(0, 0, 0, 0.9);
                 filter: brightness(1.398) contrast(1.149);
                 transform: scale(1.045);
             }
             100% {
                 text-shadow: 
-                    0 0 25px rgba(229, 9, 20, 1),
-                    0 0 50px rgba(229, 9, 20, 0.8),
-                    0 0 75px rgba(229, 9, 20, 0.6),
-                    0 0 100px rgba(229, 9, 20, 0.5),
-                    0 0 125px rgba(229, 9, 20, 0.4),
-                    0 0 150px rgba(229, 9, 20, 0.3),
+                    0 0 25px rgba(37, 99, 235, 1),
+                    0 0 50px rgba(37, 99, 235, 0.8),
+                    0 0 75px rgba(37, 99, 235, 0.6),
+                    0 0 100px rgba(37, 99, 235, 0.5),
+                    0 0 125px rgba(37, 99, 235, 0.4),
+                    0 0 150px rgba(37, 99, 235, 0.3),
                     2px 2px 6px rgba(0, 0, 0, 0.9);
                 filter: brightness(1.4) contrast(1.15);
                 transform: scale(1.045);
@@ -562,174 +566,174 @@
         @keyframes logoGlowBuildUp {
             0% {
                 filter: 
-                    drop-shadow(0 0 8px rgba(229, 9, 20, 0.4))
-                    drop-shadow(0 0 16px rgba(229, 9, 20, 0.3))
+                    drop-shadow(0 0 8px rgba(37, 99, 235, 0.4))
+                    drop-shadow(0 0 16px rgba(37, 99, 235, 0.3))
                     brightness(1.1);
                 transform: scale(1);
             }
             5% {
                 filter: 
-                    drop-shadow(0 0 8.5px rgba(229, 9, 20, 0.42))
-                    drop-shadow(0 0 17px rgba(229, 9, 20, 0.32))
+                    drop-shadow(0 0 8.5px rgba(37, 99, 235, 0.42))
+                    drop-shadow(0 0 17px rgba(37, 99, 235, 0.32))
                     brightness(1.11);
                 transform: scale(1.001);
             }
             10% {
                 filter: 
-                    drop-shadow(0 0 9px rgba(229, 9, 20, 0.44))
-                    drop-shadow(0 0 18px rgba(229, 9, 20, 0.34))
+                    drop-shadow(0 0 9px rgba(37, 99, 235, 0.44))
+                    drop-shadow(0 0 18px rgba(37, 99, 235, 0.34))
                     brightness(1.12);
                 transform: scale(1.002);
             }
             15% {
                 filter: 
-                    drop-shadow(0 0 9.5px rgba(229, 9, 20, 0.46))
-                    drop-shadow(0 0 19px rgba(229, 9, 20, 0.36))
+                    drop-shadow(0 0 9.5px rgba(37, 99, 235, 0.46))
+                    drop-shadow(0 0 19px rgba(37, 99, 235, 0.36))
                     brightness(1.13);
                 transform: scale(1.004);
             }
             20% {
                 filter: 
-                    drop-shadow(0 0 10px rgba(229, 9, 20, 0.48))
-                    drop-shadow(0 0 20px rgba(229, 9, 20, 0.38))
+                    drop-shadow(0 0 10px rgba(37, 99, 235, 0.48))
+                    drop-shadow(0 0 20px rgba(37, 99, 235, 0.38))
                     brightness(1.14);
                 transform: scale(1.006);
             }
             25% {
                 filter: 
-                    drop-shadow(0 0 11px rgba(229, 9, 20, 0.5))
-                    drop-shadow(0 0 22px rgba(229, 9, 20, 0.4))
-                    drop-shadow(0 0 33px rgba(229, 9, 20, 0.3))
+                    drop-shadow(0 0 11px rgba(37, 99, 235, 0.5))
+                    drop-shadow(0 0 22px rgba(37, 99, 235, 0.4))
+                    drop-shadow(0 0 33px rgba(37, 99, 235, 0.3))
                     brightness(1.15);
                 transform: scale(1.008);
             }
             30% {
                 filter: 
-                    drop-shadow(0 0 11.5px rgba(229, 9, 20, 0.52))
-                    drop-shadow(0 0 23px rgba(229, 9, 20, 0.42))
-                    drop-shadow(0 0 34.5px rgba(229, 9, 20, 0.32))
+                    drop-shadow(0 0 11.5px rgba(37, 99, 235, 0.52))
+                    drop-shadow(0 0 23px rgba(37, 99, 235, 0.42))
+                    drop-shadow(0 0 34.5px rgba(37, 99, 235, 0.32))
                     brightness(1.16);
                 transform: scale(1.012);
             }
             35% {
                 filter: 
-                    drop-shadow(0 0 12px rgba(229, 9, 20, 0.54))
-                    drop-shadow(0 0 24px rgba(229, 9, 20, 0.44))
-                    drop-shadow(0 0 36px rgba(229, 9, 20, 0.34))
+                    drop-shadow(0 0 12px rgba(37, 99, 235, 0.54))
+                    drop-shadow(0 0 24px rgba(37, 99, 235, 0.44))
+                    drop-shadow(0 0 36px rgba(37, 99, 235, 0.34))
                     brightness(1.17);
                 transform: scale(1.016);
             }
             40% {
                 filter: 
-                    drop-shadow(0 0 12.5px rgba(229, 9, 20, 0.56))
-                    drop-shadow(0 0 25px rgba(229, 9, 20, 0.46))
-                    drop-shadow(0 0 37.5px rgba(229, 9, 20, 0.36))
+                    drop-shadow(0 0 12.5px rgba(37, 99, 235, 0.56))
+                    drop-shadow(0 0 25px rgba(37, 99, 235, 0.46))
+                    drop-shadow(0 0 37.5px rgba(37, 99, 235, 0.36))
                     brightness(1.18);
                 transform: scale(1.02);
             }
             45% {
                 filter: 
-                    drop-shadow(0 0 13px rgba(229, 9, 20, 0.58))
-                    drop-shadow(0 0 26px rgba(229, 9, 20, 0.48))
-                    drop-shadow(0 0 39px rgba(229, 9, 20, 0.38))
+                    drop-shadow(0 0 13px rgba(37, 99, 235, 0.58))
+                    drop-shadow(0 0 26px rgba(37, 99, 235, 0.48))
+                    drop-shadow(0 0 39px rgba(37, 99, 235, 0.38))
                     brightness(1.19);
                 transform: scale(1.024);
             }
             50% {
                 filter: 
-                    drop-shadow(0 0 15px rgba(229, 9, 20, 0.7))
-                    drop-shadow(0 0 30px rgba(229, 9, 20, 0.5))
-                    drop-shadow(0 0 45px rgba(229, 9, 20, 0.4))
+                    drop-shadow(0 0 15px rgba(37, 99, 235, 0.7))
+                    drop-shadow(0 0 30px rgba(37, 99, 235, 0.5))
+                    drop-shadow(0 0 45px rgba(37, 99, 235, 0.4))
                     brightness(1.2);
                 transform: scale(1.028);
             }
             55% {
                 filter: 
-                    drop-shadow(0 0 16px rgba(229, 9, 20, 0.75))
-                    drop-shadow(0 0 32px rgba(229, 9, 20, 0.55))
-                    drop-shadow(0 0 48px rgba(229, 9, 20, 0.45))
-                    drop-shadow(0 0 64px rgba(229, 9, 20, 0.35))
+                    drop-shadow(0 0 16px rgba(37, 99, 235, 0.75))
+                    drop-shadow(0 0 32px rgba(37, 99, 235, 0.55))
+                    drop-shadow(0 0 48px rgba(37, 99, 235, 0.45))
+                    drop-shadow(0 0 64px rgba(37, 99, 235, 0.35))
                     brightness(1.21);
                 transform: scale(1.032);
             }
             60% {
                 filter: 
-                    drop-shadow(0 0 17px rgba(229, 9, 20, 0.8))
-                    drop-shadow(0 0 34px rgba(229, 9, 20, 0.6))
-                    drop-shadow(0 0 51px rgba(229, 9, 20, 0.5))
-                    drop-shadow(0 0 68px rgba(229, 9, 20, 0.4))
+                    drop-shadow(0 0 17px rgba(37, 99, 235, 0.8))
+                    drop-shadow(0 0 34px rgba(37, 99, 235, 0.6))
+                    drop-shadow(0 0 51px rgba(37, 99, 235, 0.5))
+                    drop-shadow(0 0 68px rgba(37, 99, 235, 0.4))
                     brightness(1.22);
                 transform: scale(1.036);
             }
             65% {
                 filter: 
-                    drop-shadow(0 0 18px rgba(229, 9, 20, 0.85))
-                    drop-shadow(0 0 36px rgba(229, 9, 20, 0.65))
-                    drop-shadow(0 0 54px rgba(229, 9, 20, 0.55))
-                    drop-shadow(0 0 72px rgba(229, 9, 20, 0.45))
+                    drop-shadow(0 0 18px rgba(37, 99, 235, 0.85))
+                    drop-shadow(0 0 36px rgba(37, 99, 235, 0.65))
+                    drop-shadow(0 0 54px rgba(37, 99, 235, 0.55))
+                    drop-shadow(0 0 72px rgba(37, 99, 235, 0.45))
                     brightness(1.23);
                 transform: scale(1.038);
             }
             70% {
                 filter: 
-                    drop-shadow(0 0 18.5px rgba(229, 9, 20, 0.9))
-                    drop-shadow(0 0 37px rgba(229, 9, 20, 0.7))
-                    drop-shadow(0 0 55.5px rgba(229, 9, 20, 0.6))
-                    drop-shadow(0 0 74px rgba(229, 9, 20, 0.5))
+                    drop-shadow(0 0 18.5px rgba(37, 99, 235, 0.9))
+                    drop-shadow(0 0 37px rgba(37, 99, 235, 0.7))
+                    drop-shadow(0 0 55.5px rgba(37, 99, 235, 0.6))
+                    drop-shadow(0 0 74px rgba(37, 99, 235, 0.5))
                     brightness(1.24);
                 transform: scale(1.04);
             }
             75% {
                 filter: 
-                    drop-shadow(0 0 19px rgba(229, 9, 20, 0.95))
-                    drop-shadow(0 0 38px rgba(229, 9, 20, 0.75))
-                    drop-shadow(0 0 57px rgba(229, 9, 20, 0.65))
-                    drop-shadow(0 0 76px rgba(229, 9, 20, 0.55))
+                    drop-shadow(0 0 19px rgba(37, 99, 235, 0.95))
+                    drop-shadow(0 0 38px rgba(37, 99, 235, 0.75))
+                    drop-shadow(0 0 57px rgba(37, 99, 235, 0.65))
+                    drop-shadow(0 0 76px rgba(37, 99, 235, 0.55))
                     brightness(1.25);
                 transform: scale(1.041);
             }
             80% {
                 filter: 
-                    drop-shadow(0 0 19.2px rgba(229, 9, 20, 0.96))
-                    drop-shadow(0 0 38.4px rgba(229, 9, 20, 0.76))
-                    drop-shadow(0 0 57.6px rgba(229, 9, 20, 0.66))
-                    drop-shadow(0 0 76.8px rgba(229, 9, 20, 0.56))
+                    drop-shadow(0 0 19.2px rgba(37, 99, 235, 0.96))
+                    drop-shadow(0 0 38.4px rgba(37, 99, 235, 0.76))
+                    drop-shadow(0 0 57.6px rgba(37, 99, 235, 0.66))
+                    drop-shadow(0 0 76.8px rgba(37, 99, 235, 0.56))
                     brightness(1.26);
                 transform: scale(1.042);
             }
             85% {
                 filter: 
-                    drop-shadow(0 0 19.4px rgba(229, 9, 20, 0.97))
-                    drop-shadow(0 0 38.8px rgba(229, 9, 20, 0.77))
-                    drop-shadow(0 0 58.2px rgba(229, 9, 20, 0.67))
-                    drop-shadow(0 0 77.6px rgba(229, 9, 20, 0.57))
+                    drop-shadow(0 0 19.4px rgba(37, 99, 235, 0.97))
+                    drop-shadow(0 0 38.8px rgba(37, 99, 235, 0.77))
+                    drop-shadow(0 0 58.2px rgba(37, 99, 235, 0.67))
+                    drop-shadow(0 0 77.6px rgba(37, 99, 235, 0.57))
                     brightness(1.27);
                 transform: scale(1.043);
             }
             90% {
                 filter: 
-                    drop-shadow(0 0 19.6px rgba(229, 9, 20, 0.98))
-                    drop-shadow(0 0 39.2px rgba(229, 9, 20, 0.78))
-                    drop-shadow(0 0 58.8px rgba(229, 9, 20, 0.68))
-                    drop-shadow(0 0 78.4px rgba(229, 9, 20, 0.58))
+                    drop-shadow(0 0 19.6px rgba(37, 99, 235, 0.98))
+                    drop-shadow(0 0 39.2px rgba(37, 99, 235, 0.78))
+                    drop-shadow(0 0 58.8px rgba(37, 99, 235, 0.68))
+                    drop-shadow(0 0 78.4px rgba(37, 99, 235, 0.58))
                     brightness(1.28);
                 transform: scale(1.044);
             }
             95% {
                 filter: 
-                    drop-shadow(0 0 19.8px rgba(229, 9, 20, 0.99))
-                    drop-shadow(0 0 39.6px rgba(229, 9, 20, 0.79))
-                    drop-shadow(0 0 59.4px rgba(229, 9, 20, 0.69))
-                    drop-shadow(0 0 79.2px rgba(229, 9, 20, 0.59))
+                    drop-shadow(0 0 19.8px rgba(37, 99, 235, 0.99))
+                    drop-shadow(0 0 39.6px rgba(37, 99, 235, 0.79))
+                    drop-shadow(0 0 59.4px rgba(37, 99, 235, 0.69))
+                    drop-shadow(0 0 79.2px rgba(37, 99, 235, 0.59))
                     brightness(1.29);
                 transform: scale(1.045);
             }
             100% {
                 filter: 
-                    drop-shadow(0 0 20px rgba(229, 9, 20, 1))
-                    drop-shadow(0 0 40px rgba(229, 9, 20, 0.8))
-                    drop-shadow(0 0 60px rgba(229, 9, 20, 0.6))
-                    drop-shadow(0 0 80px rgba(229, 9, 20, 0.4))
+                    drop-shadow(0 0 20px rgba(37, 99, 235, 1))
+                    drop-shadow(0 0 40px rgba(37, 99, 235, 0.8))
+                    drop-shadow(0 0 60px rgba(37, 99, 235, 0.6))
+                    drop-shadow(0 0 80px rgba(37, 99, 235, 0.4))
                     brightness(1.3);
                 transform: scale(1.045);
             }
@@ -750,9 +754,7 @@
         <!-- Logo Container -->
         <div class="flex flex-col items-center space-y-8">
             <!-- Logo with animation -->
-            <div id="logoContainer" class="opacity-0 transform scale-50">
-                <img src="src/assets/logo.png" alt="MovieIGuess Logo" class="w-24 h-24 lg:w-32 lg:h-32 object-contain">
-            </div>
+            <div id="logoContainer" class="hidden"></div>
             
             <!-- Typing Text Container -->
             <div id="typingContainer" class="opacity-0">
@@ -771,7 +773,7 @@
             <!-- Logo and Desktop Navigation -->
             <div class="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-8 w-full lg:w-auto">
                 <h1 class="text-netflix-red text-2xl lg:text-3xl font-bold cursor-pointer hover:text-white transition-colors text-center lg:text-left flex items-center" onclick="home()">
-                    <img src="src/assets/logo.png" alt="MovieIGuess Logo" class="w-8 h-8 lg:w-10 lg:h-10 mr-2 object-contain">MovieIGuess
+                    movies!
                 </h1>
                 <!-- Desktop Navigation -->
                 <nav class="hidden lg:flex space-x-6">
@@ -855,7 +857,7 @@
                     <i class="fa-solid fa-fire text-netflix-red mr-3"></i>
                     Trending Movies
                 </h2>
-                <button class="text-netflix-red hover:text-red-400 transition-colors font-semibold" onclick="showDevToast('Trending Movies')">
+                <button class="text-netflix-red hover:text-blue-400 transition-colors font-semibold" onclick="showDevToast('Trending Movies')">
                     See All <i class="fa-solid fa-chevron-right ml-1"></i>
                 </button>
             </div>
@@ -873,7 +875,7 @@
                     <i class="fa-solid fa-tv text-netflix-red mr-3"></i>
                     Popular TV Shows
                 </h2>
-                <button class="text-netflix-red hover:text-red-400 transition-colors font-semibold" onclick="showDevToast('Popular TV Shows')">
+                <button class="text-netflix-red hover:text-blue-400 transition-colors font-semibold" onclick="showDevToast('Popular TV Shows')">
                     See All <i class="fa-solid fa-chevron-right ml-1"></i>
                 </button>
             </div>
@@ -884,23 +886,6 @@
             </div>
         </section>
 
-        <!-- Top Rated -->
-        <section>
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl lg:text-3xl font-bold flex items-center">
-                    <i class="fa-solid fa-star text-netflix-red mr-3"></i>
-                    16+
-                </h2>
-                <button class="text-netflix-red hover:text-red-400 transition-colors font-semibold" onclick="showDevToast('Top Rated')">
-                    See All <i class="fa-solid fa-chevron-right ml-1"></i>
-                </button>
-            </div>
-            <div class="scroll-wrapper overflow-hidden">
-                <div class="anime-container flex space-x-4 overflow-x-auto scrollbar-hide pb-4">
-                    <!-- Top rated content will be populated here -->
-                </div>
-            </div>
-        </section>
     </div>
     
     <!-- Search Modal -->
@@ -967,7 +952,7 @@
                                     </div>
                                     <!-- Right side: Mobile Play Trailer button -->
                                     <div class="flex items-center space-x-2 lg:hidden">
-                                        <button id="playTrailerBtn" onclick="playTrailer()" class="bg-netflix-red hover:bg-red-700 text-white px-3 py-1.5 rounded font-semibold transition-colors flex items-center text-xs whitespace-nowrap">
+                                        <button id="playTrailerBtn" onclick="playTrailer()" class="bg-netflix-red hover:bg-blue-700 text-white px-3 py-1.5 rounded font-semibold transition-colors flex items-center text-xs whitespace-nowrap">
                                             <i class="fa-solid fa-play mr-1 text-xs"></i>
                                             <span>Play Trailer</span>
                                         </button>
@@ -979,7 +964,7 @@
                             </div>
                             <!-- Desktop buttons on the right -->
                             <div class="hidden lg:flex items-center space-x-2">
-                                <button id="playTrailerBtnDesktop" onclick="playTrailer()" class="bg-netflix-red hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center text-base">
+                                <button id="playTrailerBtnDesktop" onclick="playTrailer()" class="bg-netflix-red hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center text-base">
                                     <i class="fa-solid fa-play mr-2 text-sm"></i>
                                     Play Trailer
                                 </button>
@@ -1033,7 +1018,7 @@
                             
                             <!-- Action Buttons -->
                             <div class="flex space-x-4 pt-4">
-                                <button id="modalPlayBtn" class="netflix-button bg-netflix-red text-white px-8 py-3 rounded font-semibold hover:bg-red-700 transition-colors flex items-center">
+                                <button id="modalPlayBtn" class="netflix-button bg-netflix-red text-white px-8 py-3 rounded font-semibold hover:bg-blue-700 transition-colors flex items-center">
                                     <i class="fa-solid fa-play mr-2"></i>
                                     Watch Now
                                 </button>
@@ -1055,7 +1040,7 @@
         <div class="px-4 lg:px-16">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div class="col-span-1 md:col-span-2">
-                    <h3 class="text-netflix-red text-2xl font-bold mb-4">MovieIGuess</h3>
+                    <h3 class="text-netflix-red text-2xl font-bold mb-4">movies!</h3>
                     <p class="text-gray-400 mb-6 max-w-md">
                         Your ultimate destination for discovering amazing movies and TV shows. 
                         Stream, watch, and enjoy entertainment like never before.
@@ -1089,7 +1074,7 @@
             </div>
             
             <div class="border-t border-gray-700 mt-12 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2024 MovieIGuess. All rights reserved. | Privacy Policy | Terms of Service</p>
+                <p class="text-gray-400">&copy; 2024 movies!. All rights reserved. | Privacy Policy | Terms of Service</p>
             </div>
         </div>
     </footer>
@@ -1377,7 +1362,6 @@
     //for category
     const scrollWrapper1 = document.querySelector('.movie-container');
     const scrollWrapper2 = document.querySelector('.series-container');
-    const scrollWrapper3 = document.querySelector('.anime-container');
 
     // Enhanced scroll functionality will be handled in the main script above
 </script>
@@ -1759,39 +1743,39 @@
     
     /* Gentle phase particles */
     .gentle-particle {
-        background: radial-gradient(circle, rgba(229, 9, 20, 0.8) 0%, rgba(229, 9, 20, 0.4) 50%, transparent 100%);
-        box-shadow: 0 0 6px rgba(229, 9, 20, 0.6);
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.8) 0%, rgba(37, 99, 235, 0.4) 50%, transparent 100%);
+        box-shadow: 0 0 6px rgba(37, 99, 235, 0.6);
         transition: all 2s ease-out;
     }
     
     /* Medium phase particles */
     .medium-particle {
-        background: radial-gradient(circle, rgba(229, 9, 20, 0.9) 0%, rgba(255, 100, 100, 0.5) 50%, transparent 100%);
-        box-shadow: 0 0 8px rgba(229, 9, 20, 0.7), 0 0 12px rgba(229, 9, 20, 0.3);
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.9) 0%, rgba(255, 100, 100, 0.5) 50%, transparent 100%);
+        box-shadow: 0 0 8px rgba(37, 99, 235, 0.7), 0 0 12px rgba(37, 99, 235, 0.3);
         transition: all 2.5s ease-out;
     }
     
     /* Intense phase particles */
     .intense-particle {
-        background: radial-gradient(circle, rgba(229, 9, 20, 1) 0%, rgba(255, 50, 50, 0.6) 40%, rgba(255, 200, 200, 0.3) 70%, transparent 100%);
-        box-shadow: 0 0 10px rgba(229, 9, 20, 0.8), 0 0 15px rgba(229, 9, 20, 0.4), 0 0 20px rgba(229, 9, 20, 0.2);
+        background: radial-gradient(circle, rgba(37, 99, 235, 1) 0%, rgba(255, 50, 50, 0.6) 40%, rgba(255, 200, 200, 0.3) 70%, transparent 100%);
+        box-shadow: 0 0 10px rgba(37, 99, 235, 0.8), 0 0 15px rgba(37, 99, 235, 0.4), 0 0 20px rgba(37, 99, 235, 0.2);
         transition: all 3s ease-out;
     }
     
     /* Explosion phase particles */
     .explosion-particle {
-        background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(229, 9, 20, 0.9) 30%, rgba(255, 100, 100, 0.6) 60%, transparent 100%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(37, 99, 235, 0.9) 30%, rgba(255, 100, 100, 0.6) 60%, transparent 100%);
         box-shadow: 
             0 0 15px rgba(255, 255, 255, 0.8),
-            0 0 25px rgba(229, 9, 20, 0.8),
-            0 0 35px rgba(229, 9, 20, 0.4);
+            0 0 25px rgba(37, 99, 235, 0.8),
+            0 0 35px rgba(37, 99, 235, 0.4);
         transition: all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
     
     /* Fade phase particles */
     .fade-particle {
-        background: radial-gradient(circle, rgba(229, 9, 20, 0.7) 0%, rgba(229, 9, 20, 0.3) 50%, transparent 100%);
-        box-shadow: 0 0 8px rgba(229, 9, 20, 0.5);
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.7) 0%, rgba(37, 99, 235, 0.3) 50%, transparent 100%);
+        box-shadow: 0 0 8px rgba(37, 99, 235, 0.5);
         transition: all 3s ease-out;
     }
     
@@ -1810,10 +1794,10 @@
     /* Final elegant glow state */
     .completed-text {
         text-shadow: 
-            0 0 15px rgba(229, 9, 20, 0.8),
-            0 0 30px rgba(229, 9, 20, 0.5),
-            0 0 45px rgba(229, 9, 20, 0.3),
-            0 0 60px rgba(229, 9, 20, 0.1),
+            0 0 15px rgba(37, 99, 235, 0.8),
+            0 0 30px rgba(37, 99, 235, 0.5),
+            0 0 45px rgba(37, 99, 235, 0.3),
+            0 0 60px rgba(37, 99, 235, 0.1),
             2px 2px 4px rgba(0, 0, 0, 0.8);
         filter: brightness(1.3) contrast(1.1);
         transition: all 1s ease-out;
@@ -1864,15 +1848,9 @@
         
         // Animation timeline
         setTimeout(() => {
-            // Show logo with scale animation
-            logoContainer.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-            logoContainer.style.opacity = '1';
-            logoContainer.style.transform = 'scale(1)';
-            
-            // Add logo particle effects
-            setTimeout(() => {
-                addLogoParticleEffect();
-            }, 500);
+            if (logoContainer) {
+                logoContainer.style.display = 'none';
+            }
         }, 300);
         
         setTimeout(() => {
@@ -1882,7 +1860,7 @@
             
             // Start typing animation - clean professional typing
             var typed = new Typed('#typedText', {
-                strings: ['MovieI<span class="text-white">Guess</span>'],
+                strings: ['movies!'],
                 typeSpeed: 30,
                 backSpeed: 0,
                 fadeOut: false,
@@ -1963,13 +1941,13 @@
         // Massive explosion of light
         textElement.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         textElement.style.textShadow = `
-            0 0 30px rgba(229, 9, 20, 1),
+            0 0 30px rgba(37, 99, 235, 1),
             0 0 60px rgba(255, 255, 255, 0.8),
-            0 0 90px rgba(229, 9, 20, 0.8),
+            0 0 90px rgba(37, 99, 235, 0.8),
             0 0 120px rgba(255, 255, 255, 0.6),
-            0 0 150px rgba(229, 9, 20, 0.6),
+            0 0 150px rgba(37, 99, 235, 0.6),
             0 0 200px rgba(255, 255, 255, 0.4),
-            0 0 250px rgba(229, 9, 20, 0.3),
+            0 0 250px rgba(37, 99, 235, 0.3),
             4px 4px 8px rgba(0, 0, 0, 1)
         `;
         textElement.style.filter = 'brightness(1.8) contrast(1.4) saturate(1.2)';
@@ -1988,10 +1966,10 @@
         // Elegant fade to beautiful final glow
         textElement.style.transition = 'all 1s ease-out';
         textElement.style.textShadow = `
-            0 0 15px rgba(229, 9, 20, 0.8),
-            0 0 30px rgba(229, 9, 20, 0.5),
-            0 0 45px rgba(229, 9, 20, 0.3),
-            0 0 60px rgba(229, 9, 20, 0.1),
+            0 0 15px rgba(37, 99, 235, 0.8),
+            0 0 30px rgba(37, 99, 235, 0.5),
+            0 0 45px rgba(37, 99, 235, 0.3),
+            0 0 60px rgba(37, 99, 235, 0.1),
             2px 2px 4px rgba(0, 0, 0, 0.8)
         `;
         textElement.style.filter = 'brightness(1.3) contrast(1.1)';
@@ -2109,7 +2087,9 @@
     // Logo particle effects and light shadow
     function addLogoParticleEffect() {
         const logoContainer = document.getElementById('logoContainer');
+        if (!logoContainer) return;
         const logoImg = logoContainer.querySelector('img');
+        if (!logoImg) return;
         
         // Make logo container relative for better particle positioning
         logoContainer.style.position = 'relative';
@@ -2171,8 +2151,8 @@
         particle.style.width = size + 'px';
         particle.style.height = size + 'px';
         particle.style.borderRadius = '50%';
-        particle.style.background = `radial-gradient(circle, rgba(229, 9, 20, 0.8), rgba(255, 255, 255, 0.4))`;
-        particle.style.boxShadow = `0 0 ${size * 2}px rgba(229, 9, 20, 0.6)`;
+        particle.style.background = `radial-gradient(circle, rgba(37, 99, 235, 0.8), rgba(255, 255, 255, 0.4))`;
+        particle.style.boxShadow = `0 0 ${size * 2}px rgba(37, 99, 235, 0.6)`;
         particle.style.opacity = '0';
         particle.style.transition = 'all 3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         particle.style.willChange = 'transform, opacity';
@@ -2203,11 +2183,11 @@
 
     // Also add subtle glow to header logo
     function addHeaderLogoGlow() {
-        const headerLogo = document.querySelector('header img[alt="MovieIGuess Logo"]');
+        const headerLogo = document.querySelector('header img[alt="movies! Logo"]');
         if (headerLogo) {
             headerLogo.style.filter = `
-                drop-shadow(0 0 8px rgba(229, 9, 20, 0.4))
-                drop-shadow(0 0 16px rgba(229, 9, 20, 0.3))
+                drop-shadow(0 0 8px rgba(37, 99, 235, 0.4))
+                drop-shadow(0 0 16px rgba(37, 99, 235, 0.3))
                 brightness(1.1)
             `;
             headerLogo.style.transition = 'filter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
@@ -2216,17 +2196,17 @@
             // Add hover effect with smoother transitions
             headerLogo.addEventListener('mouseenter', () => {
                 headerLogo.style.filter = `
-                    drop-shadow(0 0 12px rgba(229, 9, 20, 0.6))
-                    drop-shadow(0 0 24px rgba(229, 9, 20, 0.4))
-                    drop-shadow(0 0 36px rgba(229, 9, 20, 0.3))
+                    drop-shadow(0 0 12px rgba(37, 99, 235, 0.6))
+                    drop-shadow(0 0 24px rgba(37, 99, 235, 0.4))
+                    drop-shadow(0 0 36px rgba(37, 99, 235, 0.3))
                     brightness(1.2)
                 `;
             });
             
             headerLogo.addEventListener('mouseleave', () => {
                 headerLogo.style.filter = `
-                    drop-shadow(0 0 8px rgba(229, 9, 20, 0.4))
-                    drop-shadow(0 0 16px rgba(229, 9, 20, 0.3))
+                    drop-shadow(0 0 8px rgba(37, 99, 235, 0.4))
+                    drop-shadow(0 0 16px rgba(37, 99, 235, 0.3))
                     brightness(1.1)
                 `;
             });

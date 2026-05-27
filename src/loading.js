@@ -18,8 +18,7 @@ function createLoadingSkeleton() {
 function showLoadingSkeletons() {
     const containers = [
         document.querySelector('.movie-container'),
-        document.querySelector('.series-container'),
-        document.querySelector('.anime-container')
+        document.querySelector('.series-container')
     ];
 
     containers.forEach(container => {
@@ -43,7 +42,7 @@ function showError(container, message) {
             <i class="fa-solid fa-exclamation-triangle text-4xl mb-4 text-netflix-red"></i>
             <p class="text-lg mb-2">Oops! Something went wrong</p>
             <p class="text-sm">${message}</p>
-            <button onclick="location.reload()" class="mt-4 bg-netflix-red text-white px-6 py-2 rounded hover:bg-red-700 transition-colors">
+            <button onclick="location.reload()" class="mt-4 bg-netflix-red text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors">
                 Try Again
             </button>
         </div>
