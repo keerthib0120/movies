@@ -136,7 +136,6 @@ function showDefaultHeroContent() {
 async function Home() {
     const container = document.querySelector('.movie-container');
     const container1 = document.querySelector('.series-container');
-    const container2 = document.querySelector('.anime-container');
     const slider = document.querySelector('.backdrop-slider');
 
     if (!container || !slider) {
@@ -320,75 +319,6 @@ async function Home() {
     } catch (error) {
         console.error('Error fetching series:', error);
         showError(container1, 'Failed to load TV shows. Please check your internet connection.');
-    }
-
-    // ========== ANIME ==========
-    try {
-        const response = await fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16`);
-        const data = await response.json();
-
-        console.log('Anime:', data);
-
-        // Clear loading skeletons from anime container
-        container2.innerHTML = '';
-
-        data.results.forEach(movie => {
-            const card2 = document.createElement('div');
-            card2.className = 'anime-card group relative flex-shrink-0 w-48 lg:w-56 cursor-pointer transform transition-all duration-300 hover:z-10';
-
-            const animePosterPath = movie.poster_path 
-                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                : 'https://via.placeholder.com/500x750?text=No+Image';
-
-            card2.innerHTML = `
-                <div class="relative overflow-hidden rounded-lg bg-netflix-gray shadow-lg h-72 lg:h-80">
-                    <div class="anime-poster w-full h-full bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-110" 
-                         style="background-image: url('${animePosterPath}')">
-                    </div>
-                    
-                    <!-- Hover Overlay -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div class="absolute bottom-0 left-0 right-0 p-4">
-                            <h3 class="anime-title text-white font-bold text-sm lg:text-base mb-2 line-clamp-2">${movie.name}</h3>
-                            <div class="flex items-center justify-between text-xs lg:text-sm text-gray-300">
-                                <span class="anime-rating flex items-center">
-                                    <i class="fa-solid fa-star text-yellow-400 mr-1"></i>
-                                    ${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}
-                                </span>
-                                <span class="anime-release-date">${movie.first_air_date ? new Date(movie.first_air_date).getFullYear() : 'N/A'}</span>
-                            </div>
-                            
-                            <!-- Action Buttons -->
-                            <div class="flex space-x-2 mt-3">
-                                <button class="play-btn bg-white text-black px-3 py-1 rounded-full text-xs font-semibold hover:bg-gray-200 transition-colors flex items-center" onclick="event.stopPropagation(); window.location.href='viewMovie.html?movieId=${movie.id}&type=tv'">
-                                    <i class="fa-solid fa-play text-xs mr-1"></i>
-                                    Play
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            card2.addEventListener('click', async () => {
-                // Show modal instead of navigating to viewMovie
-                try {
-                    const detailsResponse = await fetch(`https://api.themoviedb.org/3/tv/${movie.id}?api_key=${API_KEY}`);
-                    const movieDetails = await detailsResponse.json();
-                    showMovieModal(movie, movieDetails);
-                } catch (error) {
-                    console.error('Error fetching anime details for modal:', error);
-                    showMovieModal(movie, null);
-                }
-            });
-
-            if (movie.poster_path) {
-                container2.appendChild(card2);
-            }
-        });
-    } catch (error) {
-        console.error('Error fetching anime:', error);
-        showError(container2, 'Failed to load top rated content. Please check your internet connection.');
     }
 
     // ========== BACKDROP SLIDER ==========

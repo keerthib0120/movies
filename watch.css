@@ -368,7 +368,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(229, 9, 20, 0.05) 0%, rgba(102, 126, 234, 0.03) 100%);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(102, 126, 234, 0.03) 100%);
     border-radius: 20px;
     z-index: 1;
 }
@@ -424,7 +424,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(229, 9, 20, 0.15) 0%, rgba(102, 126, 234, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(102, 126, 234, 0.1) 100%);
     opacity: 0;
     transition: opacity 0.4s ease;
     border-radius: 12px;
@@ -436,14 +436,14 @@ body {
 
 .server-btn:hover {
     transform: translateY(-2px) scale(1.02);
-    border-color: rgba(229, 9, 20, 0.4);
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.2);
+    border-color: rgba(37, 99, 235, 0.4);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
 }
 
 .server-btn.active {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
-    border-color: rgba(229, 9, 20, 0.6);
-    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.4);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    border-color: rgba(37, 99, 235, 0.6);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
     transform: translateY(-1px);
 }
 
@@ -453,7 +453,7 @@ body {
 
 .server-btn:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.2);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
 }
 
 /* Touch optimizations for server buttons */
@@ -620,7 +620,7 @@ body {
     border-radius: 24px;
     padding: 2rem;
     height: fit-content;
-    border: 2px solid rgba(229, 9, 20, 0.2);
+    border: 2px solid rgba(37, 99, 235, 0.2);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
     position: relative;
 }
@@ -632,7 +632,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(229, 9, 20, 0.05) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(0, 0, 0, 0.1) 100%);
     border-radius: 24px;
     z-index: 1;
 }
@@ -672,8 +672,8 @@ body {
 .dropdown-wrapper select {
     width: 100%;
     padding: 1.2rem 3rem 1.2rem 1.2rem;
-    background: linear-gradient(135deg, rgba(229, 9, 20, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
-    border: 2px solid rgba(229, 9, 20, 0.3);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+    border: 2px solid rgba(37, 99, 235, 0.3);
     border-radius: 16px;
     color: white;
     font-size: 1rem;
@@ -683,21 +683,21 @@ body {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.1);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
     min-height: 50px; /* Better touch targets */
 }
 
 .dropdown-wrapper select:hover {
-    background: linear-gradient(135deg, rgba(229, 9, 20, 0.25) 0%, rgba(255, 255, 255, 0.12) 100%);
-    border-color: rgba(229, 9, 20, 0.5);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(255, 255, 255, 0.12) 100%);
+    border-color: rgba(37, 99, 235, 0.5);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.2);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
 }
 
 .dropdown-wrapper select:focus {
     outline: none;
-    border-color: #E50914;
-    box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.2);
+    border-color: #2563EB;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
     transform: translateY(-2px);
 }
 
@@ -715,7 +715,7 @@ body {
 
 .dropdown-wrapper select:focus + .dropdown-arrow {
     transform: translateY(-50%) rotate(180deg);
-    color: #E50914;
+    color: #2563EB;
 }
 
 .dropdown-wrapper select option {
@@ -769,13 +769,13 @@ body {
 }
 
 .episodes-sidebar::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     border-radius: 4px;
 }
 
 .episodes-sidebar::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #FF1E2D 0%, #C8081F 100%);
-    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
 }
 
 /* Professional Episode Cards */
@@ -800,7 +800,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(229, 9, 20, 0.15) 0%, rgba(102, 126, 234, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(102, 126, 234, 0.1) 100%);
     opacity: 0;
     transition: opacity 0.4s ease;
     border-radius: 16px;
@@ -811,8 +811,8 @@ body {
 }
 
 .episode-card-sidebar:hover {
-    border-color: rgba(229, 9, 20, 0.4);
-    box-shadow: 0 12px 35px rgba(229, 9, 20, 0.25);
+    border-color: rgba(37, 99, 235, 0.4);
+    box-shadow: 0 12px 35px rgba(37, 99, 235, 0.25);
 }
 
 /* Touch device optimizations */
@@ -895,7 +895,7 @@ body {
     max-height: 500px;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: #E50914 rgba(20, 20, 20, 0.5);
+    scrollbar-color: #2563EB rgba(20, 20, 20, 0.5);
 }
 
 .episode-selection::-webkit-scrollbar {
@@ -908,14 +908,14 @@ body {
 }
 
 .episode-selection::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     border-radius: 10px;
     transition: background 0.3s ease;
 }
 
 .episode-selection::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #FF1E2D 0%, #C8081F 100%);
-    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
 }
 
 .episode-selection h3 {
@@ -958,7 +958,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(229, 9, 20, 0.15) 0%, rgba(102, 126, 234, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(102, 126, 234, 0.1) 100%);
     opacity: 0;
     transition: opacity 0.4s ease;
     border-radius: 16px;
@@ -969,19 +969,19 @@ body {
 }
 
 .episode-card:hover {
-    border-color: rgba(229, 9, 20, 0.4);
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.2);
+    border-color: rgba(37, 99, 235, 0.4);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
 }
 
 .episode-number {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     color: white;
     padding: 0.5rem 0.75rem;
     border-radius: 12px;
     font-size: 0.9rem;
     font-weight: 700;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     text-align: center;
     position: relative;
     z-index: 2;
@@ -1168,14 +1168,14 @@ body {
 }
 
 .episode-badge {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     color: white;
     padding: 0.4rem 0.8rem;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 700;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .episode-meta-top {
@@ -1253,7 +1253,7 @@ body {
 }
 
 .episode-card-sidebar:hover .play-indicator {
-    background: rgba(229, 9, 20, 0.8);
+    background: rgba(37, 99, 235, 0.8);
 }
 
 /* Legacy episode styles for backward compatibility */

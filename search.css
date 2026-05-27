@@ -54,7 +54,7 @@
     transform: scale(1);
     opacity: 1;
     animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    border: 1px solid rgba(229, 9, 20, 0.3);
+    border: 1px solid rgba(37, 99, 235, 0.3);
     isolation: isolate; /* Create a new stacking context */
   }
 
@@ -87,7 +87,7 @@
     margin-top: 20px;
     min-height: 0;
     scrollbar-width: thin;
-    scrollbar-color: #E50914 rgba(51, 51, 51, 0.3);
+    scrollbar-color: #2563EB rgba(51, 51, 51, 0.3);
   }
 
   /* Professional scrollbar for search results */
@@ -101,14 +101,14 @@
   }
 
   .search-results-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     border-radius: 10px;
     transition: background 0.3s ease;
   }
 
   .search-results-container::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #FF1E2D 0%, #C8081F 100%);
-    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
   }
 
   /* Ensure modal appears above everything and prevent background scroll */
@@ -164,7 +164,7 @@
   /* Ensure the header doesn't overlap the close button */
   .search-header {
     margin-bottom: 20px;
-    border-bottom: 2px solid rgba(229, 9, 20, 0.3);
+    border-bottom: 2px solid rgba(37, 99, 235, 0.3);
     padding-bottom: 20px;
     padding-right: 60px; /* Make space for close button */
     flex-shrink: 0;
@@ -172,7 +172,7 @@
   }
 
   .search-header h2 {
-    color: #E50914;
+    color: #2563EB;
     margin-bottom: 20px;
     font-size: 28px;
     font-weight: 700;
@@ -207,14 +207,14 @@
     background: rgba(85, 85, 85, 0.9);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    border-color: rgba(229, 9, 20, 0.5);
+    border-color: rgba(37, 99, 235, 0.5);
   }
 
   .filter-btn.active {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     color: #fff;
-    border-color: #E50914;
-    box-shadow: 0 5px 20px rgba(229, 9, 20, 0.4);
+    border-color: #2563EB;
+    box-shadow: 0 5px 20px rgba(37, 99, 235, 0.4);
     transform: translateY(-2px);
   }
 
@@ -228,7 +228,7 @@
     font-weight: 700;
     margin-bottom: 20px;
     padding-bottom: 8px;
-    border-bottom: 3px solid #E50914;
+    border-bottom: 3px solid #2563EB;
     display: inline-block;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -262,7 +262,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(229, 9, 20, 0.1) 0%, transparent 50%);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, transparent 50%);
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
@@ -270,9 +270,9 @@
 
   .result-card:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(229, 9, 20, 0.2), 
+    box-shadow: 0 15px 40px rgba(37, 99, 235, 0.2), 
                 0 5px 15px rgba(0, 0, 0, 0.6);
-    border-color: rgba(229, 9, 20, 0.5);
+    border-color: rgba(37, 99, 235, 0.5);
   }
 
   .result-card:hover::before {
@@ -314,13 +314,13 @@
   }
 
   .result-type {
-    color: #E50914;
+    color: #2563EB;
     font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 10px;
     letter-spacing: 1px;
-    background: rgba(229, 9, 20, 0.1);
+    background: rgba(37, 99, 235, 0.1);
     padding: 4px 8px;
     border-radius: 12px;
     display: inline-block;
@@ -395,16 +395,16 @@
 
   .page-btn:hover {
     background: rgba(85, 85, 85, 0.9);
-    border-color: rgba(229, 9, 20, 0.5);
+    border-color: rgba(37, 99, 235, 0.5);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   }
 
   .page-btn.active {
-    background: linear-gradient(135deg, #E50914 0%, #B8070F 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     color: #fff;
-    border-color: #E50914;
-    box-shadow: 0 5px 20px rgba(229, 9, 20, 0.4);
+    border-color: #2563EB;
+    box-shadow: 0 5px 20px rgba(37, 99, 235, 0.4);
   }
 
   .pagination-ellipsis {
@@ -425,9 +425,9 @@
     display: inline-block;
     width: 40px;
     height: 40px;
-    border: 3px solid rgba(229, 9, 20, 0.3);
+    border: 3px solid rgba(37, 99, 235, 0.3);
     border-radius: 50%;
-    border-top-color: #E50914;
+    border-top-color: #2563EB;
     animation: spin 1s ease-in-out infinite;
     margin-bottom: 20px;
   }
@@ -519,7 +519,7 @@
       padding-right: 55px; /* More space for close button */
       padding-bottom: 12px;
       margin-bottom: 15px;
-      border-bottom: 1px solid rgba(229, 9, 20, 0.3);
+      border-bottom: 1px solid rgba(37, 99, 235, 0.3);
     }
 
     .search-header h2 {
@@ -588,12 +588,12 @@
       width: 36px !important;
       height: 36px !important;
       background: rgba(0, 0, 0, 0.85) !important;
-      border: 1px solid rgba(229, 9, 20, 0.7) !important;
+      border: 1px solid rgba(37, 99, 235, 0.7) !important;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
     }
 
     #searchCloseBtn:hover {
-      background: rgba(229, 9, 20, 0.9) !important;
+      background: rgba(37, 99, 235, 0.9) !important;
       transform: scale(1.05) !important;
     }
 
@@ -770,7 +770,7 @@
 }
 
 .search-dropdown-type {
-    background: #E50914;
+    background: #2563EB;
     color: #fff;
     padding: 2px 6px;
     border-radius: 4px;
@@ -791,7 +791,7 @@
     padding: 12px;
     text-align: center;
     background: #333;
-    color: #E50914;
+    color: #2563EB;
     font-weight: 600;
     cursor: pointer;
     border-top: 1px solid #444;
@@ -825,7 +825,7 @@
 }
 
 .search-dropdown::-webkit-scrollbar-thumb {
-    background: #E50914;
+    background: #2563EB;
     border-radius: 3px;
 }
 
