@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             dropdownItem.addEventListener('click', () => {
                 const itemType = item.media_type === 'tv' ? 'tv' : 'movie';
-                window.location.href = `viewMovie.html?movieId=${item.id}&type=${itemType}`;
+                window.location.href = `viewMovie?movieId=${item.id}&type=${itemType}`;
             });
 
             searchDropdown.appendChild(dropdownItem);
@@ -513,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (result.media_type !== 'person') {
             card.addEventListener('click', () => {
                 console.log(`Clicked result ID: ${result.id}`);
-                window.location.href = `viewMovie.html?movieId=${result.id}&type=${result.media_type}`;
+                window.location.href = `viewMovie?movieId=${result.id}&type=${result.media_type}`;
             });
             card.style.cursor = 'pointer';
         }

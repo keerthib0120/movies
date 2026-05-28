@@ -836,7 +836,7 @@ function displaySimilarMovies(movies) {
             'https://via.placeholder.com/300x450?text=No+Image';
         
         return `
-            <div class="episode-card-sidebar" onclick="window.location.href='WatchMovie.html?movieId=${movie.id}&type=movie'" style="cursor: pointer;">
+            <div class="episode-card-sidebar" onclick="window.location.href='WatchMovie?movieId=${movie.id}&type=movie'" style="cursor: pointer;">
                 <div class="episode-card-header">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <img src="${posterPath}" alt="${movie.title}" style="width: 40px; height: 60px; object-fit: cover; border-radius: 4px;">

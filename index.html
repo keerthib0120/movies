@@ -138,6 +138,8 @@
     <link rel="stylesheet" href="netflix-style.css">
     <link rel="stylesheet" href="search.css">
     <link rel="stylesheet" href="toast.css">
+    <link rel="stylesheet" href="home-dark.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://kit.fontawesome.com/22dc8d85a3.js" crossorigin="anonymous"></script>
     <!-- Font Awesome CDN fallback (added) -->
@@ -748,7 +750,7 @@
         }
     </style>
 </head>
-<body class="bg-netflix-black text-white min-h-screen">
+<body class="bg-netflix-black text-white min-h-screen mg-night-home">
     <!-- Loading Screen -->
     <div id="loadingScreen" class="fixed inset-0 bg-netflix-black z-[9999] flex flex-col items-center justify-center">
         <!-- Logo Container -->
@@ -767,13 +769,20 @@
     
     <!-- Main Content -->
     <div id="mainContent" class="opacity-0">
+    <!-- Fairy lights -->
+    <div class="mg-fairy-banner fixed top-0 left-0 right-0 z-[51] pointer-events-none" aria-hidden="true">
+        <div class="wire"></div>
+        <div class="mg-lights-row" id="mgLightsRow"></div>
+        <div style="height: 18px;"></div>
+    </div>
+
     <!-- Navigation -->
-    <header class="navbar-glass fixed top-0 w-full z-50 transition-all duration-500" id="navbar">
+    <header class="navbar-glass fixed top-0 w-full z-50 transition-all duration-500" id="navbar" style="padding-top: 22px;">
         <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between px-4 lg:px-16 py-4 space-y-4 lg:space-y-0">
             <!-- Logo and Desktop Navigation -->
             <div class="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-8 w-full lg:w-auto">
-                <h1 class="text-netflix-red text-2xl lg:text-3xl font-bold cursor-pointer hover:text-white transition-colors text-center lg:text-left flex items-center" onclick="home()">
-                    movies!
+                <h1 class="mg-nav-logo text-center lg:text-left" onclick="home()">
+                    movies<span>!</span>
                 </h1>
                 <!-- Desktop Navigation -->
                 <nav class="hidden lg:flex space-x-6">
@@ -799,7 +808,7 @@
     </header>
 
     <!-- Hero Section -->
-    <div class="relative pt-16">
+    <div class="relative pt-24 lg:pt-28">
         <div class="backdrop-container relative h-[60vh] lg:h-[80vh] overflow-hidden">
             <div class="backdrop-slider w-full h-full bg-cover bg-center bg-no-repeat"></div>
             <!-- Gradient Overlay -->
@@ -848,11 +857,43 @@
         </div>
     </div>
 
+    <!-- Greeting + personal home -->
+    <div class="mg-greeting relative z-10">
+        <div class="mg-greeting-time" id="mgGreetingTime">Good evening</div>
+        <div class="mg-greeting-name" id="mgGreetingName">Welcome back, <em>there</em></div>
+    </div>
+
+    <div class="mg-home-panels relative z-10">
+        <section class="mg-section" id="mg-continue-watching" aria-labelledby="mg-cw-heading">
+            <div class="mg-section-header">
+                <div class="mg-section-title">
+                    <div class="mg-s-dot" aria-hidden="true"></div>
+                    <span class="mg-s-label" id="mg-cw-heading">Continue Watching</span>
+                </div>
+                <button type="button" class="mg-see-all" id="mgCwSeeAll">See all →</button>
+            </div>
+            <div class="mg-cw-grid" id="mgCwGrid"></div>
+            <div class="mg-cw-all-panel" id="mgCwAllPanel"></div>
+        </section>
+
+        <div class="mg-divider"></div>
+
+        <section class="mg-section" id="mg-my-list" aria-labelledby="mg-list-heading">
+            <div class="mg-section-header">
+                <div class="mg-section-title">
+                    <div class="mg-s-dot yellow" aria-hidden="true"></div>
+                    <span class="mg-s-label" id="mg-list-heading">My List</span>
+                </div>
+            </div>
+            <div id="mgMyListContent"></div>
+        </section>
+    </div>
+
     <!-- Content Sections -->
     <div class="px-4 lg:px-16 space-y-12 pb-20">
         <!-- Trending Movies -->
-        <section>
-            <div class="flex items-center justify-between mb-6">
+        <section class="mg-browse-section" id="browse-trending">
+            <div class="mg-section-header flex items-center justify-between mb-6">
                 <h2 class="text-2xl lg:text-3xl font-bold flex items-center">
                     <i class="fa-solid fa-fire text-netflix-red mr-3"></i>
                     Trending Movies
@@ -869,8 +910,8 @@
         </section>
 
         <!-- Popular TV Shows -->
-        <section>
-            <div class="flex items-center justify-between mb-6">
+        <section class="mg-browse-section" id="browse-tv">
+            <div class="mg-section-header flex items-center justify-between mb-6">
                 <h2 class="text-2xl lg:text-3xl font-bold flex items-center">
                     <i class="fa-solid fa-tv text-netflix-red mr-3"></i>
                     Popular TV Shows
@@ -1079,6 +1120,28 @@
         </div>
     </footer>
 
+    <!-- Mobile bottom nav -->
+    <nav class="mg-foot-nav" aria-label="Mobile navigation">
+        <button type="button" class="mg-fn-item" data-tab="home">
+            <span class="mg-fn-icon on" aria-hidden="true">⌂</span>
+            <span class="mg-fn-label on">Home</span>
+        </button>
+        <button type="button" class="mg-fn-item" data-tab="browse">
+            <span class="mg-fn-icon" aria-hidden="true">◫</span>
+            <span class="mg-fn-label">Browse</span>
+        </button>
+        <button type="button" class="mg-fn-item" data-tab="list">
+            <span class="mg-fn-icon" aria-hidden="true">♡</span>
+            <span class="mg-fn-label">My List</span>
+        </button>
+        <button type="button" class="mg-fn-item" data-tab="profile">
+            <span class="mg-fn-icon" aria-hidden="true">◯</span>
+            <span class="mg-fn-label">Profile</span>
+        </button>
+    </nav>
+
+    <script src="./src/movieiguess-storage.js"></script>
+    <script src="./src/home-personal.js"></script>
     <script src="./src/loading.js"></script>
     <script src="./src/home.js"></script>
     <script src="src/search.js"></script>

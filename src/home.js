@@ -1,6 +1,24 @@
 // Global API key
 const API_KEY = '97df57ffd9278a37bc12191e00332053';
 
+function trackContinueWatching(movie, mediaType, details) {
+    if (!window.MovieIGuessStorage) return;
+    const payload = {
+        ...movie,
+        runtime: details?.runtime ?? movie.runtime,
+        episode_run_time: details?.episode_run_time ?? movie.episode_run_time,
+    };
+    const entry = window.MovieIGuessStorage.buildEntryFromTmdb(payload, mediaType);
+    window.MovieIGuessStorage.upsertContinueWatching(entry, { bumpProgress: true });
+    if (typeof window.refreshMovieIGuessHome === 'function') {
+        window.refreshMovieIGuessHome();
+    }
+}
+
+function goToViewMovie(movieId, mediaType) {
+    window.location.href = `viewMovie?movieId=${movieId}&type=${mediaType}`;
+}
+
 // Function to update hero section with featured movie data
 function updateHeroSection(movie, details) {
     console.log('updateHeroSection called with:', movie.title || movie.name);
@@ -81,7 +99,8 @@ function updateHeroSection(movie, details) {
     // Add click handlers for buttons
     if (playBtn) {
         playBtn.onclick = () => {
-            window.location.href = `viewMovie.html?movieId=${movie.id}&type=${mediaType}`;
+            trackContinueWatching(movie, mediaType, details);
+            goToViewMovie(movie.id, mediaType);
         };
         console.log('Added play button handler');
     }
@@ -220,7 +239,7 @@ async function Home() {
                             
                             <!-- Action Buttons -->
                             <div class="flex space-x-2 mt-3">
-                                <button class="play-btn bg-white text-black px-3 py-1 rounded-full text-xs font-semibold hover:bg-gray-200 transition-colors flex items-center" onclick="event.stopPropagation(); window.location.href='viewMovie.html?movieId=${movie.id}&type=movie'">
+                                <button type="button" class="play-btn bg-white text-black px-3 py-1 rounded-full text-xs font-semibold hover:bg-gray-200 transition-colors flex items-center">
                                     <i class="fa-solid fa-play text-xs mr-1"></i>
                                     Play
                                 </button>
@@ -241,6 +260,21 @@ async function Home() {
                     showMovieModal(movie, null);
                 }
             });
+
+            const playButton = card.querySelector('.play-btn');
+            if (playButton) {
+                playButton.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    try {
+                        const detailsResponse = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY}`);
+                        const movieDetails = await detailsResponse.json();
+                        trackContinueWatching(movie, 'movie', movieDetails);
+                    } catch {
+                        trackContinueWatching(movie, 'movie', null);
+                    }
+                    goToViewMovie(movie.id, 'movie');
+                });
+            }
 
             if (movie.poster_path) {
                 container.appendChild(card);
@@ -290,7 +324,7 @@ async function Home() {
                             
                             <!-- Action Buttons -->
                             <div class="flex space-x-2 mt-3">
-                                <button class="play-btn bg-white text-black px-3 py-1 rounded-full text-xs font-semibold hover:bg-gray-200 transition-colors flex items-center" onclick="event.stopPropagation(); window.location.href='viewMovie.html?movieId=${movie.id}&type=tv'">
+                                <button type="button" class="play-btn bg-white text-black px-3 py-1 rounded-full text-xs font-semibold hover:bg-gray-200 transition-colors flex items-center">
                                     <i class="fa-solid fa-play text-xs mr-1"></i>
                                     Play
                                 </button>
@@ -311,6 +345,21 @@ async function Home() {
                     showMovieModal(movie, null);
                 }
             });
+
+            const seriesPlayBtn = card1.querySelector('.play-btn');
+            if (seriesPlayBtn) {
+                seriesPlayBtn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    try {
+                        const detailsResponse = await fetch(`https://api.themoviedb.org/3/tv/${movie.id}?api_key=${API_KEY}`);
+                        const tvDetails = await detailsResponse.json();
+                        trackContinueWatching(movie, 'tv', tvDetails);
+                    } catch {
+                        trackContinueWatching(movie, 'tv', null);
+                    }
+                    goToViewMovie(movie.id, 'tv');
+                });
+            }
 
             if (movie.poster_path) {
                 container1.appendChild(card1);
@@ -570,7 +619,8 @@ async function showMovieModal(movie, details) {
     // Play button functionality
     if (modalPlayBtn) {
         modalPlayBtn.onclick = () => {
-            window.location.href = `viewMovie.html?movieId=${movie.id}&type=${mediaType}`;
+            trackContinueWatching(movie, mediaType, details);
+            goToViewMovie(movie.id, mediaType);
         };
     }
 
