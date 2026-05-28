@@ -121,7 +121,7 @@
   }
 
   function getDisplayName() {
-    return localStorage.getItem(NAME_KEY) || 'there';
+    return localStorage.getItem(NAME_KEY) || 'keerthi';
   }
 
   function setDisplayName(name) {

@@ -134,7 +134,6 @@
     
     <title>movies! - Discover Amazing Movies & TV Shows</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <link rel="stylesheet" href="netflix-style.css">
     <link rel="stylesheet" href="search.css">
     <link rel="stylesheet" href="toast.css">
@@ -164,7 +163,6 @@
         :root {
             color-scheme: light only !important;
             -webkit-color-scheme: light only !important;
-            supported-color-schemes: light !important;
         }
         
         *, *::before, *::after {
@@ -777,7 +775,7 @@
     </div>
 
     <!-- Navigation -->
-    <header class="navbar-glass fixed top-0 w-full z-50 transition-all duration-500" id="navbar" style="padding-top: 22px;">
+    <header class="navbar-glass fixed top-0 w-full z-50 transition-all duration-500" id="navbar" style="padding-top: 34px;">
         <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between px-4 lg:px-16 py-4 space-y-4 lg:space-y-0">
             <!-- Logo and Desktop Navigation -->
             <div class="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-8 w-full lg:w-auto">
@@ -807,60 +805,12 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <div class="relative pt-24 lg:pt-28">
-        <div class="backdrop-container relative h-[60vh] lg:h-[80vh] overflow-hidden">
-            <div class="backdrop-slider w-full h-full bg-cover bg-center bg-no-repeat"></div>
-            <!-- Gradient Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-t from-netflix-black via-transparent to-transparent pointer-events-none z-0"></div>
-            <div class="absolute inset-0 bg-gradient-to-r from-netflix-black/80 via-transparent to-transparent pointer-events-none z-0"></div>
-            
-            <!-- Hero Content -->
-            <div class="absolute bottom-0 left-0 p-8 lg:p-16 max-w-2xl z-10">
-                <div id="hero-loading" class="animate-pulse">
-                    <div class="h-12 bg-gray-600 rounded mb-4 w-3/4"></div>
-                    <div class="h-6 bg-gray-600 rounded mb-6 w-full"></div>
-                    <div class="flex space-x-4">
-                        <div class="h-12 bg-gray-600 rounded w-32"></div>
-                        <div class="h-12 bg-gray-600 rounded w-32"></div>
-                    </div>
-                </div>
-                <div id="hero-content" class="hidden">
-                    <h1 id="hero-title" class="text-4xl lg:text-6xl font-bold mb-4 leading-tight">Discover Amazing Movies</h1>
-                    <p id="hero-overview" class="text-lg lg:text-xl text-gray-300 mb-6 leading-relaxed">
-                        Explore thousands of movies and TV shows. Find your next favorite film today.
-                    </p>
-                    <div class="flex items-center mb-6 space-x-6">
-                        <div id="hero-rating" class="flex items-center text-yellow-400">
-                            <i class="fa-solid fa-star mr-2"></i>
-                            <span class="text-white text-lg font-semibold">0.0</span>
-                        </div>
-                        <div id="hero-year" class="text-gray-300 text-lg">
-                            2024
-                        </div>
-                        <div id="hero-runtime" class="text-gray-300 text-lg">
-                            <!-- Runtime will be added here -->
-                        </div>
-                    </div>
-                    <div class="flex space-x-4">
-                        <button id="hero-play-btn" class="netflix-button bg-white text-black px-8 py-3 rounded font-semibold hover:bg-gray-200 transition-colors flex items-center">
-                            <i class="fa-solid fa-play mr-2"></i>
-                            Play
-                        </button>
-                        <button id="hero-info-btn" class="netflix-button bg-gray-600/70 text-white px-8 py-3 rounded font-semibold hover:bg-gray-600 transition-colors flex items-center">
-                            <i class="fa-solid fa-info-circle mr-2"></i>
-                            More Info
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="pt-28 lg:pt-32" aria-hidden="true"></div>
 
     <!-- Greeting + personal home -->
     <div class="mg-greeting relative z-10">
         <div class="mg-greeting-time" id="mgGreetingTime">Good evening</div>
-        <div class="mg-greeting-name" id="mgGreetingName">Welcome back, <em>there</em></div>
+        <div class="mg-greeting-name" id="mgGreetingName">Welcome back, <em>keerthi</em></div>
     </div>
 
     <div class="mg-home-panels relative z-10">
@@ -1079,43 +1029,8 @@
     <!-- Footer -->
     <footer class="bg-netflix-dark mt-20 py-16">
         <div class="px-4 lg:px-16">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="col-span-1 md:col-span-2">
-                    <h3 class="text-netflix-red text-2xl font-bold mb-4">movies!</h3>
-                    <p class="text-gray-400 mb-6 max-w-md">
-                        Your ultimate destination for discovering amazing movies and TV shows. 
-                        Stream, watch, and enjoy entertainment like never before.
-                    </p>
-                </div>
-                
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Quick Links</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors" onclick="showDevToast('Movie List')">Movies</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" onclick="showDevToast('TV Show List')">TV Shows</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" onclick="showDevToast('My List')">My List</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Browse</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Connect With Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" onclick="ins()" class="text-gray-400 hover:text-netflix-red transition-colors">
-                            <i class="fa-brands fa-instagram text-2xl"></i>
-                        </a>
-                        <a href="#" onclick="lin()" class="text-gray-400 hover:text-netflix-red transition-colors">
-                            <i class="fa-brands fa-linkedin-in text-2xl"></i>
-                        </a>
-                        <a href="#" onclick="git()" class="text-gray-400 hover:text-netflix-red transition-colors">
-                            <i class="fa-brands fa-github text-2xl"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2024 movies!. All rights reserved. | Privacy Policy | Terms of Service</p>
+            <div class="text-center">
+                <p class="text-gray-400">personal cozy cinema</p>
             </div>
         </div>
     </footer>
