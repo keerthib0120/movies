@@ -1,6 +1,7 @@
 (function () {
   const store = () => window.MovieIGuessStorage;
   const BULB_CLASSES = ['by', 'bw', 'by2', 'bw2', 'by3'];
+  const DISPLAY_NAME = 'keerthi';
 
   function initFairyLights() {
     const row = document.getElementById('mgLightsRow');
@@ -20,10 +21,9 @@
     const timeEl = document.getElementById('mgGreetingTime');
     const nameEl = document.getElementById('mgGreetingName');
     const s = store();
-    if (!s || !timeEl || !nameEl) return;
-    timeEl.textContent = s.getGreetingTime();
-    const name = s.getDisplayName();
-    nameEl.innerHTML = `Welcome back, <em>${escapeHtml(name)}</em>`;
+    if (!timeEl || !nameEl) return;
+    if (s) timeEl.textContent = s.getGreetingTime();
+    nameEl.innerHTML = `Welcome back, <em>${DISPLAY_NAME}</em>`;
   }
 
   function escapeHtml(str) {
@@ -187,14 +187,6 @@
           document.getElementById('browse-trending')?.scrollIntoView({ behavior: 'smooth' });
         } else if (tab === 'list') {
           document.getElementById('mg-my-list')?.scrollIntoView({ behavior: 'smooth' });
-        } else if (tab === 'profile') {
-          const s = store();
-          const current = s ? s.getDisplayName() : 'there';
-          const name = window.prompt('Your display name:', current === 'there' ? '' : current);
-          if (name !== null) {
-            s?.setDisplayName(name.trim() || 'there');
-            updateGreeting();
-          }
         }
       });
     });

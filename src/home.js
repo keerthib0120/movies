@@ -157,8 +157,8 @@ async function Home() {
     const container1 = document.querySelector('.series-container');
     const slider = document.querySelector('.backdrop-slider');
 
-    if (!container || !slider) {
-        console.error('Missing container or slider element.');
+    if (!container) {
+        console.error('Missing movie container element.');
         return;
     }
 
@@ -169,34 +169,36 @@ async function Home() {
     let featuredMovie = null;
 
     // ========== FEATURED MOVIE FOR HERO ==========
-    try {
-        // Get trending movies for hero section
-        console.log('Fetching featured movie...'); // Debug log
-        const heroResponse = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`);
-        const heroData = await heroResponse.json();
-        
-        console.log('Hero data received:', heroData); // Debug log
-        
-        if (heroData.results && heroData.results.length > 0) {
-            // Get a random featured movie from top 5 trending
-            const randomIndex = Math.floor(Math.random() * Math.min(5, heroData.results.length));
-            featuredMovie = heroData.results[randomIndex];
+    if (slider) {
+        try {
+            // Get trending movies for hero section
+            console.log('Fetching featured movie...'); // Debug log
+            const heroResponse = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`);
+            const heroData = await heroResponse.json();
             
-            console.log('Selected featured movie:', featuredMovie.title); // Debug log
+            console.log('Hero data received:', heroData); // Debug log
             
-            // Get additional movie details
-            const detailsResponse = await fetch(`https://api.themoviedb.org/3/movie/${featuredMovie.id}?api_key=${API_KEY}`);
-            const movieDetails = await detailsResponse.json();
-            
-            console.log('Movie details received:', movieDetails); // Debug log
-            
-            // Update hero section with featured movie
-            updateHeroSection(featuredMovie, movieDetails);
+            if (heroData.results && heroData.results.length > 0) {
+                // Get a random featured movie from top 5 trending
+                const randomIndex = Math.floor(Math.random() * Math.min(5, heroData.results.length));
+                featuredMovie = heroData.results[randomIndex];
+                
+                console.log('Selected featured movie:', featuredMovie.title); // Debug log
+                
+                // Get additional movie details
+                const detailsResponse = await fetch(`https://api.themoviedb.org/3/movie/${featuredMovie.id}?api_key=${API_KEY}`);
+                const movieDetails = await detailsResponse.json();
+                
+                console.log('Movie details received:', movieDetails); // Debug log
+                
+                // Update hero section with featured movie
+                updateHeroSection(featuredMovie, movieDetails);
+            }
+        } catch (error) {
+            console.error('Error fetching featured movie:', error);
+            // Show default hero content if API fails
+            showDefaultHeroContent();
         }
-    } catch (error) {
-        console.error('Error fetching featured movie:', error);
-        // Show default hero content if API fails
-        showDefaultHeroContent();
     }
 
     // ========== MOVIES ==========
@@ -371,86 +373,88 @@ async function Home() {
     }
 
     // ========== BACKDROP SLIDER ==========
-    // Create rotating backdrop with trending movies
-    let backdropMovies = [];
-    
-    // Collect movies with backdrop images for the slider
-    if (featuredMovie && featuredMovie.backdrop_path) {
-        backdropMovies.push(featuredMovie);
-    }
-    
-    // Add more trending movies for backdrop rotation
-    try {
-        const trendingResponse = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`);
-        const trendingData = await trendingResponse.json();
+    if (slider) {
+        // Create rotating backdrop with trending movies
+        let backdropMovies = [];
         
-        if (trendingData.results) {
-            trendingData.results.slice(0, 8).forEach(movie => {
+        // Collect movies with backdrop images for the slider
+        if (featuredMovie && featuredMovie.backdrop_path) {
+            backdropMovies.push(featuredMovie);
+        }
+        
+        // Add more trending movies for backdrop rotation
+        try {
+            const trendingResponse = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`);
+            const trendingData = await trendingResponse.json();
+            
+            if (trendingData.results) {
+                trendingData.results.slice(0, 8).forEach(movie => {
+                    if (movie.backdrop_path && !backdropMovies.find(m => m.id === movie.id)) {
+                        backdropMovies.push(movie);
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching trending movies for backdrop:', error);
+        }
+        
+        // Fallback to topMovies if needed
+        if (topMovies.length > 0) {
+            topMovies.forEach(movie => {
                 if (movie.backdrop_path && !backdropMovies.find(m => m.id === movie.id)) {
                     backdropMovies.push(movie);
                 }
             });
         }
-    } catch (error) {
-        console.error('Error fetching trending movies for backdrop:', error);
-    }
-    
-    // Fallback to topMovies if needed
-    if (topMovies.length > 0) {
-        topMovies.forEach(movie => {
-            if (movie.backdrop_path && !backdropMovies.find(m => m.id === movie.id)) {
-                backdropMovies.push(movie);
-            }
-        });
-    }
-    
-    console.log('Backdrop movies collected:', backdropMovies.length);
-    
-    if (backdropMovies.length > 0) {
-        let backdropIndex = 0;
         
-        // Set initial backdrop
-        slider.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${backdropMovies[backdropIndex].backdrop_path})`;
-        slider.style.opacity = 1;
+        console.log('Backdrop movies collected:', backdropMovies.length);
         
-        // Only start rotation if we have more than one backdrop
-        if (backdropMovies.length > 1) {
-            function updateBackdrop() {
-                backdropIndex = (backdropIndex + 1) % backdropMovies.length;
-                const currentMovie = backdropMovies[backdropIndex];
-                console.log('Updating backdrop and hero content to movie:', currentMovie.title || currentMovie.name);
-                
-                slider.style.opacity = 0;
+        if (backdropMovies.length > 0) {
+            let backdropIndex = 0;
             
-                setTimeout(async () => {
-                    // Update backdrop image
-                    slider.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${currentMovie.backdrop_path})`;
-                    slider.style.opacity = 1;
+            // Set initial backdrop
+            slider.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${backdropMovies[backdropIndex].backdrop_path})`;
+            slider.style.opacity = 1;
+            
+            // Only start rotation if we have more than one backdrop
+            if (backdropMovies.length > 1) {
+                function updateBackdrop() {
+                    backdropIndex = (backdropIndex + 1) % backdropMovies.length;
+                    const currentMovie = backdropMovies[backdropIndex];
+                    console.log('Updating backdrop and hero content to movie:', currentMovie.title || currentMovie.name);
                     
-                    // Update hero content with the new movie
-                    try {
-                        let movieDetails = null;
-                        if (currentMovie.title) { // It's a movie
-                            const detailsResponse = await fetch(`https://api.themoviedb.org/3/movie/${currentMovie.id}?api_key=${API_KEY}`);
-                            movieDetails = await detailsResponse.json();
+                    slider.style.opacity = 0;
+                
+                    setTimeout(async () => {
+                        // Update backdrop image
+                        slider.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${currentMovie.backdrop_path})`;
+                        slider.style.opacity = 1;
+                        
+                        // Update hero content with the new movie
+                        try {
+                            let movieDetails = null;
+                            if (currentMovie.title) { // It's a movie
+                                const detailsResponse = await fetch(`https://api.themoviedb.org/3/movie/${currentMovie.id}?api_key=${API_KEY}`);
+                                movieDetails = await detailsResponse.json();
+                            }
+                            updateHeroSection(currentMovie, movieDetails);
+                        } catch (error) {
+                            console.error('Error fetching movie details for hero update:', error);
+                            // Update hero with basic movie info even if details fetch fails
+                            updateHeroSection(currentMovie, null);
                         }
-                        updateHeroSection(currentMovie, movieDetails);
-                    } catch (error) {
-                        console.error('Error fetching movie details for hero update:', error);
-                        // Update hero with basic movie info even if details fetch fails
-                        updateHeroSection(currentMovie, null);
-                    }
-                }, 500); 
-            }
+                    }, 500); 
+                }
 
-            // Start the rotation immediately and then every 5 seconds
-            setInterval(updateBackdrop, 5000);
-            console.log('Backdrop and hero content rotation started with', backdropMovies.length, 'movies, changing every 5 seconds');
+                // Start the rotation immediately and then every 5 seconds
+                setInterval(updateBackdrop, 5000);
+                console.log('Backdrop and hero content rotation started with', backdropMovies.length, 'movies, changing every 5 seconds');
+            } else {
+                console.log('Only one backdrop available, no rotation needed');
+            }
         } else {
-            console.log('Only one backdrop available, no rotation needed');
+            console.log('No backdrop movies available');
         }
-    } else {
-        console.log('No backdrop movies available');
     }
 }
 
