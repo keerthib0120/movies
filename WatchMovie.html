@@ -84,7 +84,9 @@
     <link rel="stylesheet" href="search.css">
     <link rel="stylesheet" href="watch.css">
     <link rel="stylesheet" href="toast.css">
+    <link rel="stylesheet" href="shared-header.css">
     <link rel="icon" href="src/assets/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <!-- Font Awesome CDN -->
     <link id="fa-cdn-fallback" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>(function(){function loadCDN(){if(document.getElementById('fa-cdn-fallback'))return;var l=document.createElement('link');l.id='fa-cdn-fallback';l.rel='stylesheet';l.href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';l.crossOrigin='anonymous';l.referrerPolicy='no-referrer';document.head.appendChild(l);}function isLoaded(){if(window.FontAwesome)return true;if(document.querySelector('svg.svg-inline--fa'))return true;try{var i=document.createElement('i');i.className='fa-solid fa-circle';i.style.position='absolute';i.style.visibility='hidden';document.body.appendChild(i);var ff=window.getComputedStyle(i).getPropertyValue('font-family')||'';var loaded=ff.toLowerCase().indexOf('fontawesome')!==-1||i.offsetWidth>0;document.body.removeChild(i);return loaded}catch(e){return false}}if(!isLoaded()){setTimeout(function(){if(!isLoaded())loadCDN();},1000);window.addEventListener('load',function(){if(!isLoaded())loadCDN();});}})();</script>
@@ -93,7 +95,7 @@
             theme: {
                 extend: {
                     colors: {
-                        'netflix-red': '#2563EB',
+                        'netflix-red': '#071A3A',
                         'netflix-black': '#000000',
                         'netflix-dark': '#141414',
                         'netflix-gray': '#333333',
@@ -191,11 +193,11 @@
         
         /* Lock Netflix brand colors */
         .text-netflix-red {
-            color: #2563EB !important;
+            color: #071A3A !important;
         }
         
         .bg-netflix-red {
-            background-color: #2563EB !important;
+            background-color: #071A3A !important;
         }
         
         .bg-netflix-black {
@@ -223,32 +225,39 @@
         }
         
         /* Professional Watch Page Styling */
-        .watch-hero {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
-            border-radius: 20px;
-            overflow: hidden;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        :root {
+            --brand-blue-dark: #071A3A;
+            --brand-blue-dark-hover: #0B244D;
         }
-        
-        .watch-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+
+        .mg-nav-logo {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #ffffff !important;
+            letter-spacing: 0.01em;
+            cursor: pointer;
         }
-        
-        .watch-tagline {
-            color: rgba(255, 255, 255, 0.8);
-            font-style: italic;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
+
+        .mg-nav-logo span {
+            color: #f5c842;
+            opacity: 0.85;
         }
-        
+
+        .mg-nav-logo img {
+            width: 2rem;
+            height: 2rem;
+            margin-right: 0.5rem;
+            object-fit: contain;
+        }
+
+        @media (min-width: 1024px) {
+            .mg-nav-logo img {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+        }
+
         .video-container {
             position: relative;
             width: 100%;
@@ -257,7 +266,6 @@
             background: #000;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
             margin-bottom: 2rem;
         }
         
@@ -271,12 +279,11 @@
         }
         
         .server-selection {
-            background: rgba(26, 26, 26, 0.8);
-            backdrop-filter: blur(20px);
+            background: #141414;
             border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid #333333;
         }
         
         .server-selection h3 {
@@ -313,23 +320,21 @@
         }
         
         .server-btn:hover {
-            background: rgba(37, 99, 235, 0.2);
-            border-color: rgba(37, 99, 235, 0.5);
+            background: #0B244D;
+            border-color: #0B244D;
             transform: translateY(-2px);
         }
         
         .server-btn.active {
-            background: linear-gradient(135deg, #2563EB, #1D4ED8);
-            border-color: #2563EB;
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+            background: #071A3A;
+            border-color: #0B244D;
         }
         
         .movie-details {
-            background: rgba(26, 26, 26, 0.8);
-            backdrop-filter: blur(20px);
+            background: #141414;
             border-radius: 16px;
             padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid #333333;
         }
         
         .details-grid {
@@ -358,7 +363,7 @@
         }
         
         .detail-value a {
-            color: #2563EB;
+            color: #071A3A;
             text-decoration: none;
             transition: color 0.3s ease;
         }
@@ -368,12 +373,11 @@
         }
         
         .season-selection {
-            background: rgba(26, 26, 26, 0.8);
-            backdrop-filter: blur(20px);
+            background: #141414;
             border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid #333333;
         }
         
         .season-grid {
@@ -397,24 +401,22 @@
         }
         
         .season-btn:hover {
-            background: rgba(37, 99, 235, 0.2);
-            border-color: rgba(37, 99, 235, 0.5);
+            background: #0B244D;
+            border-color: #0B244D;
             transform: translateY(-2px);
         }
         
         .season-btn.active {
-            background: linear-gradient(135deg, #2563EB, #1D4ED8);
-            border-color: #2563EB;
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+            background: #071A3A;
+            border-color: #0B244D;
         }
         
         .episode-selection {
-            background: rgba(26, 26, 26, 0.8);
-            backdrop-filter: blur(20px);
+            background: #141414;
             border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid #333333;
         }
         
         .episode-grid {
@@ -438,23 +440,18 @@
         }
         
         .episode-btn:hover {
-            background: rgba(37, 99, 235, 0.2);
-            border-color: rgba(37, 99, 235, 0.5);
+            background: #0B244D;
+            border-color: #0B244D;
             transform: translateY(-1px);
         }
         
         .episode-btn.active {
-            background: linear-gradient(135deg, #2563EB, #1D4ED8);
-            border-color: #2563EB;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            background: #071A3A;
+            border-color: #0B244D;
         }
         
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
-            .watch-title {
-                font-size: 2rem;
-            }
-            
             .server-grid {
                 grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             }
@@ -553,31 +550,6 @@
             background: rgba(255, 255, 255, 0.5) !important;
         }
 
-        /* Episode Selection Modal Styles */
-        .episode-select-btn {
-            background: linear-gradient(135deg, #2563EB, #1D4ED8);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 300px;
-            margin: 1rem auto;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-        }
-
-        .episode-select-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-        }
-
         /* CUSTOM MODAL CSS - OVERRIDES TAILWIND COMPLETELY */
         .episode-modal {
             position: fixed !important;
@@ -608,7 +580,7 @@
             pointer-events: none !important;
         }
 
-        /* Modal backdrop with glassmorphism */
+        /* Modal backdrop */
         .modal-backdrop {
             position: absolute !important;
             top: 0 !important;
@@ -618,22 +590,14 @@
             width: 100% !important;
             height: 100% !important;
             background: rgba(0, 0, 0, 0.85) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
             z-index: 9998 !important;
         }
 
         /* Modal content - FORCE VISIBILITY */
         .modal-content {
-            background: linear-gradient(135deg, rgba(15, 15, 15, 0.98), rgba(25, 25, 25, 0.95)) !important;
+            background: #141414 !important;
             border-radius: 20px !important;
-            border: 2px solid rgba(37, 99, 235, 0.6) !important;
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.8),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
+            border: 2px solid #071A3A !important;
             max-width: 90vw !important;
             max-height: 85vh !important;
             width: 100% !important;
@@ -755,10 +719,9 @@
             min-height: 80px !important;
             position: relative !important;
             overflow: hidden !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
         }
 
-        /* Glassmorphism effect for cards */
+        /* Solid overlay for cards */
         .season-btn::before,
         .episode-btn::before {
             content: '' !important;
@@ -767,29 +730,21 @@
             left: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)) !important;
-            backdrop-filter: blur(10px) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
+            background: transparent !important;
             border-radius: 12px !important;
             z-index: -1 !important;
         }
 
         .season-btn:hover,
         .episode-btn:hover {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.4), rgba(185, 7, 15, 0.5)) !important;
-            border-color: rgba(37, 99, 235, 0.8) !important;
+            background: #0B244D !important;
+            border-color: #0B244D !important;
             transform: translateY(-4px) scale(1.03) !important;
-            box-shadow: 
-                0 8px 25px rgba(37, 99, 235, 0.3),
-                0 4px 15px rgba(0, 0, 0, 0.3) !important;
         }
 
         .season-btn.active {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.6), rgba(185, 7, 15, 0.7)) !important;
+            background: #071A3A !important;
             border-color: #e50914 !important;
-            box-shadow: 
-                0 0 20px rgba(37, 99, 235, 0.5),
-                0 4px 15px rgba(0, 0, 0, 0.3) !important;
             transform: scale(1.05) !important;
         }
 
@@ -811,11 +766,6 @@
             min-height: 180px !important;
             position: relative !important;
             overflow: hidden !important;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.3),
-                0 2px 8px rgba(0, 0, 0, 0.2) !important;
-            backdrop-filter: blur(10px) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
         }
 
         /* Episode card header - NO PLAY ICON */
@@ -834,48 +784,35 @@
         /* Hover effects */
         .episode-btn:hover {
             background: linear-gradient(145deg, rgba(35, 35, 35, 0.98), rgba(25, 25, 25, 0.99)) !important;
-            border-color: rgba(37, 99, 235, 0.6) !important;
+            border-color: #0B244D !important;
             transform: translateY(-8px) scale(1.02) !important;
-            box-shadow: 
-                0 12px 40px rgba(37, 99, 235, 0.2),
-                0 8px 25px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(37, 99, 235, 0.3) !important;
         }
 
         /* Hover effects - no play icon needed */
         .episode-btn:hover {
             background: linear-gradient(145deg, rgba(35, 35, 35, 0.98), rgba(25, 25, 25, 0.99)) !important;
-            border-color: rgba(37, 99, 235, 0.6) !important;
+            border-color: #0B244D !important;
             transform: translateY(-8px) scale(1.02) !important;
-            box-shadow: 
-                0 12px 40px rgba(37, 99, 235, 0.2),
-                0 8px 25px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(37, 99, 235, 0.3) !important;
         }
 
         /* Selected state */
         .episode-btn.selected {
-            background: linear-gradient(145deg, rgba(37, 99, 235, 0.15), rgba(185, 7, 15, 0.2)) !important;
-            border-color: rgba(37, 99, 235, 0.8) !important;
-            box-shadow: 
-                0 0 30px rgba(37, 99, 235, 0.4),
-                0 8px 25px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            background: #071A3A !important;
+            border-color: #0B244D !important;
             transform: scale(1.03) !important;
         }
 
         /* Episode number badge */
         .episode-number {
-            color: #2563EB !important;
+            color: #071A3A !important;
             font-weight: 700 !important;
             font-size: 14px !important;
             display: inline-block !important;
-            background: rgba(37, 99, 235, 0.15) !important;
+            background: rgba(7, 26, 58, 0.4) !important;
             padding: 4px 12px !important;
             border-radius: 20px !important;
             margin-bottom: 8px !important;
-            border: 1px solid rgba(37, 99, 235, 0.3) !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
+            border: 1px solid rgba(7, 26, 58, 0.7) !important;
             letter-spacing: 0.5px !important;
             align-self: flex-start !important;
         }
@@ -894,7 +831,6 @@
             -webkit-line-clamp: 2 !important;
             line-clamp: 2 !important;
             -webkit-box-orient: vertical !important;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
             letter-spacing: 0.3px !important;
         }
 
@@ -953,8 +889,6 @@
             border-radius: 12px !important;
             font-weight: 500 !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            backdrop-filter: blur(10px) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
         }
 
         .episode-runtime i {
@@ -978,18 +912,6 @@
             font-size: 9px !important;
         }
 
-        /* Play button pulse animation */
-        @keyframes pulse-play {
-            0%, 100% {
-                transform: scale(1.1) !important;
-                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4) !important;
-            }
-            50% {
-                transform: scale(1.2) !important;
-                box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6) !important;
-            }
-        }
-
         /* Now playing indicator */
         .episode-btn.playing .episode-number::after {
             content: '♪' !important;
@@ -1005,20 +927,8 @@
 
         /* Active episode glow effect */
         .episode-btn.playing {
-            animation: episode-glow 3s ease-in-out infinite !important;
-        }
-
-        @keyframes episode-glow {
-            0%, 100% {
-                box-shadow: 
-                    0 0 30px rgba(37, 99, 235, 0.4),
-                    0 8px 25px rgba(0, 0, 0, 0.3) !important;
-            }
-            50% {
-                box-shadow: 
-                    0 0 40px rgba(37, 99, 235, 0.6),
-                    0 12px 35px rgba(0, 0, 0, 0.4) !important;
-            }
+            background: #071A3A !important;
+            border-color: #0B244D !important;
         }
 
         /* ENHANCED MOBILE OPTIMIZATIONS FOR DETAILED EPISODE CARDS */
@@ -1105,12 +1015,6 @@
                 font-size: 9px !important;
                 padding: 1px 4px !important;
             }
-            
-            .episode-select-btn {
-                padding: 1rem 1.5rem !important;
-                font-size: 1rem !important;
-                border-radius: 14px !important;
-            }
         }
 
         /* Medium mobile screens */
@@ -1191,205 +1095,62 @@
                 line-clamp: 3 !important;
             }
         }
-        
-        /* MOBILE BUTTON CONTAINER AND CENTERING */
-        .mobile-only {
-            display: block !important;
-            visibility: visible !important;
-            width: 100% !important;
-            max-width: 600px !important;
-            margin: 1.5rem auto !important;
-            padding: 0 1rem !important;
-        }
-        
-        .episode-select-btn, #episodeModalBtn {
-            background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important;
-            border: 2px solid rgba(37, 99, 235, 0.3) !important;
-            border-radius: 16px !important;
-            padding: 1.2rem 2rem !important;
-            color: white !important;
-            font-weight: 600 !important;
-            font-size: 1.1rem !important;
-            cursor: pointer !important;
-            transition: all 0.3s ease !important;
-            width: 100% !important;
-            margin: 0 auto !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            visibility: visible !important;
-            box-shadow: 
-                0 8px 25px rgba(37, 99, 235, 0.2),
-                0 4px 15px rgba(0, 0, 0, 0.3) !important;
-            letter-spacing: 0.5px !important;
-            position: relative !important;
-            overflow: visible !important;
-            min-height: 70px !important;
-        }
-        
-        /* Enhanced pulsing light effect around the button */
-        .episode-select-btn::after, #episodeModalBtn::after {
-            content: '' !important;
-            position: absolute !important;
-            top: -5px !important;
-            left: -5px !important;
-            right: -5px !important;
-            bottom: -5px !important;
-            background: linear-gradient(45deg, 
-                rgba(37, 99, 235, 0.8), 
-                rgba(255, 26, 43, 0.6),
-                rgba(37, 99, 235, 0.8),
-                rgba(255, 26, 43, 0.6)
-            ) !important;
-            border-radius: 20px !important;
-            z-index: -1 !important;
-            animation: pulseGlow 2.5s ease-in-out infinite !important;
-            opacity: 0.8 !important;
-        }
-        
-        @keyframes pulseGlow {
-            0%, 100% {
-                transform: scale(1) !important;
-                opacity: 0.6 !important;
-                filter: blur(3px) !important;
-                box-shadow: 0 0 20px rgba(37, 99, 235, 0.5) !important;
-            }
-            50% {
-                transform: scale(1.08) !important;
-                opacity: 1 !important;
-                filter: blur(6px) !important;
-                box-shadow: 0 0 30px rgba(37, 99, 235, 0.8) !important;
-            }
-        }
-        
-        .episode-select-btn i {
-            color: #e50914 !important;
-            font-size: 1.2rem !important;
-            margin-right: 0.5rem !important;
-            transition: all 0.3s ease !important;
-        }
-        
-        /* Subtle hint text styling */
-        .episode-select-btn span[style*="opacity"] {
-            color: rgba(255, 255, 255, 0.6) !important;
-            text-transform: none !important;
-            transition: opacity 0.3s ease !important;
-        }
-        
-        .episode-select-btn::before {
-            content: '' !important;
-            position: absolute !important;
-            top: 0 !important;
-            left: -100% !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent) !important;
-            transition: left 0.5s ease !important;
-            z-index: 1 !important;
-        }
-        
-        .episode-select-btn:hover::before {
-            left: 100% !important;
-        }
-        
-        .episode-select-btn:hover {
-            transform: translateY(-3px) scale(1.02) !important;
-            border-color: rgba(37, 99, 235, 0.6) !important;
-            background: linear-gradient(135deg, #2d2d2d, #1a1a1a) !important;
-            box-shadow: 
-                0 12px 35px rgba(37, 99, 235, 0.3),
-                0 6px 20px rgba(0, 0, 0, 0.4) !important;
-        }
-        
-        .episode-select-btn:hover::after {
-            animation: pulseGlowHover 1.5s ease-in-out infinite !important;
-        }
-        
-        @keyframes pulseGlowHover {
-            0%, 100% {
-                transform: scale(1.02) !important;
-                opacity: 0.8 !important;
-                filter: blur(3px) !important;
-            }
-            50% {
-                transform: scale(1.08) !important;
-                opacity: 1 !important;
-                filter: blur(6px) !important;
-            }
-        }
-        
-        .episode-select-btn:hover i {
-            color: #ff1a2b !important;
-            transform: scale(1.1) !important;
-        }
-        
-        .episode-select-btn:hover span[style*="opacity"] {
-            opacity: 0.9 !important;
-            color: rgba(255, 255, 255, 0.8) !important;
-        }
-        
-        .episode-select-btn:active {
-            transform: translateY(-1px) scale(0.98) !important;
-        }
-        
         /* TAILWIND OVERRIDE - FORCE HIDDEN CLASS BEHAVIOR */
         .hidden {
             display: none !important;
             opacity: 0 !important;
             visibility: hidden !important;
         }
-        
-        /* ANTI-TAILWIND: Ensure modal is visible when NOT hidden */
-        .episode-modal:not(.hidden) {
-            display: flex !important;
-            opacity: 1 !important;
-            visibility: visible !important;
+
+        body * {
+            box-shadow: none !important;
+            text-shadow: none !important;
         }
-        
-        .episode-modal:not(.hidden) * {
-            visibility: visible !important;
-            opacity: 1 !important;
+
+        body *::before,
+        body *::after {
+            box-shadow: none !important;
+            text-shadow: none !important;
+        }
+
+        .server-btn.active,
+        .season-btn.active,
+        .episode-btn.active,
+        .bg-netflix-red {
+            background: var(--brand-blue-dark) !important;
+            background-image: none !important;
+            border-color: var(--brand-blue-dark-hover) !important;
+        }
+
+        .server-btn:hover,
+        .season-btn:hover,
+        .episode-btn:hover {
+            background: var(--brand-blue-dark-hover) !important;
+            background-image: none !important;
+            border-color: var(--brand-blue-dark-hover) !important;
+        }
+
+        .text-netflix-red,
+        .detail-value a {
+            color: var(--brand-blue-dark) !important;
+        }
+
+        .border-netflix-red {
+            border-color: var(--brand-blue-dark) !important;
+        }
+
+        .modal-content {
+            border-color: var(--brand-blue-dark) !important;
         }
     </style>
 </head>
 <body class="bg-netflix-black text-white min-h-screen">
-    <!-- Background Backdrop -->
-    <div class="background fixed inset-0 bg-cover bg-center bg-no-repeat"></div>
-    <div class="fixed inset-0 bg-netflix-black/70"></div>
+    <div class="background fixed inset-0 bg-netflix-black"></div>
     
-    <!-- Navigation -->
-    <header class="navbar-glass fixed top-0 w-full z-50 transition-all duration-500" id="navbar">
-        <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between px-4 lg:px-16 py-4 space-y-4 lg:space-y-0">
-            <!-- Logo and Desktop Navigation -->
-            <div class="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-8 w-full lg:w-auto">
-                <h1 class="text-netflix-red text-2xl lg:text-3xl font-bold cursor-pointer hover:text-white transition-colors text-center lg:text-left flex items-center" onclick="home()">
-                    <img src="src/assets/logo.png" alt="movies! Logo" class="w-8 h-8 lg:w-10 lg:h-10 mr-2 object-contain">movies!
-                </h1>
-                <!-- Desktop Navigation -->
-                <nav class="hidden lg:flex space-x-6">
-                    <a href="index.html" class="text-white hover:text-gray-300 transition-colors">Home</a>
-                    <a href="#" class="text-white hover:text-gray-300 transition-colors" onclick="showDevToast('Movie List')">Movies</a>
-                    <a href="#" class="text-white hover:text-gray-300 transition-colors" onclick="showDevToast('TV Show List')">TV Shows</a>
-                    <a href="#" class="text-white hover:text-gray-300 transition-colors" onclick="showDevToast('My List')">My List</a>
-                </nav>
-            </div>
-            
-            <!-- Search Bar -->
-            <div class="flex items-center space-x-4 w-full lg:w-auto justify-center lg:justify-end">
-                <div class="relative w-full max-w-md lg:w-64">
-                    <input 
-                        type="text" 
-                        placeholder="Search a movie/series"
-                        class="search-input text-white placeholder-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-netflix-red focus:border-transparent transition-all"
-                    >
-                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs cursor-pointer hover:text-white transition-colors"></i>
-                </div>
-            </div>
-        </div>
-    </header>
+    <div id="movieiguessSharedHeader"></div>
 
     <!-- Main Content -->
-    <div class="relative z-10 pt-24 min-h-screen">
+    <div class="relative z-10 pt-28 lg:pt-32 min-h-screen">
         <!-- Loading State -->
         <div id="loading" class="flex items-center justify-center min-h-screen">
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-netflix-red"></div>
@@ -1428,7 +1189,6 @@
                     <button class="filter-btn active" data-type="all">All</button>
                     <button class="filter-btn" data-type="movie">Movies</button>
                     <button class="filter-btn" data-type="tv">TV Shows</button>
-                    <button class="filter-btn" data-type="person">People</button>
                 </div>
             </div>
             
@@ -1442,51 +1202,8 @@
         </div>
     </div>   
     
-    <!-- Footer -->
-    <footer class="relative z-10 bg-netflix-dark mt-20 py-16">
-        <div class="px-4 lg:px-16">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="col-span-1 md:col-span-2">
-                    <h3 class="text-netflix-red text-2xl font-bold mb-4">movies!</h3>
-                    <p class="text-gray-400 mb-6 max-w-md">
-                        Your ultimate destination for discovering amazing movies and TV shows. 
-                        Stream, watch, and enjoy entertainment like never before.
-                    </p>
-                </div>
-                
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Quick Links</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" onclick="showDevToast('Movie List')">Movie List</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" onclick="showDevToast('TV Show List')">TV Show List</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" onclick="showDevToast('My List')">My List</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Connect With Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" onclick="ins()" class="text-gray-400 hover:text-netflix-red transition-colors">
-                            <i class="fa-brands fa-instagram text-2xl"></i>
-                        </a>
-                        <a href="#" onclick="lin()" class="text-gray-400 hover:text-netflix-red transition-colors">
-                            <i class="fa-brands fa-linkedin-in text-2xl"></i>
-                        </a>
-                        <a href="#" onclick="git()" class="text-gray-400 hover:text-netflix-red transition-colors">
-                            <i class="fa-brands fa-github text-2xl"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2024 movies!. All rights reserved. | Privacy Policy | Terms of Service</p>
-            </div>
-        </div>
-    </footer>
     <script>
-        // Navbar glassmorphism scroll effect
+        // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 100) {
@@ -1504,6 +1221,7 @@
             window.location.href="index.html";
         }
     </script>
+    <script src="src/shared-header.js"></script>
     <script src="src/watch.js"></script>
     <script src="https://theajack.github.io/disable-devtool/cordClip"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -132,12 +132,14 @@
         })();
     </script>
     
-    <title>movies! - Discover Amazing Movies & TV Shows</title>
+    <title>cinema</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="netflix-style.css">
     <link rel="stylesheet" href="search.css">
     <link rel="stylesheet" href="toast.css">
     <link rel="stylesheet" href="home-dark.css">
+    <link rel="stylesheet" href="shared-header.css">
+    <link rel="icon" href="src/assets/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://kit.fontawesome.com/22dc8d85a3.js" crossorigin="anonymous"></script>
@@ -149,7 +151,7 @@
             theme: {
                 extend: {
                     colors: {
-                        'netflix-red': '#2563EB',
+                        'netflix-red': '#071A3A',
                         'netflix-black': '#000000',
                         'netflix-dark': '#141414',
                         'netflix-gray': '#333333',
@@ -288,11 +290,11 @@
         
         /* Lock brand colors */
         .text-netflix-red {
-            color: #2563EB !important;
+            color: #071A3A !important;
         }
         
         .bg-netflix-red {
-            background-color: #2563EB !important;
+            background-color: #071A3A !important;
         }
         
         .bg-netflix-black {
@@ -767,43 +769,7 @@
     
     <!-- Main Content -->
     <div id="mainContent" class="opacity-0">
-    <!-- Fairy lights -->
-    <div class="mg-fairy-banner fixed top-0 left-0 right-0 z-[51] pointer-events-none" aria-hidden="true">
-        <div class="wire"></div>
-        <div class="mg-lights-row" id="mgLightsRow"></div>
-        <div style="height: 18px;"></div>
-    </div>
-
-    <!-- Navigation -->
-    <header class="navbar-glass fixed top-0 w-full z-50 transition-all duration-500" id="navbar" style="padding-top: 34px;">
-        <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between px-4 lg:px-16 py-4 space-y-4 lg:space-y-0">
-            <!-- Logo and Desktop Navigation -->
-            <div class="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-8 w-full lg:w-auto">
-                <h1 class="mg-nav-logo text-center lg:text-left" onclick="home()">
-                    movies<span>!</span>
-                </h1>
-                <!-- Desktop Navigation -->
-                <nav class="hidden lg:flex space-x-6">
-                    <a href="#" class="text-white hover:text-gray-300 transition-colors">Home</a>
-                    <a href="#" class="text-white hover:text-gray-300 transition-colors" onclick="showDevToast('Movie List')">Movies</a>
-                    <a href="#" class="text-white hover:text-gray-300 transition-colors" onclick="showDevToast('TV Show List')">TV Shows</a>
-                    <a href="#" class="text-white hover:text-gray-300 transition-colors" onclick="showDevToast('My List')">My List</a>
-                </nav>
-            </div>
-            
-            <!-- Search Bar -->
-            <div class="flex items-center space-x-4 w-full lg:w-auto justify-center lg:justify-end">
-                <div class="relative w-full max-w-md lg:w-64">
-                    <input 
-                        type="text" 
-                        placeholder="Search a movie/series"
-                        class="search-input text-white placeholder-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-netflix-red focus:border-transparent transition-all"
-                    >
-                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer hover:text-white transition-colors"></i>
-                </div>
-            </div>
-        </div>
-    </header>
+    <div id="movieiguessSharedHeader"></div>
 
     <div class="pt-28 lg:pt-32" aria-hidden="true"></div>
 
@@ -839,46 +805,6 @@
         </section>
     </div>
 
-    <!-- Content Sections -->
-    <div class="px-4 lg:px-16 space-y-12 pb-20">
-        <!-- Trending Movies -->
-        <section class="mg-browse-section" id="browse-trending">
-            <div class="mg-section-header flex items-center justify-between mb-6">
-                <h2 class="text-2xl lg:text-3xl font-bold flex items-center">
-                    <i class="fa-solid fa-fire text-netflix-red mr-3"></i>
-                    Trending Movies
-                </h2>
-                <button class="text-netflix-red hover:text-blue-400 transition-colors font-semibold" onclick="showDevToast('Trending Movies')">
-                    See All <i class="fa-solid fa-chevron-right ml-1"></i>
-                </button>
-            </div>
-            <div class="scroll-wrapper overflow-hidden">
-                <div class="movie-container flex space-x-4 overflow-x-auto scrollbar-hide pb-4">
-                    <!-- Movies will be populated here -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Popular TV Shows -->
-        <section class="mg-browse-section" id="browse-tv">
-            <div class="mg-section-header flex items-center justify-between mb-6">
-                <h2 class="text-2xl lg:text-3xl font-bold flex items-center">
-                    <i class="fa-solid fa-tv text-netflix-red mr-3"></i>
-                    Popular TV Shows
-                </h2>
-                <button class="text-netflix-red hover:text-blue-400 transition-colors font-semibold" onclick="showDevToast('Popular TV Shows')">
-                    See All <i class="fa-solid fa-chevron-right ml-1"></i>
-                </button>
-            </div>
-            <div class="scroll-wrapper overflow-hidden">
-                <div class="series-container flex space-x-4 overflow-x-auto scrollbar-hide pb-4">
-                    <!-- TV Shows will be populated here -->
-                </div>
-            </div>
-        </section>
-
-    </div>
-    
     <!-- Search Modal -->
     <div id="searchModal" class="search-modal-overlay hidden">
         <div class="search-modal-card">
@@ -894,7 +820,6 @@
                     <button class="filter-btn active" data-type="all">All</button>
                     <button class="filter-btn" data-type="movie">Movies</button>
                     <button class="filter-btn" data-type="tv">TV Shows</button>
-                    <button class="filter-btn" data-type="person">People</button>
                 </div>
             </div>
             
@@ -911,13 +836,13 @@
     <!-- Movie Info Modal -->
     <div id="movieModal" class="fixed inset-0 z-50 hidden">
         <!-- Modal Backdrop -->
-        <div class="modal-backdrop-blur fixed inset-0" onclick="closeModal()"></div>
+        <div class="modal-backdrop-solid fixed inset-0" onclick="closeModal()"></div>
         
         <!-- Modal Content -->
         <div class="fixed inset-0 flex items-center justify-center p-4">
             <div class="modal-content bg-netflix-dark rounded-lg max-w-4xl w-full max-h-[90vh] relative flex flex-col">
                 <!-- Close Button -->
-                <button onclick="closeModal()" class="glass-close-btn absolute top-4 right-4 z-10 rounded-full w-10 h-10 flex items-center justify-center">
+                <button onclick="closeModal()" class="modal-close-btn absolute top-4 right-4 z-10 rounded-full w-10 h-10 flex items-center justify-center">
                     <i class="fa-solid fa-times text-white text-lg"></i>
                 </button>
                 
@@ -1055,6 +980,7 @@
         </button>
     </nav>
 
+    <script src="./src/shared-header.js"></script>
     <script src="./src/movieiguess-storage.js"></script>
     <script src="./src/home-personal.js"></script>
     <script src="./src/loading.js"></script>
@@ -1336,14 +1262,6 @@
 
 <!-- Removed: legacy geolocation + external API tracking (CORS issues) -->
 
-<script>
-    //for category
-    const scrollWrapper1 = document.querySelector('.movie-container');
-    const scrollWrapper2 = document.querySelector('.series-container');
-
-    // Enhanced scroll functionality will be handled in the main script above
-</script>
-
 <style>
     /* Custom scrollbar styles */
     .scrollbar-hide {
@@ -1435,10 +1353,10 @@
         .navbar-glass {
             padding-top: 1rem;
             padding-bottom: 1rem;
-            /* Keep the same glassmorphism as desktop; no opaque overrides */
+            /* Keep the same solid header style as desktop. */
         }
         
-        /* Do not override #navbar background on mobile so it keeps glass effect */
+        /* Do not override #navbar background on mobile. */
         
         .search-input {
             font-size: 16px; /* Prevents zoom on iOS */
@@ -1482,40 +1400,30 @@
         animation: modalFadeIn 0.3s ease-out;
     }
 
-    /* Glassmorphism Modal Backdrop */
-    .modal-backdrop-blur {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)) !important;
-        backdrop-filter: blur(20px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+    /* Modal backdrop */
+    .modal-backdrop-solid {
+        background: rgba(0, 0, 0, 0.85) !important;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
-    /* Glassmorphism Modal Content */
+    /* Modal content */
     .modal-content {
-        background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(10, 10, 10, 0.9)) !important;
-        backdrop-filter: blur(25px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        box-shadow: 
-            0 25px 50px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-        animation: modalGlassAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        background: #141414 !important;
+        border: 1px solid #333333 !important;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
+        animation: modalFadeIn 0.3s ease-out !important;
     }
 
-    /* Glassmorphism Close Button */
-    .glass-close-btn {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)) !important;
-        backdrop-filter: blur(15px) !important;
-        -webkit-backdrop-filter: blur(15px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    /* Modal close button */
+    .modal-close-btn {
+        background: #000000 !important;
+        border: 1px solid #333333 !important;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
-    .glass-close-btn:hover {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2)) !important;
+    .modal-close-btn:hover {
+        background: #1f1f1f !important;
         transform: scale(1.05) !important;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
     }
@@ -1620,32 +1528,18 @@
 
         /* Hide scrollbars for movie/TV card containers while keeping them scrollable */
         .movie-container, .series-container, .anime-container, 
-        .similar-movies-container, .similar-tv-container, 
         .trending-container, .popular-container, .top-rated-container,
-        .scrollbar-hide, .similar-movies-grid, .similar-content {
+        .scrollbar-hide {
             -ms-overflow-style: none !important;
             scrollbar-width: none !important;
         }
 
         .movie-container::-webkit-scrollbar, .series-container::-webkit-scrollbar, 
-        .anime-container::-webkit-scrollbar, .similar-movies-container::-webkit-scrollbar, 
-        .similar-tv-container::-webkit-scrollbar, .trending-container::-webkit-scrollbar,
+        .anime-container::-webkit-scrollbar, .trending-container::-webkit-scrollbar,
         .popular-container::-webkit-scrollbar, .top-rated-container::-webkit-scrollbar,
-        .scrollbar-hide::-webkit-scrollbar, .similar-movies-grid::-webkit-scrollbar,
-        .similar-content::-webkit-scrollbar {
+        .scrollbar-hide::-webkit-scrollbar {
             display: none !important;
-        }    @keyframes modalGlassAppear {
-        from {
-            opacity: 0;
-            transform: scale(0.9) translateY(20px);
-            backdrop-filter: blur(0px);
         }
-        to {
-            opacity: 1;
-            transform: scale(1) translateY(0px);
-            backdrop-filter: blur(25px);
-        }
-    }
 
     @keyframes modalFadeIn {
         from {
@@ -2163,31 +2057,7 @@
     function addHeaderLogoGlow() {
         const headerLogo = document.querySelector('header img[alt="movies! Logo"]');
         if (headerLogo) {
-            headerLogo.style.filter = `
-                drop-shadow(0 0 8px rgba(37, 99, 235, 0.4))
-                drop-shadow(0 0 16px rgba(37, 99, 235, 0.3))
-                brightness(1.1)
-            `;
-            headerLogo.style.transition = 'filter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            headerLogo.style.willChange = 'filter';
-            
-            // Add hover effect with smoother transitions
-            headerLogo.addEventListener('mouseenter', () => {
-                headerLogo.style.filter = `
-                    drop-shadow(0 0 12px rgba(37, 99, 235, 0.6))
-                    drop-shadow(0 0 24px rgba(37, 99, 235, 0.4))
-                    drop-shadow(0 0 36px rgba(37, 99, 235, 0.3))
-                    brightness(1.2)
-                `;
-            });
-            
-            headerLogo.addEventListener('mouseleave', () => {
-                headerLogo.style.filter = `
-                    drop-shadow(0 0 8px rgba(37, 99, 235, 0.4))
-                    drop-shadow(0 0 16px rgba(37, 99, 235, 0.3))
-                    brightness(1.1)
-                `;
-            });
+            headerLogo.style.filter = 'none';
         }
     }
 </script>

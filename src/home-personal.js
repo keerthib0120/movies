@@ -1,21 +1,6 @@
 (function () {
   const store = () => window.MovieIGuessStorage;
-  const BULB_CLASSES = ['by', 'bw', 'by2', 'bw2', 'by3'];
   const DISPLAY_NAME = 'keerthi';
-
-  function initFairyLights() {
-    const row = document.getElementById('mgLightsRow');
-    if (!row) return;
-    row.innerHTML = '';
-    const count = window.innerWidth < 640 ? 14 : 22;
-    for (let i = 0; i < count; i++) {
-      const cls = BULB_CLASSES[i % BULB_CLASSES.length];
-      const group = document.createElement('div');
-      group.className = 'mg-bulb-group';
-      group.innerHTML = `<div class="mg-bulb-string"></div><div class="mg-bulb ${cls}"></div>`;
-      row.appendChild(group);
-    }
-  }
 
   function updateGreeting() {
     const timeEl = document.getElementById('mgGreetingTime');
@@ -80,8 +65,7 @@
       <div class="mg-ghost-text">Start something new</div>
     `;
     card.addEventListener('click', () => {
-      const browse = document.getElementById('browse-trending');
-      if (browse) browse.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     return card;
   }
@@ -123,7 +107,7 @@
         </div>
       `;
       document.getElementById('mgBrowseBtn')?.addEventListener('click', () => {
-        document.getElementById('browse-trending')?.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
       return;
     }
@@ -184,7 +168,7 @@
         if (tab === 'home') {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if (tab === 'browse') {
-          document.getElementById('browse-trending')?.scrollIntoView({ behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if (tab === 'list') {
           document.getElementById('mg-my-list')?.scrollIntoView({ behavior: 'smooth' });
         }
@@ -199,11 +183,9 @@
   }
 
   function init() {
-    initFairyLights();
     refresh();
     setupSeeAll();
     setupFootNav();
-    window.addEventListener('resize', debounce(initFairyLights, 200));
     window.addEventListener('storage', (e) => {
       if (e.key && e.key.startsWith('movieiguess_')) refresh();
     });

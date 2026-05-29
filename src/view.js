@@ -78,18 +78,16 @@ function setupMyListButton(movieData) {
 }
 
 function displayMovieDetails(movieData) {
-    // Set background
-    const backgroundPath = movieData.backdrop_path || movieData.poster_path;
-    if (backgroundPath) {
-        document.querySelector('.background').style.backgroundImage = 
-            `url('https://image.tmdb.org/t/p/w1280${backgroundPath}')`;
-    }
-    
-    // Populate images
     const backdropImg = document.getElementById('backdropImage');
     
     if (backdropImg) {
-        backdropImg.src = `https://image.tmdb.org/t/p/w1280${movieData.backdrop_path || movieData.poster_path}`;
+        const posterPath = movieData.poster_path || movieData.backdrop_path;
+        if (posterPath) {
+            backdropImg.src = `https://image.tmdb.org/t/p/w780${posterPath}`;
+            backdropImg.alt = movieData.title || movieData.name || '';
+        } else {
+            backdropImg.removeAttribute('src');
+        }
     }
     
     // Title
@@ -229,177 +227,86 @@ function displayMovieDetails(movieData) {
     // Setup trailer button and fetch trailer data
     fetchTrailerData(movieData);
     
-    // Fetch additional data
-    fetchSimilarContent();
     if (type === 'movie') {
         fetchCast();
-    }
-    
-    // Setup tabs
-    setupSimilarTabs();
-}
-
-function setupSimilarTabs() {
-    const moviesTab = document.getElementById('moviesTab');
-    const tvTab = document.getElementById('tvTab');
-    const moviesContainer = document.getElementById('similarMovies');
-    const tvContainer = document.getElementById('similarTVShows');
-    
-    if (moviesTab && tvTab && moviesContainer && tvContainer) {
-        moviesTab.addEventListener('click', () => {
-            // Update tab states
-            moviesTab.classList.add('active');
-            tvTab.classList.remove('active');
-            
-            // Update content visibility
-            moviesContainer.classList.remove('hidden');
-            moviesContainer.classList.add('active');
-            tvContainer.classList.add('hidden');
-            tvContainer.classList.remove('active');
-        });
-        
-        tvTab.addEventListener('click', () => {
-            // Update tab states
-            tvTab.classList.add('active');
-            moviesTab.classList.remove('active');
-            
-            // Update content visibility
-            tvContainer.classList.remove('hidden');
-            tvContainer.classList.add('active');
-            moviesContainer.classList.add('hidden');
-            moviesContainer.classList.remove('active');
-        });
     }
 }
 
 async function fetchTrailerData(movieData) {
+    const trailerButton = document.getElementById('trailerButton');
+    const inlineTrailer = document.getElementById('inlineTrailer');
+    const trailerPlaceholder = document.getElementById('trailerPlaceholder');
+    const title = movieData.title || movieData.name;
+
+    function showTrailerUnavailable() {
+        if (trailerButton) {
+            trailerButton.onclick = () => showDevToast('Trailer');
+            trailerButton.style.display = 'flex';
+        }
+        if (inlineTrailer) {
+            inlineTrailer.classList.add('hidden');
+            inlineTrailer.removeAttribute('src');
+        }
+        if (trailerPlaceholder) {
+            trailerPlaceholder.classList.remove('hidden');
+            trailerPlaceholder.innerHTML = `
+                <i class="fa-solid fa-video-slash text-4xl text-gray-500 mb-3"></i>
+                <p class="text-gray-300 font-semibold">No trailer available</p>
+            `;
+        }
+    }
+
     try {
         const endpoint = type === 'tv' ? 'tv' : 'movie';
-        const response = await fetch(`https://api.themoviedb.org/3/${endpoint}/${movieId}/videos?api_key=${apiKey}&language=en-US`);
-        
-        if (response.ok) {
+        const videoUrls = [
+            `https://api.themoviedb.org/3/${endpoint}/${movieId}/videos?api_key=${apiKey}&language=en-US`,
+            `https://api.themoviedb.org/3/${endpoint}/${movieId}/videos?api_key=${apiKey}`
+        ];
+
+        let videos = [];
+        for (const url of videoUrls) {
+            const response = await fetch(url);
+            if (!response.ok) continue;
+
             const data = await response.json();
-            const trailers = data.results.filter(video => 
-                video.type === 'Trailer' && 
-                video.site === 'YouTube'
-            );
-            
-            const trailerButton = document.getElementById('trailerButton');
-            
-            if (trailers.length > 0) {
-                // Use the first available trailer
-                const trailer = trailers[0];
-                const title = movieData.title || movieData.name;
-                
-                if (trailerButton) {
-                    trailerButton.onclick = () => playTrailer(trailer.key, title);
-                    trailerButton.style.display = 'flex'; // Show button
-                }
-            } else {
-                // No trailer available, hide button or show development toast
-                if (trailerButton) {
-                    trailerButton.onclick = () => showDevToast('Trailer');
-                    trailerButton.style.display = 'flex'; // Still show button but with dev toast
-                }
-            }
+            videos = data.results || [];
+            if (videos.length) break;
+        }
+        
+        const trailer = videos.find(video =>
+            video.site === 'YouTube' &&
+            video.type === 'Trailer' &&
+            /official|trailer/i.test(video.name || '')
+        ) || videos.find(video =>
+            video.site === 'YouTube' &&
+            video.type === 'Trailer'
+        ) || videos.find(video =>
+            video.site === 'YouTube' &&
+            ['Teaser', 'Clip'].includes(video.type)
+        );
+
+        if (!trailer?.key) {
+            showTrailerUnavailable();
+            return;
+        }
+
+        if (trailerButton) {
+            trailerButton.onclick = () => playTrailer(trailer.key, title);
+            trailerButton.style.display = 'flex';
+        }
+
+        if (inlineTrailer) {
+            inlineTrailer.src = `https://www.youtube.com/embed/${trailer.key}?rel=0&modestbranding=1&playsinline=1`;
+            inlineTrailer.title = `${title} trailer`;
+            inlineTrailer.classList.remove('hidden');
+        }
+        if (trailerPlaceholder) {
+            trailerPlaceholder.classList.add('hidden');
         }
     } catch (error) {
         console.error('Error fetching trailer data:', error);
-        const trailerButton = document.getElementById('trailerButton');
-        if (trailerButton) {
-            trailerButton.onclick = () => showDevToast('Trailer');
-        }
+        showTrailerUnavailable();
     }
-}
-
-async function fetchSimilarContent() {
-    // Fetch both movies and TV shows
-    await Promise.all([
-        fetchSimilarMovies(),
-        fetchSimilarTVShows()
-    ]);
-}
-
-async function fetchSimilarMovies() {
-    try {
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${apiKey}&language=en-US&page=1`);
-        
-        if (response.ok) {
-            const data = await response.json();
-            displaySimilarContent(data.results.slice(0, 10), 'movies');
-        }
-    } catch (error) {
-        console.error('Error fetching similar movies:', error);
-    }
-}
-
-async function fetchSimilarTVShows() {
-    try {
-        const response = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`);
-        
-        if (response.ok) {
-            const data = await response.json();
-            displaySimilarContent(data.results.slice(0, 10), 'tv');
-        }
-    } catch (error) {
-        console.error('Error fetching similar TV shows:', error);
-    }
-}
-
-function displaySimilarContent(items, contentType) {
-    const containerId = contentType === 'movies' ? 'similarMovies' : 'similarTVShows';
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    
-    container.innerHTML = '';
-    
-    items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'similar-movie-card';
-        card.onclick = () => {
-            const itemType = contentType === 'movies' ? 'movie' : 'tv';
-            window.location.href = `viewMovie?movieId=${item.id}&type=${itemType}`;
-        };
-        
-        const title = item.title || item.name;
-        const posterPath = item.poster_path 
-            ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
-            : 'https://via.placeholder.com/300x450?text=No+Image';
-        
-        // Limit title to 50 characters
-        const truncatedTitle = title.length > 50 ? title.substring(0, 50) + '...' : title;
-        
-        card.innerHTML = `
-            <div class="similar-movie-poster" style="background-image: url('${posterPath}')"></div>
-            <div class="similar-movie-info">
-                <h4 class="similar-movie-title" title="${title}">${truncatedTitle}</h4>
-                <div class="similar-movie-rating">
-                    <i class="fa-solid fa-star mr-1"></i>
-                    ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}
-                </div>
-            </div>
-        `;
-        
-        container.appendChild(card);
-    });
-    
-    // Add horizontal scroll with mouse wheel for desktop
-    addHorizontalScrolling(container);
-}
-
-// Function to add horizontal scrolling with mouse wheel
-function addHorizontalScrolling(container) {
-    container.addEventListener('wheel', (e) => {
-        // Only apply horizontal scrolling on desktop (when container is scrollable)
-        if (container.scrollWidth > container.clientWidth) {
-            e.preventDefault();
-            const scrollAmount = e.deltaY > 0 ? 200 : -200;
-            container.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-        }
-    });
 }
 
 async function fetchCast() {

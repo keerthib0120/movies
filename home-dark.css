@@ -105,7 +105,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.35rem;
   font-weight: 600;
-  color: var(--mg-text-pri);
+  color: #ffffff;
   letter-spacing: 0.01em;
   cursor: pointer;
 }
@@ -113,6 +113,20 @@
 .mg-night-home .mg-nav-logo span {
   color: var(--mg-yellow);
   opacity: 0.85;
+}
+
+.mg-night-home .mg-nav-logo img {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+  object-fit: contain;
+}
+
+@media (min-width: 1024px) {
+  .mg-night-home .mg-nav-logo img {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 }
 
 .mg-night-home .navbar-glass {

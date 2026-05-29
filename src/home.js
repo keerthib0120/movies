@@ -157,11 +157,6 @@ async function Home() {
     const container1 = document.querySelector('.series-container');
     const slider = document.querySelector('.backdrop-slider');
 
-    if (!container) {
-        console.error('Missing movie container element.');
-        return;
-    }
-
     // Show loading skeletons
     showLoadingSkeletons();
 
@@ -202,20 +197,21 @@ async function Home() {
     }
 
     // ========== MOVIES ==========
-    try {
-        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`);
-        const data = await response.json();
+    if (container) {
+        try {
+            const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`);
+            const data = await response.json();
 
-        console.log('Movies:', data);
+            console.log('Movies:', data);
 
-        // Clear loading skeletons from movie container
-        container.innerHTML = '';
-        
-        topMovies = data.results.slice(0, 5);
+            // Clear loading skeletons from movie container
+            container.innerHTML = '';
+            
+            topMovies = data.results.slice(0, 5);
 
-        data.results.forEach(movie => {
-            const card = document.createElement('div');
-            card.className = 'movie-card group relative flex-shrink-0 w-48 lg:w-56 cursor-pointer transform transition-all duration-300 hover:z-10';
+            data.results.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'movie-card group relative flex-shrink-0 w-48 lg:w-56 cursor-pointer transform transition-all duration-300 hover:z-10';
 
             const posterPath = movie.poster_path 
                 ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -278,29 +274,31 @@ async function Home() {
                 });
             }
 
-            if (movie.poster_path) {
-                container.appendChild(card);
-            }
-        });
-    } catch (error) {
-        console.error('Error fetching movies:', error);
-        showError(container, 'Failed to load movies. Please check your internet connection.');
+                if (movie.poster_path) {
+                    container.appendChild(card);
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching movies:', error);
+            showError(container, 'Failed to load movies. Please check your internet connection.');
+        }
     }
 
     // ========== SERIES ==========
-    try {
-    const response = await fetch(`https://api.themoviedb.org/3/trending/tv/day?api_key=${API_KEY}`);
+    if (container1) {
+        try {
+        const response = await fetch(`https://api.themoviedb.org/3/trending/tv/day?api_key=${API_KEY}`);
 
-        const data = await response.json();
+            const data = await response.json();
 
-        console.log('Series:', data);
+            console.log('Series:', data);
 
-        // Clear loading skeletons from series container
-        container1.innerHTML = '';
+            // Clear loading skeletons from series container
+            container1.innerHTML = '';
 
-        data.results.forEach(movie => {
-            const card1 = document.createElement('div');
-            card1.className = 'series-card group relative flex-shrink-0 w-48 lg:w-56 cursor-pointer transform transition-all duration-300 hover:z-10';
+            data.results.forEach(movie => {
+                const card1 = document.createElement('div');
+                card1.className = 'series-card group relative flex-shrink-0 w-48 lg:w-56 cursor-pointer transform transition-all duration-300 hover:z-10';
 
             const seriesPosterPath = movie.poster_path 
                 ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -363,13 +361,14 @@ async function Home() {
                 });
             }
 
-            if (movie.poster_path) {
-                container1.appendChild(card1);
-            }
-        });
-    } catch (error) {
-        console.error('Error fetching series:', error);
-        showError(container1, 'Failed to load TV shows. Please check your internet connection.');
+                if (movie.poster_path) {
+                    container1.appendChild(card1);
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching series:', error);
+            showError(container1, 'Failed to load TV shows. Please check your internet connection.');
+        }
     }
 
     // ========== BACKDROP SLIDER ==========

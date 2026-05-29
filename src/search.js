@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchResultsTitle = document.getElementById('searchResultsTitle');
     const searchPaginationContainer = document.getElementById('searchPaginationContainer');
     const filterButtons = document.querySelectorAll('.filter-btn');
+    const searchModalCard = searchModal?.querySelector('.search-modal-card');
+    window.MovieIGuessSharedHeader?.renderSearchHeader(searchModalCard);
     
     console.log('Search elements found:', {
         searchIcon: !!searchIcon,
@@ -169,13 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!query) return;
 
         const apiKey = "97df57ffd9278a37bc12191e00332053";
-        const url = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=en-US&page=1`;
 
         try {
-            const response = await fetch(url);
-            const data = await response.json();
+            const data = await fetchMovieAndTvResults(apiKey, query, 1);
             
-            if (data.results && data.results.length > 0) {
+            if (data.results.length > 0) {
                 displaySearchDropdown(data.results.slice(0, 6)); // Show top 6 results
             } else {
                 showSearchDropdownEmpty();
@@ -363,15 +363,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!searchResultsContainer) return;
 
         const apiKey = "97df57ffd9278a37bc12191e00332053";
-        const url = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${encodeURIComponent(currentQuery)}&language=en-US&page=${currentPage}`;
 
         searchResultsContainer.innerHTML = '<div class="loading">Loading...</div>';
         
         try {
-            const response = await fetch(url);
-            const data = await response.json();
+            const data = await fetchMovieAndTvResults(apiKey, currentQuery, currentPage);
             
-            if (data.results && data.results.length > 0) {
+            if (data.results.length > 0) {
                 allResults = data.results;
                 totalPages = Math.min(data.total_pages, 20); // Limit to 20 pages for performance
                 displayFilteredResults();
@@ -383,6 +381,30 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("TMDB Search Error:", error);
             searchResultsContainer.innerHTML = '<div class="error">Error fetching results.</div>';
         }
+    }
+
+    async function fetchMovieAndTvResults(apiKey, query, page) {
+        const encodedQuery = encodeURIComponent(query);
+        const [movieResponse, tvResponse] = await Promise.all([
+            fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodedQuery}&language=en-US&page=${page}`),
+            fetch(`https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodedQuery}&language=en-US&page=${page}`)
+        ]);
+
+        const [movieData, tvData] = await Promise.all([
+            movieResponse.json(),
+            tvResponse.json()
+        ]);
+
+        const movieResults = (movieData.results || []).map(result => ({ ...result, media_type: 'movie' }));
+        const tvResults = (tvData.results || []).map(result => ({ ...result, media_type: 'tv' }));
+        const results = [...movieResults, ...tvResults]
+            .filter(result => result.poster_path)
+            .sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+
+        return {
+            results,
+            total_pages: Math.max(movieData.total_pages || 1, tvData.total_pages || 1)
+        };
     }
 
     function displayFilteredResults() {
@@ -445,7 +467,6 @@ document.addEventListener('DOMContentLoaded', () => {
         switch(type) {
             case 'movie': return 'Movies';
             case 'tv': return 'TV Shows';
-            case 'person': return 'People';
             default: return 'Other';
         }
     }
@@ -456,15 +477,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const title = result.title || result.name || "No Title";
         
-        if (result.poster_path || result.profile_path) {
+        if (result.poster_path) {
             const img = document.createElement('img');
-            const path = result.poster_path ? result.poster_path : result.profile_path;
-            if (path) {
-                img.src = `https://image.tmdb.org/t/p/w300${path}`;
-                img.alt = title;
-                img.classList.add('result-image');
-                card.appendChild(img);
-            }
+            img.src = `https://image.tmdb.org/t/p/w300${result.poster_path}`;
+            img.alt = title;
+            img.classList.add('result-image');
+            card.appendChild(img);
         }
 
         const contentDiv = document.createElement('div');
@@ -491,7 +509,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Add rating if available
-        if (result.vote_average && result.media_type !== 'person') {
+        if (result.vote_average) {
             const ratingEl = document.createElement('div');
             ratingEl.classList.add('result-rating');
             ratingEl.innerHTML = `<i class="fa-solid fa-star"></i> ${result.vote_average.toFixed(1)}`;
@@ -510,13 +528,11 @@ document.addEventListener('DOMContentLoaded', () => {
         card.appendChild(contentDiv);
 
         // Add click event
-        if (result.media_type !== 'person') {
-            card.addEventListener('click', () => {
-                console.log(`Clicked result ID: ${result.id}`);
-                window.location.href = `viewMovie?movieId=${result.id}&type=${result.media_type}`;
-            });
-            card.style.cursor = 'pointer';
-        }
+        card.addEventListener('click', () => {
+            console.log(`Clicked result ID: ${result.id}`);
+            window.location.href = `viewMovie?movieId=${result.id}&type=${result.media_type}`;
+        });
+        card.style.cursor = 'pointer';
 
         return card;
     }
