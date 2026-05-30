@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (value === PASSWORD) {
             localStorage.setItem(AUTH_KEY, "true");
-            sessionStorage.setItem("movieIGuessLoadingShown", "true");
             window.location.replace("index.html");
             return;
         }

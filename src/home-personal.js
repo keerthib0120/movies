@@ -7,8 +7,9 @@
     const nameEl = document.getElementById('mgGreetingName');
     const s = store();
     if (!timeEl || !nameEl) return;
-    if (s) timeEl.textContent = s.getGreetingTime();
-    nameEl.innerHTML = `Welcome back, <em>${DISPLAY_NAME}</em>`;
+    const greeting = s ? s.getGreetingTime() : 'Good evening';
+    timeEl.textContent = 'cinema';
+    nameEl.innerHTML = `${greeting}, <em>${DISPLAY_NAME}</em>`;
   }
 
   function escapeHtml(str) {

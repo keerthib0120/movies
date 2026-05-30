@@ -1,0 +1,957 @@
+/* ============================================================
+   WATCH PAGE OVERHAUL - paste this at the BOTTOM of watch.css
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+/* -- 1. VIDEO PLAYER - poster + centered play + title overlay -- */
+
+.cinematic-player-wrap {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+}
+
+/* The actual iframe container keeps its aspect ratio */
+.cinematic-player-wrap .video-container {
+    border-radius: 0;
+    margin-bottom: 0;
+    position: relative;
+}
+
+/* Poster image shown over the iframe until play */
+.player-poster-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 5;
+    transition: opacity 0.4s ease;
+    cursor: pointer;
+}
+
+.player-poster-layer.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Dark gradient over poster so text is readable */
+.player-poster-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.35) 0%,
+        rgba(0,0,0,0.05) 40%,
+        rgba(0,0,0,0.05) 60%,
+        rgba(0,0,0,0.55) 100%
+    );
+}
+
+/* Centered gold play button */
+.player-play-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(245, 200, 66, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 6;
+    cursor: pointer;
+    box-shadow: 0 4px 24px rgba(245,200,66,0.4);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.player-play-center:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: rgba(245, 200, 66, 1);
+}
+
+.player-play-center svg {
+    width: 24px;
+    height: 24px;
+    fill: #1a1a1a;
+    margin-left: 3px;
+}
+
+/* Top-left title overlay on player */
+.player-title-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1.1rem 1.25rem;
+    z-index: 6;
+    pointer-events: none;
+}
+
+.player-title-ep {
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.player-title-name {
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+}
+
+/* Controls bar BELOW the video (not overlaid) */
+.player-controls-bar {
+    background: #0d1220;
+    padding: 0.55rem 1rem 0.65rem;
+}
+
+.player-scrubber-row {
+    margin-bottom: 0.45rem;
+}
+
+.player-scrubber {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 999px;
+    position: relative;
+    cursor: pointer;
+}
+
+.player-scrubber-fill {
+    height: 100%;
+    width: 35%;
+    background: linear-gradient(90deg, #f5c842, #e8a020);
+    border-radius: 999px;
+    position: relative;
+}
+
+.player-scrubber-fill::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: -4px;
+    width: 11px;
+    height: 11px;
+    background: #f5c842;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(245,200,66,0.6);
+}
+
+.player-btn-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player-btn-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.player-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.8);
+    cursor: pointer;
+    padding: 4px 7px;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.player-btn:hover {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+}
+
+.player-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.player-btn.large svg {
+    width: 20px;
+    height: 20px;
+}
+
+.player-time {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    font-family: 'DM Sans', monospace;
+    margin-left: 6px;
+}
+
+.player-vol-slider {
+    width: 60px;
+    accent-color: #f5c842;
+    height: 3px;
+    cursor: pointer;
+}
+
+/* -- 2. EPISODE JOURNAL PANEL -- */
+
+.episode-journal-panel {
+    background: #0c1121;
+    border: 1px solid rgba(245,200,66,0.12);
+    border-radius: 18px;
+    padding: 1.4rem 1.5rem;
+    margin-top: 0;
+}
+
+.episode-journal-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.1rem;
+}
+
+.episode-journal-heading .gold-star {
+    color: #f5c842;
+    font-size: 13px;
+}
+
+.episode-journal-heading span {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    color: #d0cfc8;
+    font-weight: 600;
+}
+
+/* Season dropdown */
+.season-select-wrap {
+    margin-bottom: 1.2rem;
+    position: relative;
+}
+
+.season-select-journal {
+    width: max-content;
+    max-width: 100%;
+    background:
+        linear-gradient(135deg, rgba(245,200,66,0.14), rgba(20,30,48,0.98)),
+        #141e30;
+    border: 1px solid rgba(245,200,66,0.22);
+    color: #d0cfc8;
+    padding: 10px 40px 10px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23f5c842' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 10px 24px rgba(0,0,0,0.18);
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.season-select-journal:hover {
+    border-color: rgba(245,200,66,0.38);
+    background:
+        linear-gradient(135deg, rgba(245,200,66,0.12), rgba(20,30,48,0.98)),
+        #141e30;
+}
+
+.season-select-journal:focus {
+    outline: none;
+    border-color: rgba(245,200,66,0.55);
+    box-shadow: 0 0 0 3px rgba(245,200,66,0.08), 0 10px 24px rgba(0,0,0,0.18);
+}
+
+.season-select-journal option {
+    background: #141e30;
+    color: #d0cfc8;
+}
+
+/* Individual episode card */
+.ep-journal-card {
+    display: block;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    position: relative;
+    border-left: 3px solid transparent;
+    padding-left: 4px;
+    border-radius: 0 8px 8px 0;
+}
+
+.ep-journal-card:hover {
+    background: rgba(255,255,255,0.03);
+    border-left-color: rgba(245,200,66,0.25);
+    padding-left: 10px;
+    margin-left: -4px;
+}
+
+.ep-journal-card.now-playing {
+    border-left-color: #f5c842;
+    background: rgba(245,200,66,0.04);
+    padding-left: 10px;
+    margin-left: -4px;
+}
+
+/* EP badge pill */
+.ep-num-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a2540;
+    border: 1px solid #2a3a58;
+    color: #d0cfc8;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+    letter-spacing: 0.03em;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.ep-journal-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    margin-bottom: 6px;
+}
+
+.ep-journal-card.now-playing .ep-num-badge {
+    background: rgba(245,200,66,0.12);
+    border-color: rgba(245,200,66,0.3);
+    color: #f5c842;
+}
+
+.ep-journal-info {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Caveat italic title per episode */
+.ep-journal-name {
+    flex: 1;
+    min-width: 0;
+    font-family: 'Caveat', cursive;
+    font-size: 1.15rem;
+    color: #d0cfc8;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ep-journal-desc {
+    color: #5a6a84;
+    font-size: 12.5px;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.ep-journal-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ep-meta-text {
+    font-size: 11.5px;
+    color: #4a5a74;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.ep-meta-dot {
+    color: #2a3a58;
+    font-size: 10px;
+}
+
+.ep-watched-tag {
+    font-size: 10px;
+    color: #6a7a94;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.ep-now-playing-badge {
+    font-size: 10px;
+    color: #f5c842;
+    background: rgba(245,200,66,0.1);
+    border: 1px solid rgba(245,200,66,0.25);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+/* Gold divider between episodes */
+.ep-journal-divider {
+    text-align: center;
+    color: rgba(245,200,66,0.2);
+    font-size: 13px;
+    letter-spacing: 8px;
+    user-select: none;
+    padding: 2px 0;
+    position: relative;
+}
+
+.ep-journal-divider::before,
+.ep-journal-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 35%;
+    height: 1px;
+    background: rgba(245,200,66,0.08);
+}
+
+.ep-journal-divider::before { left: 0; }
+.ep-journal-divider::after { right: 0; }
+
+/* -- 3. ABOUT THIS FILM section -- */
+
+.about-film-section {
+    margin-top: 1.5rem;
+}
+
+/* "About this film" decorative header */
+.section-divider-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+}
+
+.section-divider-header::before,
+.section-divider-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(245,200,66,0.25), transparent);
+}
+
+.section-divider-title {
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    color: rgba(245,200,66,0.75);
+    white-space: nowrap;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+.section-divider-star {
+    color: rgba(245,200,66,0.6);
+    font-size: 11px;
+}
+
+/* Film info card */
+.film-info-card {
+    background: #0c1121;
+    border: 1px solid rgba(245,200,66,0.1);
+    border-radius: 18px;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+@media (max-width: 580px) {
+    .film-info-card {
+        grid-template-columns: 1fr;
+    }
+    .film-poster-col { display: none; }
+}
+
+.film-poster-col img {
+    width: 150px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    display: block;
+}
+
+.film-poster-col .poster-placeholder {
+    width: 150px;
+    height: 220px;
+    border-radius: 12px;
+    background: #141e30;
+    border: 1px solid #1c2840;
+}
+
+/* Caveat title */
+.film-title-caveat {
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    color: #d0cfc8;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+}
+
+/* Inline rating + year + runtime */
+.film-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+
+.film-star-rating {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.film-star-rating .star {
+    color: #f5c842;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.film-star-rating .star.empty {
+    color: rgba(245,200,66,0.2);
+}
+
+.film-rating-score {
+    font-size: 13px;
+    color: #d0cfc8;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.film-meta-sep {
+    color: #2a3a58;
+    font-size: 12px;
+}
+
+.film-meta-text {
+    font-size: 13px;
+    color: #6a7a94;
+}
+
+/* Genre pills */
+.film-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 0.85rem;
+}
+
+.film-genre-pill {
+    font-size: 12px;
+    color: #a0b0c8;
+    background: transparent;
+    border: 1px solid #2a3a58;
+    padding: 4px 13px;
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+}
+
+/* Synopsis */
+.film-synopsis {
+    color: #6a7a94;
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 1rem;
+}
+
+/* Progress bar */
+.film-progress-section {
+    margin-top: 0.75rem;
+}
+
+.film-progress-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.film-progress-label {
+    font-size: 11px;
+    color: #4a5a74;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    text-transform: uppercase;
+}
+
+.film-progress-pct {
+    font-size: 12px;
+    color: #f5c842;
+    font-weight: 600;
+}
+
+.film-progress-track {
+    height: 4px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.film-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f5c842, #e8a020);
+    border-radius: 999px;
+    transition: width 0.5s ease;
+}
+
+/* "Cast" divider */
+.cast-section {
+    margin-top: 1.25rem;
+}
+
+.cast-avatars {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+}
+
+.cast-avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.cast-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #141e30;
+    border: 2px solid #2a3a58;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #6a7a94;
+    overflow: hidden;
+    font-family: 'Playfair Display', serif;
+}
+
+.cast-name {
+    font-size: 10px;
+    color: #4a5a74;
+    text-align: center;
+    max-width: 52px;
+    line-height: 1.2;
+    font-family: 'DM Sans', sans-serif;
+}
+
+/* -- 4. TV SHOW details grid (Overview, Rating, Seasons...) -- */
+
+.tv-details-grid-card {
+    background: #0c1121;
+    border: 1px solid #1c2840;
+    border-radius: 18px;
+    padding: 1.75rem 2rem;
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 3rem;
+}
+
+@media (max-width: 640px) {
+    .tv-details-grid-card {
+        grid-template-columns: 1fr;
+        padding: 1.25rem;
+        gap: 1rem;
+    }
+}
+
+.tv-detail-label {
+    font-size: 11px;
+    color: #4a5a74;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 5px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.tv-detail-value {
+    font-size: 14.5px;
+    color: #c0c8d8;
+    line-height: 1.5;
+    font-family: 'DM Sans', sans-serif;
+}
+
+/* -- 5. Server selection - keep existing but restyle -- */
+
+.server-selection {
+    background: #0c1121 !important;
+    border: 1px solid #1c2840 !important;
+    border-radius: 16px !important;
+    padding: 1.25rem 1.5rem !important;
+    margin-bottom: 0 !important;
+    margin-top: 1rem !important;
+}
+
+.server-selection h3 {
+    font-family: 'Playfair Display', serif !important;
+    font-size: 0.95rem !important;
+    color: #8a9ab8 !important;
+    font-weight: 400 !important;
+    margin-bottom: 0.85rem !important;
+    letter-spacing: 0.02em !important;
+}
+
+.server-btn {
+    background: #111826 !important;
+    border: 1px solid #1c2840 !important;
+    color: #8a9ab8 !important;
+    font-size: 12px !important;
+    padding: 8px 14px !important;
+    border-radius: 10px !important;
+    transition: all 0.2s !important;
+}
+
+.server-btn:hover {
+    border-color: rgba(245,200,66,0.3) !important;
+    color: #f5c842 !important;
+    background: rgba(245,200,66,0.05) !important;
+    transform: none !important;
+}
+
+.server-btn.active {
+    background: rgba(245,200,66,0.08) !important;
+    border-color: rgba(245,200,66,0.35) !important;
+    color: #f5c842 !important;
+    box-shadow: none !important;
+}
+
+/* -- 6. Desktop sidebar overhaul -- */
+
+.tv-sidebar {
+    background: #0c1121 !important;
+    border: 1px solid rgba(245,200,66,0.1) !important;
+    border-radius: 18px !important;
+    width: 340px !important;
+    min-width: 340px !important;
+    padding: 1.4rem 1.25rem !important;
+}
+
+/* remove old before pseudo */
+.tv-sidebar::before { display: none !important; }
+
+.sidebar-header h3 {
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1rem !important;
+    color: #d0cfc8 !important;
+    font-weight: 600 !important;
+    margin-bottom: 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+/* -- 7. Hide old episode card styles that conflict -- */
+
+.episode-card-sidebar {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+}
+
+.episode-card-sidebar::before { display: none !important; }
+
+/* Movie pages use the same player width as the TV page, centered without a sidebar. */
+.movie-content-wrapper.video-sidebar-layout {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: center !important;
+}
+
+.movie-content-wrapper.video-sidebar-layout .video-section {
+    width: 100% !important;
+    max-width: calc(100% - 420px) !important;
+    flex: 0 1 calc(100% - 420px) !important;
+}
+
+.movie-content-wrapper.video-sidebar-layout .cinematic-player-wrap,
+.movie-content-wrapper.video-sidebar-layout .about-film-section,
+.movie-content-wrapper.video-sidebar-layout .server-selection {
+    width: 100% !important;
+}
+
+@media (max-width: 1023px) {
+    .movie-content-wrapper.video-sidebar-layout .video-section {
+        max-width: 100% !important;
+        flex: 1 1 auto !important;
+    }
+}
+
+/* TV pages: same centered player width as movies, with episodes below. */
+.tv-centered-layout.video-sidebar-layout {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+}
+
+.tv-centered-layout .video-section {
+    width: 100% !important;
+    max-width: calc(100% - 420px) !important;
+    flex: 0 1 calc(100% - 420px) !important;
+    margin: 0 auto !important;
+}
+
+.tv-episode-top {
+    width: 100%;
+    margin: 1rem auto 0;
+    padding: 1.25rem;
+    background: #0c1121;
+    border: 1px solid rgba(245,200,66,0.12);
+    border-radius: 18px;
+}
+
+.tv-episode-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.tv-episode-top .episode-journal-heading {
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.tv-episode-top .season-select-wrap {
+    width: auto;
+    margin: 0;
+}
+
+.episodes-top {
+    width: 100%;
+}
+
+.tv-episode-top .episode-strip-panel {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.85rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.25rem 0.25rem 0.8rem;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    scroll-snap-type: x proximity;
+}
+
+.tv-episode-top .episode-strip-panel .ep-journal-card {
+    flex: 0 0 clamp(210px, 24vw, 285px);
+    min-height: 130px;
+    padding: 0.95rem;
+    border: 1px solid #1c2840;
+    border-left: 3px solid transparent;
+    border-radius: 14px;
+    background: #111826;
+    scroll-snap-align: start;
+}
+
+.tv-episode-top .episode-strip-panel .ep-journal-card:hover,
+.tv-episode-top .episode-strip-panel .ep-journal-card.now-playing {
+    margin-left: 0;
+    padding-left: 0.95rem;
+    border-left-color: #f5c842;
+}
+
+.tv-episode-top .episode-strip-panel .ep-journal-divider {
+    display: none;
+}
+
+.tv-episode-top .ep-journal-name,
+.tv-episode-top .ep-journal-desc,
+.tv-episode-top .ep-journal-meta {
+    text-align: left;
+}
+
+.tv-centered-layout .cinematic-player-wrap,
+.tv-centered-layout .server-selection,
+.tv-centered-layout .about-film-section,
+.tv-centered-layout .tv-details-grid-card {
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+@media (max-width: 768px) {
+    .tv-centered-layout.video-sidebar-layout {
+        margin: 0 auto !important;
+        padding: 0 !important;
+    }
+
+    .tv-centered-layout .video-section {
+        padding: 0 !important;
+        background: transparent !important;
+        max-width: 100% !important;
+        flex: 1 1 auto !important;
+    }
+
+    .tv-episode-top {
+        padding: 1rem;
+    }
+
+    .tv-episode-controls {
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .tv-episode-top .episode-strip-panel .ep-journal-card {
+        flex-basis: 230px;
+    }
+}
+
+@media (max-width: 1023px) {
+    .tv-centered-layout .video-section {
+        max-width: 100% !important;
+        flex: 1 1 auto !important;
+    }
+}

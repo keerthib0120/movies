@@ -1,3 +1,286 @@
+/* ============================================================
+   WATCH PAGE JS HELPERS
+   Add these functions to src/watch.js (before WatchMovie and WatchTV)
+   Then update WatchMovie and WatchTV to use them (see below)
+   ============================================================ */
+
+// Helper: render gold star rating from a 0-10 score
+function renderStars(score10, count = 5) {
+    const filled = Math.round((score10 / 10) * count);
+    return Array.from({ length: count }, (_, i) =>
+        `<span class="star${i < filled ? '' : ' empty'}">★</span>`
+    ).join('');
+}
+
+// Helper: render the player frame
+function playerBarHTML(titleLine1 = '', titleLine2 = '', posterUrl = '') {
+    return `
+    <div class="cinematic-player-wrap">
+        <div class="video-container" id="video-container" style="display:block;">
+            <iframe id="video-player" allowfullscreen></iframe>
+        </div>
+    </div>`;
+}
+
+// Helper: "About this film" card
+function aboutFilmHTML(movie, genres) {
+    const score = movie.vote_average || 0;
+    const stars = renderStars(score);
+    const scoreDisplay = (score / 2).toFixed(1);
+    const year = movie.release_date ? new Date(movie.release_date).getFullYear() : '';
+    const runtime = movie.runtime
+        ? `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`
+        : '';
+    const poster = movie.poster_path
+        ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+        : '';
+    const genreList = genres
+        ? genres.split(', ').map(g => `<span class="film-genre-pill">${g}</span>`).join('')
+        : '';
+    const progress = 35; // placeholder - wire to real progress later
+
+    return `
+    <div class="about-film-section">
+        <div class="section-divider-header">
+            <span class="section-divider-star">✦</span>
+            <span class="section-divider-title">About this film</span>
+            <span class="section-divider-star">✦</span>
+        </div>
+
+        <div class="film-info-card">
+            <div class="film-poster-col">
+                ${poster
+                    ? `<img src="${poster}" alt="${movie.title || movie.name}">`
+                    : `<div class="poster-placeholder"></div>`}
+            </div>
+            <div class="film-body-col">
+                <div class="film-title-caveat">${movie.title || movie.name || ''}</div>
+
+                <div class="film-meta-row">
+                    <div class="film-star-rating">${stars}</div>
+                    <span class="film-rating-score">${scoreDisplay} / 5</span>
+                    ${year ? `<span class="film-meta-sep">·</span><span class="film-meta-text">${year}</span>` : ''}
+                    ${runtime ? `<span class="film-meta-sep">·</span><span class="film-meta-text">${runtime}</span>` : ''}
+                </div>
+
+                ${genreList ? `<div class="film-genres">${genreList}</div>` : ''}
+
+                <p class="film-synopsis">${movie.overview || 'No overview available.'}</p>
+
+                <div class="film-progress-section">
+                    <div class="film-progress-label-row">
+                        <span class="film-progress-label">Your Progress</span>
+                        <span class="film-progress-pct">${progress}%</span>
+                    </div>
+                    <div class="film-progress-track">
+                        <div class="film-progress-fill" style="width:${progress}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>`;
+}
+
+function tvEpisodeAboutHTML(series, genres) {
+    const score = series.vote_average || 0;
+    const stars = renderStars(score);
+    const scoreDisplay = score ? (score / 2).toFixed(1) : 'N/A';
+    const poster = series.poster_path
+        ? `https://image.tmdb.org/t/p/w300${series.poster_path}`
+        : '';
+    const genreList = genres
+        ? genres.split(', ').map(g => `<span class="film-genre-pill">${g}</span>`).join('')
+        : '';
+
+    return `
+    <div class="about-film-section tv-episode-about">
+        <div class="section-divider-header">
+            <span class="section-divider-star">✦</span>
+            <span class="section-divider-title">About this episode</span>
+            <span class="section-divider-star">✦</span>
+        </div>
+
+        <div class="film-info-card">
+            <div class="film-poster-col">
+                ${poster
+                    ? `<img src="${poster}" alt="${series.name || 'Series poster'}">`
+                    : `<div class="poster-placeholder"></div>`}
+            </div>
+            <div class="film-body-col">
+                <div class="film-title-caveat" id="tvAboutTitle">${series.name || ''}</div>
+
+                <div class="film-meta-row">
+                    <div class="film-star-rating">${stars}</div>
+                    <span class="film-rating-score">${scoreDisplay}${score ? ' / 5' : ''}</span>
+                    <span class="film-meta-sep">·</span>
+                    <span class="film-meta-text" id="tvAboutEpisodeMeta">Select an episode</span>
+                </div>
+
+                ${genreList ? `<div class="film-genres">${genreList}</div>` : ''}
+
+                <p class="film-synopsis" id="tvAboutDescription">
+                    Choose an episode to see its description here.
+                </p>
+            </div>
+        </div>
+    </div>`;
+}
+
+async function updateTvEpisodeAbout(seriesId, seasonNumber, episodeNumber) {
+    const titleEl = document.getElementById('tvAboutTitle');
+    const metaEl = document.getElementById('tvAboutEpisodeMeta');
+    const descEl = document.getElementById('tvAboutDescription');
+    if (!titleEl && !metaEl && !descEl) return;
+
+    try {
+        const response = await fetch(
+            `https://api.themoviedb.org/3/tv/${seriesId}/season/${seasonNumber}/episode/${episodeNumber}?api_key=${API_KEY}`
+        );
+        if (!response.ok) throw new Error('Episode fetch failed');
+        const episode = await response.json();
+
+        if (titleEl) titleEl.textContent = episode.name || `Episode ${episodeNumber}`;
+        if (metaEl) metaEl.textContent = `Season ${seasonNumber} · Episode ${episodeNumber}`;
+        if (descEl) descEl.textContent = episode.overview || 'No description available.';
+    } catch (error) {
+        console.warn('Episode details fetch failed', error);
+        if (metaEl) metaEl.textContent = `Season ${seasonNumber} · Episode ${episodeNumber}`;
+        if (descEl) descEl.textContent = 'No description available.';
+    }
+}
+
+// Helper: fetch cast and inject avatars
+async function fetchCastAvatars(movieId, mediaType = 'movie') {
+    const container = document.getElementById('castAvatars');
+    if (!container) return;
+    try {
+        const endpoint = mediaType === 'tv' ? 'tv' : 'movie';
+        const res = await fetch(
+            `https://api.themoviedb.org/3/${endpoint}/${movieId}/credits?api_key=${API_KEY}`
+        );
+        const data = await res.json();
+        const cast = (data.cast || []).slice(0, 8);
+        container.innerHTML = cast.map(actor => {
+            const initials = actor.name.split(' ').map(n => n[0]).join('').slice(0, 2);
+            const img = actor.profile_path
+                ? `<img src="https://image.tmdb.org/t/p/w92${actor.profile_path}" alt="${actor.name}" style="width:100%;height:100%;object-fit:cover;">`
+                : initials;
+            return `
+            <div class="cast-avatar-wrap">
+                <div class="cast-avatar">${img}</div>
+                <div class="cast-name">${actor.name.split(' ')[0]}</div>
+            </div>`;
+        }).join('');
+    } catch (e) {
+        console.warn('Cast fetch failed', e);
+    }
+}
+
+// Helper: TV details grid
+function tvDetailsGridHTML(series, genres) {
+    const rating = series.vote_average ? series.vote_average.toFixed(1) : 'N/A';
+    const firstAir = series.first_air_date || 'N/A';
+    const status = series.status || 'N/A';
+    const homepage = series.homepage
+        ? `<a href="${series.homepage}" target="_blank" rel="noopener" style="color:#6a7a94;text-decoration:underline;word-break:break-all;">${series.homepage}</a>`
+        : 'No official website';
+
+    return `
+    <div class="tv-details-grid-card">
+        <div>
+            <div class="tv-detail-item" style="margin-bottom:1.2rem;">
+                <div class="tv-detail-label">Genres</div>
+                <div class="tv-detail-value">${genres || 'N/A'}</div>
+            </div>
+            <div class="tv-detail-item" style="margin-bottom:1.2rem;">
+                <div class="tv-detail-label">First Air Date</div>
+                <div class="tv-detail-value">${firstAir}</div>
+            </div>
+            <div class="tv-detail-item">
+                <div class="tv-detail-label">Status</div>
+                <div class="tv-detail-value">${status}</div>
+            </div>
+        </div>
+        <div>
+            <div class="tv-detail-item" style="margin-bottom:1.2rem;">
+                <div class="tv-detail-label">Rating</div>
+                <div class="tv-detail-value">${rating} / 10 (${(series.vote_count || 0).toLocaleString()} votes)</div>
+            </div>
+            <div class="tv-detail-item" style="margin-bottom:1.2rem;">
+                <div class="tv-detail-label">Seasons</div>
+                <div class="tv-detail-value">${series.number_of_seasons} Season${series.number_of_seasons !== 1 ? 's' : ''}</div>
+            </div>
+            <div class="tv-detail-item" style="margin-bottom:1.2rem;">
+                <div class="tv-detail-label">Episodes</div>
+                <div class="tv-detail-value">${series.number_of_episodes} Total Episodes</div>
+            </div>
+            <div class="tv-detail-item">
+                <div class="tv-detail-label">Homepage</div>
+                <div class="tv-detail-value">${homepage}</div>
+            </div>
+        </div>
+    </div>`;
+}
+
+// Helper: episode journal card HTML
+function episodeJournalCardHTML(episode, seriesId, seasonNumber, isFirst) {
+    const num = String(episode.episode_number).padStart(2, '0');
+    const title = episode.name || `Episode ${episode.episode_number}`;
+    const desc = episode.overview || 'No description available.';
+    const runtime = episode.runtime ? `${episode.runtime} min` : '';
+    const airDate = episode.air_date
+        ? new Date(episode.air_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        : '';
+
+    const isNowPlaying = isFirst; // first episode auto-plays
+    const nowPlayingBadge = isNowPlaying
+        ? `<span class="ep-now-playing-badge">NOW PLAYING</span>`
+        : '';
+
+    const metaParts = [];
+    if (runtime) metaParts.push(`<span class="ep-meta-text">${runtime}</span>`);
+    if (airDate) {
+        if (metaParts.length) metaParts.push(`<span class="ep-meta-dot">·</span>`);
+        metaParts.push(`<span class="ep-meta-text">${airDate}</span>`);
+    }
+
+    return `
+    <div class="ep-journal-card${isNowPlaying ? ' now-playing' : ''}"
+         onclick="watchEpisode(${seriesId}, ${seasonNumber}, ${episode.episode_number})"
+         data-episode="${episode.episode_number}">
+        <div class="ep-journal-head">
+            <span class="ep-num-badge">EP ${num}</span>
+            <div class="ep-journal-name">${title}</div>
+            <div class="ep-journal-meta ep-status-slot">
+                ${nowPlayingBadge}
+            </div>
+        </div>
+        <div class="ep-journal-info">
+            <div class="ep-journal-desc">${desc}</div>
+            <div class="ep-journal-meta" style="margin-top:5px;">
+                ${metaParts.join('')}
+            </div>
+        </div>
+    </div>`;
+}
+
+// Helper: full episode panel HTML (journal style)
+function episodePanelHTML(season, seriesId, seasonNumber) {
+    const cards = season.episodes.map((ep, i) => {
+        const card = episodeJournalCardHTML(ep, seriesId, seasonNumber, i === 0);
+        const divider = i < season.episodes.length - 1
+            ? `<div class="ep-journal-divider">✦</div>`
+            : '';
+        return card + divider;
+    }).join('');
+
+    return `
+    <div class="episode-journal-panel episode-strip-panel">
+        ${cards}
+    </div>`;
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 const movieId = urlParams.get('movieId');
 const seriesId = urlParams.get('seriesId');
@@ -105,71 +388,37 @@ async function WatchMovie(movieId) {
 
         const movie = await response.json();
         const genres = movie.genres?.map(genre => genre.name).join(', ') || 'N/A';
-        const homepage = movie.homepage ? `<a href="${movie.homepage}" target="_blank" rel="noopener">${movie.homepage}</a>` : "No official website";
-        const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
-        const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+        const posterUrl = movie.poster_path
+            ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`
+            : '';
 
         hideLoading();
         document.querySelector('.container').innerHTML = `
-            <!-- Video and Sidebar Layout for Movies -->
             <div class="video-sidebar-layout movie-content-wrapper">
                 <div class="video-section">
-                    <div class="video-container">
-                        <iframe id="video-player" src="${embedUrl}" allowfullscreen></iframe>
-                    </div>
-                    
-                    <div class="server-selection">
-                        <h3>Choose Server</h3>
-                        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">
-                            💡 If the current server is slow or not working, try switching to another server below :p
-                        </p>
+
+                    ${playerBarHTML('', movie.title || '', posterUrl)}
+
+                    <div class="server-selection" style="margin-top:1rem;">
                         <div class="server-grid">
                             ${servers.map((server, index) => `
-                                <button class="server-btn ${server.url === currentServerUrl ? 'active' : ''}" 
+                                <button class="server-btn ${server.url === currentServerUrl ? 'active' : ''}"
                                         onclick="changeServer('${server.url}', 'movie/${movieId}', ${index}, 'movie')">
                                     ${server.name}
                                 </button>
                             `).join('')}
                         </div>
                     </div>
-                </div>
-                
-            </div>
-            
-            <div class="movie-details">
-                <div class="details-grid">
-                    <div>
-                        <div class="detail-item">
-                            <div class="detail-label">Overview</div>
-                            <div class="detail-value">${movie.overview || "No overview available."}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Genres</div>
-                            <div class="detail-value">${genres}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Release Date</div>
-                            <div class="detail-value">${movie.release_date || "N/A"}</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="detail-item">
-                            <div class="detail-label">Rating</div>
-                            <div class="detail-value">${rating} / 10 (${movie.vote_count?.toLocaleString() || 0} votes)</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Runtime</div>
-                            <div class="detail-value">${movie.runtime ? `${movie.runtime} minutes` : 'N/A'}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Homepage</div>
-                            <div class="detail-value">${homepage}</div>
-                        </div>
-                    </div>
+
+                    ${aboutFilmHTML(movie, genres)}
+
                 </div>
             </div>
         `;
-        
+
+        // Set iframe src
+        document.getElementById('video-player').src = embedUrl;
+
     } catch (error) {
         console.error("Error fetching movie:", error);
         hideLoading();
@@ -189,111 +438,56 @@ async function WatchTV(seriesId) {
 
         const series = await response.json();
         const genres = series.genres?.map(genre => genre.name).join(', ') || 'N/A';
-        const homepage = series.homepage ? `<a href="${series.homepage}" target="_blank" rel="noopener">${series.homepage}</a>` : "No official website";
-        const firstAirYear = series.first_air_date ? new Date(series.first_air_date).getFullYear() : 'N/A';
-        const rating = series.vote_average ? series.vote_average.toFixed(1) : 'N/A';
 
         hideLoading();
         document.querySelector('.container').innerHTML = `
-            <!-- Video and Sidebar Layout -->
-            <div class="video-sidebar-layout">
+            <div class="video-sidebar-layout tv-centered-layout">
                 <div class="video-section">
-                    <div class="video-container" id="video-container" style="display: none;">
-                        <iframe id="video-player" allowfullscreen></iframe>
-                    </div>
 
-                    <div class="server-selection" id="server-selection" style="display: none;">
-                        <h3>Choose Server</h3>
-                        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">
-                            💡 If the current server is slow or not working, try switching to another server below :p
-                        </p>
+                    ${playerBarHTML('', series.name || '', '')}
+
+                    <div class="server-selection" style="margin-top:1rem;">
                         <div class="server-grid">
                             ${servers.map((server, index) => `
-                                <button class="server-btn ${server.url === currentServerUrl ? 'active' : ''}" 
+                                <button class="server-btn ${server.url === currentServerUrl ? 'active' : ''}"
                                         onclick="changeServer('${server.url}', 'tv/${seriesId}', ${index}, 'tv')">
                                     ${server.name}
                                 </button>
                             `).join('')}
                         </div>
                     </div>
-                </div>
 
-                <!-- Desktop Sidebar - Right of Video -->
-                <div class="tv-sidebar desktop-only">
-                    <div class="sidebar-header">
-                        <h3>📺 Seasons & Episodes</h3>
-                    </div>
-                    
-                    <div class="season-dropdown">
-                        <label for="season-selector">Select Season:</label>
-                        <div class="dropdown-wrapper">
-                            <select id="season-selector" onchange="loadSeasonSidebar(${seriesId}, this.value)">
-                                <option value="">Choose a season...</option>
-                                ${series.seasons.filter(season => season.season_number !== 0).map(season => 
-                                    `<option value="${season.season_number}">Season ${season.season_number} (${season.episode_count} episodes)</option>`
-                                ).join('')}
-                            </select>
-                            <div class="dropdown-arrow">▼</div>
+                    ${tvEpisodeAboutHTML(series, genres)}
+
+                    <div class="tv-episode-top">
+                        <div class="tv-episode-controls">
+                            <div class="episode-journal-heading">
+                                <span class="gold-star">✦</span>
+                                <span>Episodes</span>
+                            </div>
+                            <div class="season-select-wrap">
+                                <select id="season-selector" class="season-select-journal"
+                                        onchange="loadSeasonSidebar(${seriesId}, this.value, true)">
+                                    ${series.seasons.filter(s => s.season_number !== 0).map(s =>
+                                        `<option value="${s.season_number}">Season ${s.season_number} (${s.episode_count} eps)</option>`
+                                    ).join('')}
+                                </select>
+                            </div>
                         </div>
+                        <div id="episodes-top" class="episodes-top"></div>
                     </div>
 
-                    <div id="episodes-sidebar" class="episodes-sidebar">
-                        <p class="select-season-text">👆 Select a season above to view episodes</p>
-                    </div>
-                </div>
-            </div>
+                    ${tvDetailsGridHTML(series, genres)}
 
-            <div class="movie-details">
-                <div class="details-grid">
-                    <div>
-                        <div class="detail-item">
-                            <div class="detail-label">Overview</div>
-                            <div class="detail-value">${series.overview || "No overview available."}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Genres</div>
-                            <div class="detail-value">${genres}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">First Air Date</div>
-                            <div class="detail-value">${series.first_air_date || "N/A"}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Status</div>
-                            <div class="detail-value">${series.status || "N/A"}</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="detail-item">
-                            <div class="detail-label">Rating</div>
-                            <div class="detail-value">${rating} / 10 (${series.vote_count?.toLocaleString() || 0} votes)</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Seasons</div>
-                            <div class="detail-value">${series.number_of_seasons} Season${series.number_of_seasons !== 1 ? 's' : ''}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Episodes</div>
-                            <div class="detail-value">${series.number_of_episodes} Total Episodes</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Homepage</div>
-                            <div class="detail-value">${homepage}</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         `;
-        
-        // Auto-select Season 1, Episode 1
+
+        // Auto-play S1E1
         setTimeout(() => {
-            // Load Season 1 in sidebar and auto-select Episode 1
-            const seasonSelector = document.getElementById('season-selector');
-            if (seasonSelector) {
-                seasonSelector.value = '1';
-            }
+            const sel = document.getElementById('season-selector');
+            if (sel) sel.value = '1';
             loadSeasonSidebar(seriesId, 1);
-            
             watchEpisode(seriesId, 1, 1);
         }, 100);
     } catch (error) {
@@ -303,76 +497,45 @@ async function WatchTV(seriesId) {
     }
 }
 
-async function loadSeasonSidebar(seriesId, seasonNumber) {
+async function loadSeasonSidebar(seriesId, seasonNumber, autoPlayFirst = false) {
     if (!seasonNumber) return;
-    
+    const sidebarEl = document.getElementById('episodes-sidebar');
+    const topEl = document.getElementById('episodes-top');
+    if (sidebarEl) sidebarEl.innerHTML = '<p style="color:#4a5a74;font-size:13px;padding:1rem 0;">Loading…</p>';
+    if (topEl) topEl.innerHTML = '<p style="color:#4a5a74;font-size:13px;padding:1rem 0;text-align:center;">Loading…</p>';
+
     try {
-        const response = await fetch(`https://api.themoviedb.org/3/tv/${seriesId}/season/${seasonNumber}?api_key=${API_KEY}`);
-        if (!response.ok) throw new Error(`Failed to fetch season data`);
-
+        const response = await fetch(
+            `https://api.themoviedb.org/3/tv/${seriesId}/season/${seasonNumber}?api_key=${API_KEY}`
+        );
+        if (!response.ok) throw new Error('Season fetch failed');
         const season = await response.json();
-        const episodesList = season.episodes.map(episode => {
-            const title = episode.name.length > 25 ? episode.name.substring(0, 22) + '...' : episode.name;
-            const overview = episode.overview ? 
-                (episode.overview.length > 45 ? episode.overview.substring(0, 42) + '...' : episode.overview) : 
-                'No description available';
-            const airDate = episode.air_date ? new Date(episode.air_date).toLocaleDateString('en-US', { 
-                month: 'short', 
-                day: 'numeric' 
-            }) : '';
-            const runtime = episode.runtime ? `${episode.runtime}m` : '';
-            
-            return `
-                <div class="episode-card-sidebar" onclick="watchEpisode(${seriesId}, ${seasonNumber}, ${episode.episode_number})" data-episode="${episode.episode_number}">
-                    <div class="episode-card-header">
-                        <div class="episode-badge">E${episode.episode_number}</div>
-                        <div class="episode-meta-top">
-                            ${airDate ? `<span class="air-date">${airDate}</span>` : ''}
-                            ${runtime ? `<span class="runtime">${runtime}</span>` : ''}
-                        </div>
-                    </div>
-                    <div class="episode-card-content">
-                        <h4 class="episode-card-title">${title}</h4>
-                        <p class="episode-card-desc">${overview}</p>
-                        <div class="episode-card-footer">
-                            <div class="episode-rating">
-                                <i class="fa-solid fa-star"></i>
-                                <span>${episode.vote_average ? episode.vote_average.toFixed(1) : 'N/A'}</span>
-                            </div>
-                            <div class="now-playing-indicator">
-                                <div class="sound-bars">
-                                    <div class="bar"></div>
-                                    <div class="bar"></div>
-                                    <div class="bar"></div>
-                                    <div class="bar"></div>
-                                </div>
-                                <span>Now Playing</span>
-                            </div>
-                            <div class="play-indicator">
-                                <i class="fa-solid fa-play"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
 
-        document.getElementById('episodes-sidebar').innerHTML = episodesList;
+        const html = episodePanelHTML(season, seriesId, seasonNumber);
 
-        // If this is Season 1 and we're auto-loading, highlight Episode 1 as playing
-        if (seasonNumber == 1) {
+        if (sidebarEl) sidebarEl.innerHTML = html;
+        if (topEl) topEl.innerHTML = html;
+
+        if (autoPlayFirst) {
+            const firstEpisodeNumber = season.episodes[0]?.episode_number || 1;
+            watchEpisode(seriesId, seasonNumber, firstEpisodeNumber);
+        } else {
+            // highlight first episode
             setTimeout(() => {
-                const firstEpisode = document.querySelector('.episode-card-sidebar[data-episode="1"]');
-                if (firstEpisode) {
-                    firstEpisode.classList.add('now-playing');
-                }
+                const first = document.querySelector('.ep-journal-card[data-episode="1"]');
+                if (first) first.classList.add('now-playing');
             }, 50);
         }
 
     } catch (err) {
-        console.error("Error loading season for sidebar:", err);
-        document.getElementById('episodes-sidebar').innerHTML = `<p class="error-text">Failed to load episodes</p>`;
+        console.error('loadSeasonSidebar error:', err);
+        if (sidebarEl) sidebarEl.innerHTML = `<p style="color:#4a5a74;font-size:13px;padding:1rem;">Failed to load episodes.</p>`;
+        if (topEl) topEl.innerHTML = `<p style="color:#4a5a74;font-size:13px;padding:1rem;text-align:center;">Failed to load episodes.</p>`;
     }
+}
+
+async function loadSeasonMobile(seriesId, seasonNumber) {
+    return loadSeasonSidebar(seriesId, seasonNumber, true);
 }
 
 async function changeServer(serverUrl, contentPath, serverIndex, contentType) {
@@ -394,7 +557,7 @@ async function changeServer(serverUrl, contentPath, serverIndex, contentType) {
             episodeNumber = window.currentPlayingEpisode.episodeNumber;
         } else {
             // Try sidebar now-playing marker
-            const nowPlaying = document.querySelector('.episode-card-sidebar.now-playing');
+            const nowPlaying = document.querySelector('.ep-journal-card.now-playing');
             if (nowPlaying) {
                 episodeNumber = parseInt(nowPlaying.dataset.episode) || 1;
                 const seasonSelector = document.getElementById('season-selector');
@@ -425,8 +588,8 @@ async function watchEpisode(seriesId, seasonNumber, episodeNumber) {
     const videoContainer = document.getElementById('video-container');
     const serverSelection = document.getElementById('server-selection');
     
-    videoContainer.style.display = 'block';
-    serverSelection.style.display = 'block';
+    if (videoContainer) videoContainer.style.display = 'block';
+    if (serverSelection) serverSelection.style.display = 'block';
 
     let embedUrl;
 
@@ -465,18 +628,31 @@ async function watchEpisode(seriesId, seasonNumber, episodeNumber) {
     const player = document.getElementById('video-player');
     if (player) player.src = embedUrl;
 
-    // Update episode highlighting in sidebar
-    const sidebarCards = document.querySelectorAll('.episode-card-sidebar');
-    sidebarCards.forEach(card => {
+    // Remove now-playing from all episode journal cards
+    document.querySelectorAll('.ep-journal-card').forEach(card => {
         card.classList.remove('now-playing');
-        if (card.dataset.episode == episodeNumber) {
-            card.classList.add('now-playing');
+        const badge = card.querySelector('.ep-now-playing-badge');
+        if (badge) badge.remove();
+    });
+
+    // Add now-playing to the active card
+    document.querySelectorAll(`.ep-journal-card[data-episode="${episodeNumber}"]`).forEach(card => {
+        card.classList.add('now-playing');
+        const statusSlot = card.querySelector('.ep-status-slot');
+        if (statusSlot && !statusSlot.querySelector('.ep-now-playing-badge')) {
+            statusSlot.innerHTML = '<span class="ep-now-playing-badge">NOW PLAYING</span>';
         }
     });
 
-    // Update desktop episode grid active class and season selector (so UI reflects currently playing episode)
+    // Update player title overlay if episode name is available
+    const titleEp = document.querySelector('.player-title-ep');
+    if (titleEp) titleEp.textContent = `S${seasonNumber} · E${episodeNumber}`;
+
+    // Sync season selector
     const seasonSelector = document.getElementById('season-selector');
     if (seasonSelector) seasonSelector.value = seasonNumber;
+
+    updateTvEpisodeAbout(seriesId, seasonNumber, episodeNumber);
 
     const episodeGrid = document.getElementById('episode-grid');
     if (episodeGrid) {
@@ -487,12 +663,13 @@ async function watchEpisode(seriesId, seasonNumber, episodeNumber) {
     }
 
     // Update global playing episode state
-    window.currentPlayingEpisode = {
-        seriesId: seriesId,
-        seasonNumber: seasonNumber,
-        episodeNumber: episodeNumber
-    };
+    window.currentPlayingEpisode = { seriesId, seasonNumber, episodeNumber };
 
-    // Scroll to video
-    videoContainer.scrollIntoView({ behavior: 'smooth' });
+    const serverSelectionBox = document.querySelector('.server-selection');
+    if (serverSelectionBox) {
+        const navbar = document.getElementById('navbar');
+        const navbarOffset = navbar ? navbar.offsetHeight : 0;
+        const serverBottom = serverSelectionBox.getBoundingClientRect().bottom + window.scrollY - navbarOffset;
+        window.scrollTo({ top: serverBottom, behavior: 'smooth' });
+    }
 }

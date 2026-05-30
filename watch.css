@@ -1883,3 +1883,377 @@ body {
     background: linear-gradient(135deg, #e50914, #ff4757);
     animation: badgePulse 2s ease-in-out infinite;
 }
+
+/* Cinematic video wrapper */
+.cinematic-player-wrap {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+}
+
+.cinematic-player-wrap .video-container {
+    border-radius: 18px;
+    margin-bottom: 0;
+}
+
+/* Controls overlay - hidden by default, shown on hover */
+.player-controls-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem 1.5rem 1.2rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.cinematic-player-wrap:hover .player-controls-overlay {
+    opacity: 1;
+}
+
+/* Gold progress bar */
+.player-progress {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 999px;
+    cursor: pointer;
+    position: relative;
+}
+
+.player-progress-fill {
+    height: 100%;
+    width: 30%;
+    background: linear-gradient(90deg, #f5c842, #e8a020);
+    border-radius: 999px;
+    position: relative;
+}
+
+.player-progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: -4px;
+    width: 11px;
+    height: 11px;
+    background: #f5c842;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(245,200,66,0.7);
+}
+
+/* Controls row */
+.player-controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-size: 13px;
+}
+
+.player-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.player-btn:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.player-time {
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    font-family: monospace;
+}
+
+/* Episode panel - journal style */
+.episode-journal-panel {
+    background: #0a0d14;
+    border: 1px solid #1c2840;
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.episode-journal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.episode-journal-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.1rem;
+    color: #d0cfc8;
+    font-weight: 600;
+}
+
+.season-select-journal {
+    background: #101624;
+    border: 1px solid #1c2840;
+    color: #d0cfc8;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    appearance: none;
+    padding-right: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236a7a94' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+/* Episode card - journal entry style */
+.ep-journal-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(245,200,66,0.08);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.ep-journal-card:last-child {
+    border-bottom: none;
+}
+
+.ep-journal-card:hover {
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.ep-journal-card.now-playing {
+    border-left: 3px solid #f5c842;
+    padding-left: 12px;
+    background: rgba(245,200,66,0.04);
+    border-radius: 0 10px 10px 0;
+}
+
+.ep-num-badge {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #f5c842;
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(245,200,66,0.1);
+    border: 1px solid rgba(245,200,66,0.2);
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.ep-journal-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ep-journal-name {
+    color: #d0cfc8;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ep-journal-desc {
+    color: #6a7a94;
+    font-size: 12px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ep-journal-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5px;
+    flex-wrap: wrap;
+}
+
+.ep-star-rating {
+    color: #f5c842;
+    font-size: 11px;
+}
+
+.ep-watched-tag {
+    font-size: 10px;
+    color: #6a7a94;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.ep-now-playing-badge {
+    font-size: 10px;
+    color: #f5c842;
+    background: rgba(245,200,66,0.1);
+    border: 1px solid rgba(245,200,66,0.3);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.ep-journal-divider {
+    text-align: center;
+    color: rgba(245,200,66,0.2);
+    font-size: 14px;
+    margin: 2px 0;
+    letter-spacing: 6px;
+    user-select: none;
+}
+
+/* Movie info section - editorial */
+.movie-info-editorial {
+    background: #0a0d14;
+    border: 1px solid #1c2840;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 2rem;
+}
+
+@media (max-width: 640px) {
+    .movie-info-editorial {
+        grid-template-columns: 1fr;
+    }
+}
+
+.movie-info-poster {
+    width: 160px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+.movie-info-editorial-title {
+    font-family: 'Caveat', cursive, 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
+    color: #d0cfc8;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+}
+
+.movie-star-rating {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 0.75rem;
+}
+
+.movie-star-rating .star {
+    color: #f5c842;
+    font-size: 14px;
+}
+
+.movie-star-rating .star.empty {
+    color: rgba(245,200,66,0.2);
+}
+
+.movie-genre-pill {
+    display: inline-block;
+    background: rgba(139,90,43,0.15);
+    border: 1px solid rgba(139,90,43,0.3);
+    color: #c8956b;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+}
+
+.movie-synopsis-text {
+    color: #6a7a94;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0.75rem 0;
+}
+
+.cast-strip {
+    display: flex;
+    gap: 10px;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.cast-avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.cast-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #1c2840;
+    border: 2px solid #2a4878;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6a7a94;
+    font-size: 14px;
+    font-weight: 700;
+    overflow: hidden;
+}
+
+.cast-name {
+    font-size: 10px;
+    color: #6a7a94;
+    text-align: center;
+    max-width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-progress-bar-wrap {
+    margin-top: 1rem;
+}
+
+.movie-progress-label {
+    font-size: 11px;
+    color: #6a7a94;
+    margin-bottom: 4px;
+}
+
+.movie-progress-track {
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.movie-progress-fill {
+    height: 100%;
+    width: 30%;
+    background: linear-gradient(90deg, #f5c842, #e8a020);
+    border-radius: 999px;
+}

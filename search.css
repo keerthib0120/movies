@@ -647,7 +647,6 @@
       font-size: 14px !important;
     }
   }
-  }
 
   @media (max-width: 480px) {
     .search-modal-overlay {
@@ -744,11 +743,9 @@
   
 /* Search Dropdown Styles */
 .search-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    position: fixed;
     background: rgba(26, 26, 26, 0.85) !important;
+    pointer-events: auto !important;
     backdrop-filter: blur(15px) !important;
     -webkit-backdrop-filter: blur(15px) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -770,6 +767,7 @@
     align-items: center;
     padding: 12px;
     cursor: pointer;
+    pointer-events: auto;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     background: transparent;

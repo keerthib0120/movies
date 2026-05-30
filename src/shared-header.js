@@ -13,12 +13,8 @@
                 <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between px-4 lg:px-16 py-4 space-y-4 lg:space-y-0">
                     <div class="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-8 w-full lg:w-auto">
                         <h1 class="mg-nav-logo text-center lg:text-left flex items-center" id="movieiguessLogo">
-                            <img src="src/assets/logo.png" alt="movies! Logo">movies<span>!</span>
+                            <img src="src/assets/logo.png" alt="cinema Logo">cinema
                         </h1>
-                        <nav class="flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-2">
-                            <a href="index.html" class="text-white hover:text-gray-300 transition-colors">Home</a>
-                            <a href="#" class="text-white hover:text-gray-300 transition-colors" data-dev-feature="My List">My List</a>
-                        </nav>
                     </div>
 
                     <div class="flex items-center space-x-4 w-full lg:w-auto justify-center lg:justify-end">
@@ -26,7 +22,7 @@
                             <input
                                 type="text"
                                 placeholder="Search a movie/series"
-                                class="search-input text-white placeholder-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-netflix-red focus:border-transparent transition-all"
+                                class="search-input text-white placeholder-gray-400 rounded-md px-4 py-2 w-full focus:outline-none transition-all"
                             >
                             <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer hover:text-white transition-colors"></i>
                         </div>
