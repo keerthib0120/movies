@@ -3,10 +3,10 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    font-family: 'Fuzzy Bubbles', sans-serif;
 }
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     margin: 0;
     padding: 0;
     min-width: 300px;
@@ -110,7 +110,7 @@ i:hover{
 
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #1c1c1c;
@@ -1977,7 +1977,7 @@ body {
 .player-time {
     color: rgba(255,255,255,0.7);
     font-size: 12px;
-    font-family: monospace;
+    font-family: 'Fuzzy Bubbles', sans-serif;
 }
 
 /* Episode panel - journal style */
@@ -1997,7 +1997,7 @@ body {
 }
 
 .episode-journal-title {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     font-size: 1.1rem;
     color: #d0cfc8;
     font-weight: 600;
@@ -2049,7 +2049,7 @@ body {
 }
 
 .ep-num-badge {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     color: #f5c842;
     font-size: 11px;
     font-weight: 700;
@@ -2154,7 +2154,7 @@ body {
 }
 
 .movie-info-editorial-title {
-    font-family: 'Caveat', cursive, 'Playfair Display', Georgia, serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     font-size: 2rem;
     color: #d0cfc8;
     line-height: 1.1;

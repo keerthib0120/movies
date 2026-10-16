@@ -1,9 +1,19 @@
 /* Custom Netflix-style components */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 /* Global styles */
 * {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
+}
+
+.fuzzy-bubbles-regular {
+    font-family: 'Fuzzy Bubbles', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.fuzzy-bubbles-bold {
+    font-family: 'Fuzzy Bubbles', sans-serif;
+    font-weight: 700;
+    font-style: normal;
 }
 
 /* Global Uniform Red Scrollbar for All Pages and Elements */

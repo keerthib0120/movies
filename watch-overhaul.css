@@ -2,8 +2,6 @@
    WATCH PAGE OVERHAUL - paste this at the BOTTOM of watch.css
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
-
 /* -- 1. VIDEO PLAYER - poster + centered play + title overlay -- */
 
 .cinematic-player-wrap {
@@ -97,11 +95,11 @@
     color: rgba(255,255,255,0.7);
     letter-spacing: 0.05em;
     margin-bottom: 2px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
 }
 
 .player-title-name {
-    font-family: 'Caveat', cursive;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     font-size: 1.4rem;
     color: #fff;
     font-weight: 600;
@@ -193,7 +191,7 @@
 .player-time {
     font-size: 12px;
     color: rgba(255,255,255,0.55);
-    font-family: 'DM Sans', monospace;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     margin-left: 6px;
 }
 
@@ -227,7 +225,7 @@
 }
 
 .episode-journal-heading span {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     font-size: 1.05rem;
     color: #d0cfc8;
     font-weight: 600;
@@ -321,7 +319,7 @@
     flex-shrink: 0;
     margin-top: 1px;
     letter-spacing: 0.03em;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
 }
 
 .ep-journal-head {
@@ -347,7 +345,7 @@
 .ep-journal-name {
     flex: 1;
     min-width: 0;
-    font-family: 'Caveat', cursive;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     font-size: 1.15rem;
     color: #d0cfc8;
     font-weight: 600;
@@ -380,7 +378,7 @@
 .ep-meta-text {
     font-size: 11.5px;
     color: #4a5a74;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
 }
 
 .ep-meta-dot {
@@ -397,7 +395,7 @@
     border-radius: 6px;
     font-weight: 600;
     letter-spacing: 0.04em;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
 }
 
 .ep-now-playing-badge {
@@ -458,7 +456,7 @@
 }
 
 .section-divider-title {
-    font-family: 'Caveat', cursive;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     font-size: 1rem;
     color: rgba(245,200,66,0.75);
     white-space: nowrap;
@@ -508,7 +506,7 @@
 
 /* Caveat title */
 .film-title-caveat {
-    font-family: 'Caveat', cursive;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     font-size: 2rem;
     color: #d0cfc8;
     font-weight: 600;
@@ -573,7 +571,7 @@
     border: 1px solid #2a3a58;
     padding: 4px 13px;
     border-radius: 999px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     font-weight: 500;
 }
 
@@ -602,7 +600,7 @@
     color: #4a5a74;
     letter-spacing: 0.08em;
     font-weight: 600;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
     text-transform: uppercase;
 }
 
@@ -658,7 +656,7 @@
     font-weight: 700;
     color: #6a7a94;
     overflow: hidden;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
 }
 
 .cast-name {
@@ -667,7 +665,7 @@
     text-align: center;
     max-width: 52px;
     line-height: 1.2;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
 }
 
 /* -- 4. TV SHOW details grid (Overview, Rating, Seasons...) -- */
@@ -698,14 +696,14 @@
     text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 5px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
 }
 
 .tv-detail-value {
     font-size: 14.5px;
     color: #c0c8d8;
     line-height: 1.5;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Fuzzy Bubbles', sans-serif;
 }
 
 /* -- 5. Server selection - keep existing but restyle -- */
@@ -720,7 +718,7 @@
 }
 
 .server-selection h3 {
-    font-family: 'Playfair Display', serif !important;
+    font-family: 'Fuzzy Bubbles', sans-serif !important;
     font-size: 0.95rem !important;
     color: #8a9ab8 !important;
     font-weight: 400 !important;
@@ -767,7 +765,7 @@
 .tv-sidebar::before { display: none !important; }
 
 .sidebar-header h3 {
-    font-family: 'Playfair Display', serif !important;
+    font-family: 'Fuzzy Bubbles', sans-serif !important;
     font-size: 1rem !important;
     color: #d0cfc8 !important;
     font-weight: 600 !important;
