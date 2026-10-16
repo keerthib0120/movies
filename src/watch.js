@@ -322,13 +322,6 @@ const providers = [
             : `https://www.vidsrc.wtf/api/3/tv/?id=${contentId}&s=${seasonNumber}&e=${episodeNumber}`
     },
     {
-        id: 'smashy', name: 'Smashy', supportedTypes: ['movie', 'tv'],
-        urlConfig: { baseUrl: 'https://smashyplayer.top/' },
-        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
-            ? `https://smashyplayer.top/#mv${contentId}`
-            : `https://smashyplayer.top/#tv${contentId}s${seasonNumber}e${episodeNumber}`
-    },
-    {
         id: 'vidlink', name: 'VidLinkPro', supportedTypes: ['movie', 'tv'],
         urlConfig: { baseUrl: 'https://vidlink.pro/' },
         buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
@@ -341,13 +334,6 @@ const providers = [
         buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
             ? `https://multiembed.mov/?video_id=${contentId}&tmdb=1`
             : `https://multiembed.mov/?video_id=${contentId}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`
-    },
-    {
-        id: 'vidrock', name: 'VidRock', supportedTypes: ['movie', 'tv'],
-        urlConfig: { baseUrl: 'https://vidrock.net/' },
-        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
-            ? `https://vidrock.net/movie/${contentId}`
-            : `https://vidrock.net/tv/${contentId}/${seasonNumber}/${episodeNumber}`
     },
     {
         id: 'vidnest', name: 'VidNest', supportedTypes: ['movie', 'tv'],
