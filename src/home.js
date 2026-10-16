@@ -16,7 +16,7 @@ function trackContinueWatching(movie, mediaType, details) {
 }
 
 function goToViewMovie(movieId, mediaType) {
-    window.location.href = `viewMovie?movieId=${movieId}&type=${mediaType}`;
+    window.location.href = `viewMovie.html?movieId=${movieId}&type=${mediaType}`;
 }
 
 // Function to update hero section with featured movie data

@@ -19,7 +19,7 @@
   }
 
   function viewUrl(entry) {
-    return `viewMovie?movieId=${entry.id}&type=${entry.type}`;
+    return `viewMovie.html?movieId=${entry.id}&type=${entry.type}`;
   }
 
   function buildCwCard(entry) {

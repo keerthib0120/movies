@@ -215,9 +215,9 @@ function displayMovieDetails(movieData) {
                 window.MovieIGuessStorage.upsertContinueWatching(entry, { bumpProgress: true });
             }
             if (type === 'tv') {
-                window.location.href = `WatchMovie?seriesId=${movieId}&type=${type}`;
+                window.location.href = `WatchMovie.html?seriesId=${movieId}&type=${type}`;
             } else {
-                window.location.href = `WatchMovie?movieId=${movieId}&type=${type}`;
+                window.location.href = `WatchMovie.html?movieId=${movieId}&type=${type}`;
             }
         });
     }
