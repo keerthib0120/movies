@@ -291,24 +291,146 @@ console.log("Series ID:", seriesId);
 console.log("Type:", type);
 
 const API_KEY = '97df57ffd9278a37bc12191e00332053';
-let currentServerUrl = 'https://player.videasy.net/embed/';
-
-const servers = [
-    { name: 'Netflix', url: 'https://player.videasy.net/embed/' },
-    { name: 'Vidsrc-1', url: 'https://www.vidsrc.wtf/api/1/' },
-    { name: 'Vidsrc-2', url: 'https://vidsrc.wtf/api/2/' },
-    { name: 'Premium', url: 'https://111movies.com/' },
-    { name: 'Multi-embed', url: 'https://www.vidsrc.wtf/api/3/' },
-    { name: 'Smashy', url: 'https://smashyplayer.top/' },
-    { name: 'VidLinkPro', url: 'https://vidlink.pro/' },
-    { name: 'Prime', url: 'https://test.autoembed.cc/embed/' },
-    { name: 'Purple', url: 'https://multiembed.mov/' },
-    { name: 'Prime 2', url: 'https://www.primewire.tf/embed/' },
-    { name: 'VidRock', url: 'https://vidrock.net/' },
-    { name: 'Mega', url: 'https://vidrock.net/mega/' },
-    { name: 'VidNest', url: 'https://vidnest.fun/' },
-    { name: 'Vidzee', url: 'https://player.vidzee.wtf/embed/' }
+const PROVIDER_STORAGE_KEY = 'movieiguess.selectedProvider';
+const providers = [
+    {
+        id: 'videasy', name: 'Netflix', supportedTypes: ['movie', 'tv'],
+        urlConfig: { baseUrl: 'https://player.videasy.net/embed/' },
+        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
+            ? `https://player.videasy.net/movie/${contentId}`
+            : `https://player.videasy.net/tv/${contentId}/${seasonNumber}/${episodeNumber}`
+    },
+    {
+        id: 'vidsrc1', name: 'Vidsrc-1', supportedTypes: ['movie', 'tv'],
+        urlConfig: { baseUrl: 'https://www.vidsrc.wtf/api/1/' },
+        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
+            ? `https://www.vidsrc.wtf/api/1/movie?id=${contentId}`
+            : `https://www.vidsrc.wtf/api/1/tv?id=${contentId}&s=${seasonNumber}&e=${episodeNumber}`
+    },
+    {
+        id: 'vidsrc2', name: 'Vidsrc-2', supportedTypes: ['movie', 'tv'],
+        urlConfig: { baseUrl: 'https://vidsrc.wtf/api/2/' },
+        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
+            ? `https://vidsrc.wtf/api/2/movie?id=${contentId}`
+            : `https://vidsrc.wtf/api/2/tv?id=${contentId}&s=${seasonNumber}&e=${episodeNumber}`
+    },
+    {
+        id: 'vidsrc3', name: 'Multi-embed', supportedTypes: ['movie', 'tv'],
+        urlConfig: { baseUrl: 'https://www.vidsrc.wtf/api/3/' },
+        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
+            ? `https://www.vidsrc.wtf/api/3/movie/?id=${contentId}`
+            : `https://www.vidsrc.wtf/api/3/tv/?id=${contentId}&s=${seasonNumber}&e=${episodeNumber}`
+    },
+    {
+        id: 'smashy', name: 'Smashy', supportedTypes: ['movie', 'tv'],
+        urlConfig: { baseUrl: 'https://smashyplayer.top/' },
+        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
+            ? `https://smashyplayer.top/#mv${contentId}`
+            : `https://smashyplayer.top/#tv${contentId}s${seasonNumber}e${episodeNumber}`
+    },
+    {
+        id: 'vidlink', name: 'VidLinkPro', supportedTypes: ['movie', 'tv'],
+        urlConfig: { baseUrl: 'https://vidlink.pro/' },
+        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
+            ? `https://vidlink.pro/movie/${contentId}?autoplay=true&title=true`
+            : `https://vidlink.pro/tv/${contentId}/${seasonNumber}/${episodeNumber}?autoplay=true&title=true`
+    },
+    {
+        id: 'multiembed', name: 'Purple', supportedTypes: ['movie', 'tv'],
+        urlConfig: { baseUrl: 'https://multiembed.mov/' },
+        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
+            ? `https://multiembed.mov/?video_id=${contentId}&tmdb=1`
+            : `https://multiembed.mov/?video_id=${contentId}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`
+    },
+    {
+        id: 'vidrock', name: 'VidRock', supportedTypes: ['movie', 'tv'],
+        urlConfig: { baseUrl: 'https://vidrock.net/' },
+        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
+            ? `https://vidrock.net/movie/${contentId}`
+            : `https://vidrock.net/tv/${contentId}/${seasonNumber}/${episodeNumber}`
+    },
+    {
+        id: 'vidnest', name: 'VidNest', supportedTypes: ['movie', 'tv'],
+        urlConfig: { baseUrl: 'https://vidnest.fun/' },
+        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
+            ? `https://vidnest.fun/movie/${contentId}`
+            : `https://vidnest.fun/tv/${contentId}/${seasonNumber}/${episodeNumber}`
+    },
+    {
+        id: 'vidzee', name: 'Vidzee', supportedTypes: ['movie', 'tv'],
+        urlConfig: { baseUrl: 'https://player.vidzee.wtf/embed/' },
+        buildUrl: ({ contentType, contentId, seasonNumber, episodeNumber }) => contentType === 'movie'
+            ? `https://player.vidzee.wtf/embed/movie/${contentId}`
+            : `https://player.vidzee.wtf/embed/tv/${contentId}/${seasonNumber}/${episodeNumber}`
+    }
 ];
+
+let currentContentType = type === 'tv' ? 'tv' : 'movie';
+const eligibleProviders = providers.filter(provider => provider.supportedTypes.includes(currentContentType));
+const readSavedProviderId = () => {
+    try {
+        return localStorage.getItem(PROVIDER_STORAGE_KEY);
+    } catch (error) {
+        return null;
+    }
+};
+const savedProviderId = readSavedProviderId();
+const initialProvider = eligibleProviders.find(provider => provider.id === savedProviderId)
+    || eligibleProviders.find(provider => provider.id === 'videasy')
+    || eligibleProviders[0];
+let currentProviderId = initialProvider?.id || 'videasy';
+let currentServerUrl = initialProvider?.urlConfig.baseUrl || '';
+let currentPlaybackContext = null;
+
+function getProvider(providerId) {
+    return providers.find(provider => provider.id === providerId);
+}
+
+function persistProviderId(providerId) {
+    try {
+        localStorage.setItem(PROVIDER_STORAGE_KEY, providerId);
+    } catch (error) {
+        console.warn('Unable to persist the selected provider:', error);
+    }
+}
+
+function updateServerButtons() {
+    document.querySelectorAll('.server-btn[data-provider-id]').forEach(button => {
+        const isActive = button.dataset.providerId === currentProviderId;
+        button.classList.toggle('active', isActive);
+        button.setAttribute('aria-pressed', String(isActive));
+    });
+}
+
+function selectProvider(providerId, persist = true) {
+    const provider = getProvider(providerId);
+    if (!provider || !provider.supportedTypes.includes(currentContentType)) return false;
+
+    currentProviderId = provider.id;
+    currentServerUrl = provider.urlConfig.baseUrl;
+    updateServerButtons();
+    if (persist) persistProviderId(provider.id);
+    return true;
+}
+
+if (savedProviderId !== currentProviderId) persistProviderId(currentProviderId);
+
+function setPlaybackContext(context) {
+    currentPlaybackContext = {
+        contentType: context.contentType,
+        contentId: String(context.contentId),
+        seasonNumber: context.seasonNumber,
+        episodeNumber: context.episodeNumber
+    };
+}
+
+function loadCurrentPlayback() {
+    const player = document.getElementById('video-player');
+    const provider = getProvider(currentProviderId);
+    if (!player || !provider || !currentPlaybackContext) return;
+
+    player.src = provider.buildUrl(currentPlaybackContext);
+}
 
 if (type === "movie" && movieId) {
     console.log("Loading movie with ID:", movieId);
@@ -344,43 +466,9 @@ function showError() {
 
 async function WatchMovie(movieId) {
     console.log("Fetching Movie:", movieId);
-    
-    // Show loading and hide container initially
+    currentContentType = 'movie';
+    setPlaybackContext({ contentType: 'movie', contentId: movieId });
     showLoading();
-
-    let embedUrl;
-
-    if (currentServerUrl === 'https://player.videasy.net/embed/') {
-        embedUrl = `https://player.videasy.net/movie/${movieId}`;
-    } else if (currentServerUrl === 'https://111movies.com/') {
-        embedUrl = `https://111movies.com/movie/${movieId}`;
-    } else if (currentServerUrl === 'https://www.vidsrc.wtf/api/3/') {
-        embedUrl = `https://www.vidsrc.wtf/api/3/movie/?id=${movieId}`;
-    } else if (currentServerUrl === 'https://www.vidsrc.wtf/api/1/') {
-        embedUrl = `https://www.vidsrc.wtf/api/1/movie?id=${movieId}`;
-    } else if (currentServerUrl === 'https://vidsrc.wtf/api/2/') {
-        embedUrl = `https://vidsrc.wtf/api/2/movie?id=${movieId}`;
-    } else if (currentServerUrl === 'https://smashyplayer.top/') {
-        embedUrl = `https://smashyplayer.top/#mv${movieId}`;
-    } else if (currentServerUrl === 'https://vidlink.pro/') {
-        embedUrl = `https://vidlink.pro/movie/${movieId}?autoplay=true&title=true`;
-    } else if (currentServerUrl === 'https://test.autoembed.cc/embed/') {
-        embedUrl = `https://test.autoembed.cc/embed/movie/${movieId}?autoplay=true&server=5`;
-    } else if (currentServerUrl === 'https://multiembed.mov/') {
-        embedUrl = `https://multiembed.mov/?video_id=${movieId}&tmdb=1`;
-    } else if (currentServerUrl === 'https://www.primewire.tf/embed/') {
-        embedUrl = `https://www.primewire.tf/embed/movie?tmdb=${movieId}`;
-    } else if (currentServerUrl === 'https://vidrock.net/') {
-        embedUrl = `https://vidrock.net/movie/${movieId}`;
-    } else if (currentServerUrl === 'https://vidrock.net/mega/') {
-        embedUrl = `https://vidrock.net/mega/movie/${movieId}`;
-    } else if (currentServerUrl === 'https://vidnest.fun/') {
-        embedUrl = `https://vidnest.fun/movie/${movieId}`;
-    } else if (currentServerUrl === 'https://player.vidzee.wtf/embed/') {
-        embedUrl = `https://player.vidzee.wtf/embed/movie/${movieId}`;
-    } else {
-        embedUrl = `${currentServerUrl}movie/${movieId}`;
-    }
 
     try {
         const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`);
@@ -399,12 +487,13 @@ async function WatchMovie(movieId) {
 
                     ${playerBarHTML('', movie.title || '', posterUrl)}
 
-                    <div class="server-selection" style="margin-top:1rem;">
+                    <div id="server-selection" class="server-selection" style="margin-top:1rem;">
                         <div class="server-grid">
-                            ${servers.map((server, index) => `
-                                <button class="server-btn ${server.url === currentServerUrl ? 'active' : ''}"
-                                        onclick="changeServer('${server.url}', 'movie/${movieId}', ${index}, 'movie')">
-                                    ${server.name}
+                            ${providers.filter(provider => provider.supportedTypes.includes('movie')).map(provider => `
+                                <button class="server-btn ${provider.id === currentProviderId ? 'active' : ''}"
+                                        data-provider-id="${provider.id}" aria-pressed="${provider.id === currentProviderId}"
+                                        onclick="changeServer('${provider.id}', 'movie/${movieId}', null, 'movie')">
+                                    ${provider.name}
                                 </button>
                             `).join('')}
                         </div>
@@ -416,8 +505,8 @@ async function WatchMovie(movieId) {
             </div>
         `;
 
-        // Set iframe src
-        document.getElementById('video-player').src = embedUrl;
+        updateServerButtons();
+        loadCurrentPlayback();
 
     } catch (error) {
         console.error("Error fetching movie:", error);
@@ -428,8 +517,8 @@ async function WatchMovie(movieId) {
 
 async function WatchTV(seriesId) {
     console.log("Fetching TV Series:", seriesId);
-    
-    // Show loading and hide container initially
+    currentContentType = 'tv';
+    setPlaybackContext({ contentType: 'tv', contentId: seriesId, seasonNumber: 1, episodeNumber: 1 });
     showLoading();
 
     try {
@@ -446,12 +535,13 @@ async function WatchTV(seriesId) {
 
                     ${playerBarHTML('', series.name || '', '')}
 
-                    <div class="server-selection" style="margin-top:1rem;">
+                    <div id="server-selection" class="server-selection" style="margin-top:1rem;">
                         <div class="server-grid">
-                            ${servers.map((server, index) => `
-                                <button class="server-btn ${server.url === currentServerUrl ? 'active' : ''}"
-                                        onclick="changeServer('${server.url}', 'tv/${seriesId}', ${index}, 'tv')">
-                                    ${server.name}
+                            ${providers.filter(provider => provider.supportedTypes.includes('tv')).map(provider => `
+                                <button class="server-btn ${provider.id === currentProviderId ? 'active' : ''}"
+                                        data-provider-id="${provider.id}" aria-pressed="${provider.id === currentProviderId}"
+                                        onclick="changeServer('${provider.id}', 'tv/${seriesId}', null, 'tv')">
+                                    ${provider.name}
                                 </button>
                             `).join('')}
                         </div>
@@ -483,12 +573,13 @@ async function WatchTV(seriesId) {
             </div>
         `;
 
-        // Auto-play S1E1
         setTimeout(() => {
+            const firstSeason = series.seasons.find(season => season.season_number > 0);
+            const initialSeasonNumber = firstSeason?.season_number || 1;
             const sel = document.getElementById('season-selector');
-            if (sel) sel.value = '1';
-            loadSeasonSidebar(seriesId, 1);
-            watchEpisode(seriesId, 1, 1);
+            if (sel) sel.value = String(initialSeasonNumber);
+            loadSeasonSidebar(seriesId, initialSeasonNumber);
+            watchEpisode(seriesId, initialSeasonNumber, 1);
         }, 100);
     } catch (error) {
         console.error("Error fetching TV series:", error);
@@ -538,51 +629,90 @@ async function loadSeasonMobile(seriesId, seasonNumber) {
     return loadSeasonSidebar(seriesId, seasonNumber, true);
 }
 
-async function changeServer(serverUrl, contentPath, serverIndex, contentType) {
-    currentServerUrl = serverUrl;
+function recoverTvPlaybackContext() {
+    const activeSeriesId = currentPlaybackContext?.contentType === 'tv'
+        ? currentPlaybackContext.contentId
+        : String(seriesId || movieId || '');
 
-    const serverButtons = document.querySelectorAll('.server-selection button');
-    serverButtons.forEach(button => button.classList.remove('active'));
-    serverButtons[serverIndex].classList.add('active');
-
-    if (contentType === 'movie' && movieId) {
-        WatchMovie(movieId);
-    } else if (contentType === 'tv' && seriesId) {
-        // Prefer authoritative state stored on window. Fallback to DOM or iframe parsing if not present.
-        let seasonNumber = 1;
-        let episodeNumber = 1;
-
-        if (window.currentPlayingEpisode && window.currentPlayingEpisode.seriesId == seriesId) {
-            seasonNumber = window.currentPlayingEpisode.seasonNumber;
-            episodeNumber = window.currentPlayingEpisode.episodeNumber;
-        } else {
-            // Try sidebar now-playing marker
-            const nowPlaying = document.querySelector('.ep-journal-card.now-playing');
-            if (nowPlaying) {
-                episodeNumber = parseInt(nowPlaying.dataset.episode) || 1;
-                const seasonSelector = document.getElementById('season-selector');
-                seasonNumber = parseInt(seasonSelector?.value) || 1;
-            } else {
-                // Last resort: parse current iframe src for season & episode
-                const player = document.getElementById('video-player');
-                if (player && player.src) {
-                    const src = player.src;
-                    const match1 = src.match(/\/tv\/(?:\d+)\/(\d+)\/(\d+)/);
-                    const match2 = src.match(/[?&]s=(\d+).*?[?&]e=(\d+)/);
-                    const match3 = src.match(/season=(\d+).*?episode=(\d+)/);
-                    if (match1) { seasonNumber = parseInt(match1[1]); episodeNumber = parseInt(match1[2]); }
-                    else if (match2) { seasonNumber = parseInt(match2[1]); episodeNumber = parseInt(match2[2]); }
-                    else if (match3) { seasonNumber = parseInt(match3[1]); episodeNumber = parseInt(match3[2]); }
-                }
-            }
-        }
-
-        watchEpisode(seriesId, seasonNumber, episodeNumber); // Reload the episode with the new server (preserve selection)
+    if (window.currentPlayingEpisode
+        && String(window.currentPlayingEpisode.seriesId) === activeSeriesId
+        && Number.isInteger(Number(window.currentPlayingEpisode.seasonNumber))
+        && Number.isInteger(Number(window.currentPlayingEpisode.episodeNumber))) {
+        return {
+            contentType: 'tv',
+            contentId: activeSeriesId,
+            seasonNumber: Number(window.currentPlayingEpisode.seasonNumber),
+            episodeNumber: Number(window.currentPlayingEpisode.episodeNumber)
+        };
     }
+
+    const nowPlaying = document.querySelector('.ep-journal-card.now-playing');
+    if (nowPlaying) {
+        const episodeNumber = Number(nowPlaying.dataset.episode);
+        const seasonNumber = Number(document.getElementById('season-selector')?.value);
+        if (seasonNumber > 0 && episodeNumber > 0) {
+            return { contentType: 'tv', contentId: activeSeriesId, seasonNumber, episodeNumber };
+        }
+    }
+
+    const player = document.getElementById('video-player');
+    const src = player?.src || '';
+    const pathMatch = src.match(/\/tv\/(\d+)\/(\d+)\/(\d+)/);
+    const hashMatch = src.match(/#tv\d+s(\d+)e(\d+)/i);
+    const seasonEpisodeMatch = src.match(/[?&]s=(\d+).*?[?&]e=(\d+)/)
+        || src.match(/[?&]season=(\d+).*?[?&]episode=(\d+)/);
+    const match = pathMatch
+        ? { season: pathMatch[2], episode: pathMatch[3] }
+        : hashMatch
+            ? { season: hashMatch[1], episode: hashMatch[2] }
+            : seasonEpisodeMatch
+                ? { season: seasonEpisodeMatch[1], episode: seasonEpisodeMatch[2] }
+                : null;
+
+    if (match && Number(match.season) > 0 && Number(match.episode) > 0) {
+        return {
+            contentType: 'tv',
+            contentId: activeSeriesId,
+            seasonNumber: Number(match.season),
+            episodeNumber: Number(match.episode)
+        };
+    }
+
+    return { contentType: 'tv', contentId: activeSeriesId, seasonNumber: 1, episodeNumber: 1 };
+}
+
+async function changeServer(providerId, contentPath, serverIndex, contentType) {
+    const nextType = contentType === 'tv' || (!contentType && currentPlaybackContext?.contentType === 'tv')
+        ? 'tv'
+        : 'movie';
+    const context = nextType === 'tv'
+        ? recoverTvPlaybackContext()
+        : {
+            contentType: 'movie',
+            contentId: currentPlaybackContext?.contentType === 'movie'
+                ? currentPlaybackContext.contentId
+                : String(movieId || '')
+        };
+    const provider = getProvider(providerId);
+    if (!context.contentId || !provider || !provider.supportedTypes.includes(nextType)) return;
+    setPlaybackContext(context);
+
+    currentContentType = nextType;
+    if (!selectProvider(providerId)) return;
+    if (nextType === 'tv') {
+        window.currentPlayingEpisode = {
+            seriesId: context.contentId,
+            seasonNumber: context.seasonNumber,
+            episodeNumber: context.episodeNumber
+        };
+    }
+    loadCurrentPlayback();
 }
 
 async function watchEpisode(seriesId, seasonNumber, episodeNumber) {
     console.log(`Watching TV Series ${seriesId}, Season ${seasonNumber}, Episode ${episodeNumber}`);
+    currentContentType = 'tv';
+    setPlaybackContext({ contentType: 'tv', contentId: seriesId, seasonNumber, episodeNumber });
 
     // Show video container and server selection
     const videoContainer = document.getElementById('video-container');
@@ -591,42 +721,7 @@ async function watchEpisode(seriesId, seasonNumber, episodeNumber) {
     if (videoContainer) videoContainer.style.display = 'block';
     if (serverSelection) serverSelection.style.display = 'block';
 
-    let embedUrl;
-
-    if (currentServerUrl === 'https://player.videasy.net/embed/') {
-        embedUrl = `https://player.videasy.net/tv/${seriesId}/${seasonNumber}/${episodeNumber}`;
-    } else if (currentServerUrl === `https://111movies.com/`) {
-        embedUrl = `https://111movies.com/tv/${seriesId}/${seasonNumber}/${episodeNumber}`;
-    } else if (currentServerUrl === 'https://www.vidsrc.wtf/api/3/') {
-        embedUrl = `https://www.vidsrc.wtf/api/3/tv/?id=${seriesId}&s=${seasonNumber}&e=${episodeNumber}`;
-    } else if (currentServerUrl === 'https://www.vidsrc.wtf/api/1/') {
-        embedUrl = `https://www.vidsrc.wtf/api/1/tv?id=${seriesId}&s=${seasonNumber}&e=${episodeNumber}`;
-    } else if (currentServerUrl === 'https://vidsrc.wtf/api/2/') {
-        embedUrl = `https://vidsrc.wtf/api/2/tv?id=${seriesId}&s=${seasonNumber}&e=${episodeNumber}`;
-    } else if (currentServerUrl === 'https://smashyplayer.top/') {
-        embedUrl = `https://smashyplayer.top/#tv${seriesId}s${seasonNumber}e${episodeNumber}`;
-    } else if (currentServerUrl === 'https://vidlink.pro/') {
-        embedUrl = `https://vidlink.pro/tv/${seriesId}/${seasonNumber}/${episodeNumber}?autoplay=true&title=true`;
-    } else if (currentServerUrl === 'https://test.autoembed.cc/embed/') {
-        embedUrl = `https://test.autoembed.cc/embed/tv/${seriesId}/${seasonNumber}/${episodeNumber}?autoplay=true&server=5`;
-    } else if (currentServerUrl === 'https://multiembed.mov/') {
-        embedUrl = `https://multiembed.mov/?video_id=${seriesId}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`;
-    } else if (currentServerUrl === 'https://www.primewire.tf/embed/') {
-        embedUrl = `https://www.primewire.tf/embed/tv?tmdb=${seriesId}&season=${seasonNumber}&episode=${episodeNumber}`;
-    } else if (currentServerUrl === 'https://vidrock.net/') {
-        embedUrl = `https://vidrock.net/tv/${seriesId}/${seasonNumber}/${episodeNumber}`;
-    } else if (currentServerUrl === 'https://vidrock.net/mega/') {
-        embedUrl = `https://vidrock.net/mega/tv/${seriesId}/${seasonNumber}/${episodeNumber}`;
-    } else if (currentServerUrl === 'https://vidnest.fun/') {
-        embedUrl = `https://vidnest.fun/tv/${seriesId}/${seasonNumber}/${episodeNumber}`;
-    } else if (currentServerUrl === 'https://player.vidzee.wtf/embed/') {
-        embedUrl = `https://player.vidzee.wtf/embed/tv/${seriesId}/${seasonNumber}/${episodeNumber}`;
-    } else {
-        embedUrl = `${currentServerUrl}tv/${seriesId}/${seasonNumber}/${episodeNumber}`;
-    }
-
-    const player = document.getElementById('video-player');
-    if (player) player.src = embedUrl;
+    loadCurrentPlayback();
 
     // Remove now-playing from all episode journal cards
     document.querySelectorAll('.ep-journal-card').forEach(card => {
